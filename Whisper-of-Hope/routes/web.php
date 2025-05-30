@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\WhisperController;
 
 // Main welcome page
 Route::get('/welcome', function () {
@@ -34,8 +35,14 @@ Route::prefix('user')->group(function () {
         return view('user.request');
     })->name('user.request');
     
-    Route::get('/whisper', function () {
-        return view('user.whisper');
-    })->name('user.whisper');
-
+    Route::get('/whisper', [WhisperController::class, 'index'])->name('user.whisper');
 });
+
+// API routes for whispers
+Route::prefix('api/whispers')->group(function () {
+    Route::get('/', [WhisperController::class, 'getWhispers'])->name('api.whispers.index');
+    Route::post('/', [WhisperController::class, 'store'])->name('api.whispers.store');
+});
+
+// API routes for colors
+Route::get('api/colors', [WhisperController::class, 'getColors'])->name('api.colors.index');
