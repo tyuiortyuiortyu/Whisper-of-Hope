@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\WhisperController;
 
 // Main welcome page
 Route::get('/welcome', function () {
@@ -34,16 +35,16 @@ Route::prefix('user')->group(function () {
         return view('user.request');
     })->name('user.request');
     
-    Route::get('/whisper', function () {
-        return view('user.whisper');
-    })->name('user.whisper');
-
+    Route::get('/whisper', [WhisperController::class, 'index'])->name('user.whisper');
 });
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\WhisperController;
 
+// Authentication routes for guests
 Route::middleware('guest')->group(function () {
     // Login Routes
     Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
@@ -51,29 +52,27 @@ Route::middleware('guest')->group(function () {
     
     // Registration Routes
     Route::get('register', [RegisterController::class, 'showRegistrationForm'])->name('register');
+    Route::post('register', [RegisterController::class, 'register']);
     
     // Password Reset Routes
-    Route::get('password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'])
+    Route::get('forgot-password', [ForgotPasswordController::class, 'showLinkRequestForm'])
          ->name('password.request');
+    Route::post('forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])
+         ->name('password.email');
+    Route::get('reset-password/{token}', [ResetPasswordController::class, 'showResetForm'])
+         ->name('password.reset');
+    Route::post('reset-password', [ResetPasswordController::class, 'reset'])
+         ->name('password.update');
 });
 
-// Password Reset Routes
-Route::get('forgot-password', [ForgotPasswordController::class, 'showLinkRequestForm'])
-     ->name('password.request');
-Route::post('forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])
-     ->name('password.email');
-
-Route::get('reset-password/{token}', [ResetPasswordController::class, 'showResetForm'])
-     ->name('password.reset');
-Route::post('reset-password', [ResetPasswordController::class, 'reset'])
-     ->name('password.update');
-
-// Registration
-Route::get('register', [RegisterController::class, 'showRegistrationForm'])->name('register');
-Route::post('register', [RegisterController::class, 'register']);
-
-// Password Reset
-Route::get('forgot-password', [ForgotPasswordController::class, 'showLinkRequestForm'])
-     ->name('password.request');
-Route::post('forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])
-     ->name('password.email');
+// API routes
+Route::prefix('api')->group(function () {
+    // Whispers routes
+    Route::prefix('whispers')->group(function () {
+        Route::get('/', [WhisperController::class, 'getWhispers'])->name('api.whispers.index');
+        Route::post('/', [WhisperController::class, 'store'])->name('api.whispers.store');
+    });
+    
+    // Colors route
+    Route::get('colors', [WhisperController::class, 'getColors'])->name('api.colors.index');
+});
