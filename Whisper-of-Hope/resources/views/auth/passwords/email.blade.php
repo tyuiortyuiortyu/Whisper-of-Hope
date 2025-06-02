@@ -1,6 +1,11 @@
 @extends('layout.app')
 
 @section('content')
+<style>
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Gidugu&family=Yantramanav:wght@300;400;500;700&display=swap');
+</style>
+
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">

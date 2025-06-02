@@ -1,21 +1,27 @@
 <style>
-    .menubtn {
+    .menubtn, .auth-link {
         background-color: transparent;
         color: #000000;
         border-radius: 999px;
         padding: 6px 20px;
         font-weight: 600;
+        font-size: 1rem;
+        font-family: inherit;
         transition: all 0.3s ease;
         text-align: center;
         border: none;
+        display: inline-flex;
+        align-items: center;
+        text-decoration: none;
+        cursor: pointer;
     }
 
-    .menubtn:hover {
+    .menubtn:hover, .auth-link:hover {
         background-color: #F78DA7;
-        color: white;
+        color: white !important;
     }
 
-    .menubtn.active {
+    .menubtn.active, .auth-link.active {
         background-color: #F78DA7;
         color: white;
     }
@@ -27,30 +33,21 @@
     }
 
     .auth-link {
-        display: flex;
-        align-items: center;
-        text-decoration: none;
-        color: inherit;
-        padding: 6px 12px;
-        border-radius: 999px;
+        padding: 6px 15px;
+    }
+
+    .auth-link .bi-person-fill {
+        margin-left: 8px;
+        font-size: 1.1rem;
         transition: all 0.3s ease;
     }
 
-    .auth-link:hover {
-        background-color: #F78DA7;
-        color: white !important;
-    }
-
-    .auth-link:hover .bi-person-fill {
-        color: white !important;
-    }
-
-    .auth-text {
-        margin-right: 8px;
-    }
-
-    .bi-person-fill {
-        transition: all 0.3s ease;
+    /* Ensure all text has same styling */
+    .navbar-nav .nav-item .menubtn,
+    .auth-container .auth-link {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        letter-spacing: 0.5px;
+        text-transform: none;
     }
 </style>
 
@@ -101,14 +98,12 @@
                     <form action="{{ route('logout') }}" method="POST" class="d-inline">
                         @csrf
                         <button type="submit" class="auth-link">
-                            <span class="auth-text">Logout</span>
-                            <i class="bi bi-person-fill"></i>
+                            Logout <i class="bi bi-person-fill"></i>
                         </button>
                     </form>
                 @else
                     <a href="{{ route('login') }}" class="auth-link">
-                        <span class="auth-text">Login</span>
-                        <i class="bi bi-person-fill"></i>
+                        Login <i class="bi bi-person-fill"></i>
                     </a>
                 @endauth
             </div>

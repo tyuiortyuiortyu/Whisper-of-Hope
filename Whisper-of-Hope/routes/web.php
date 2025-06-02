@@ -1,6 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\WhisperController;
 
 // Main welcome page
@@ -38,11 +42,7 @@ Route::prefix('user')->group(function () {
     Route::get('/whisper', [WhisperController::class, 'index'])->name('user.whisper');
 });
 
-use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\Auth\ForgotPasswordController;
-use App\Http\Controllers\Auth\ResetPasswordController;
-use App\Http\Controllers\WhisperController;
+
 
 // Authentication routes for guests
 Route::middleware('guest')->group(function () {
@@ -65,14 +65,11 @@ Route::middleware('guest')->group(function () {
          ->name('password.update');
 });
 
-// API routes
-Route::prefix('api')->group(function () {
-    // Whispers routes
-    Route::prefix('whispers')->group(function () {
-        Route::get('/', [WhisperController::class, 'getWhispers'])->name('api.whispers.index');
-        Route::post('/', [WhisperController::class, 'store'])->name('api.whispers.store');
-    });
-    
-    // Colors route
-    Route::get('colors', [WhisperController::class, 'getColors'])->name('api.colors.index');
+// API routes for whispers
+Route::prefix('api/whispers')->group(function () {
+    Route::get('/', [WhisperController::class, 'getWhispers'])->name('api.whispers.index');
+    Route::post('/', [WhisperController::class, 'store'])->name('api.whispers.store');
 });
+
+// API routes for colors
+Route::get('api/colors', [WhisperController::class, 'getColors'])->name('api.colors.index');
