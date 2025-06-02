@@ -38,6 +38,7 @@ Route::prefix('user')->group(function () {
     Route::get('/whisper', [WhisperController::class, 'index'])->name('user.whisper');
 });
 
+
 // API routes for whispers
 Route::prefix('api/whispers')->group(function () {
     Route::get('/', [WhisperController::class, 'getWhispers'])->name('api.whispers.index');
