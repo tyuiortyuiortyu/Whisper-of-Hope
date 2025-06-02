@@ -8,7 +8,7 @@
         <div class="col-md-6 col-lg-4">
             <div class="login-container p-4" style="background-color: #F9BCC4;">
                 <!-- Close Button (X icon) -->
-                <button type="button" class="btn-close position-absolute" style="top: 15px; right: 15px; background-image: url('/images/close'); background-size: contain;"></button>
+                <button type="button" class="btn-close position-absolute" style="top: 15px; right: 15px; background-image: url('/icons/close'); background-size: contain;"></button>
                 
                 <h2 class="login-title text-center mb-4">LOGIN</h2>
                 
