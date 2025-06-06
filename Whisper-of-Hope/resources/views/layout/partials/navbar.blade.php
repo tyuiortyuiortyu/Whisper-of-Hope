@@ -1,29 +1,59 @@
 <style>
-    .menubtn {
+    .menubtn, .auth-link {
         background-color: transparent;
-        color: #F78DA7;
+        color: #000000;
         border-radius: 999px;
         padding: 6px 20px;
         font-weight: 600;
+        font-size: 1rem;
+        font-family: inherit;
         transition: all 0.3s ease;
         text-align: center;
+        border: none;
+        display: inline-flex;
+        align-items: center;
+        text-decoration: none;
+        cursor: pointer;
     }
 
-    .menubtn:hover {
+    .menubtn:hover, .auth-link:hover {
+        background-color: #F78DA7;
+        color: white !important;
+    }
+
+    .menubtn.active, .auth-link.active {
         background-color: #F78DA7;
         color: white;
     }
 
-    .menubtn.active {
-        background-color: #F78DA7;
-        color: white;
+    .auth-container {
+        display: flex;
+        align-items: center;
+        margin-left: 10px;
+    }
+
+    .auth-link {
+        padding: 6px 15px;
+    }
+
+    .auth-link .bi-person-fill {
+        margin-left: 8px;
+        font-size: 1.1rem;
+        transition: all 0.3s ease;
+    }
+
+    /* Ensure all text has same styling */
+    .navbar-nav .nav-item .menubtn,
+    .auth-container .auth-link {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        letter-spacing: 0.5px;
+        text-transform: none;
     }
 </style>
 
 <nav class="navbar navbar-expand-lg sticky-top" style="background-color: #FFDBDF;">
     <div class="container-fluid px-4">
-        
-        <!-- Logo -->
+        <!-- Logo (left side) -->
         <a class="navbar-brand me-4" href="{{ route('welcome') }}">
             <img src="{{ asset('images/logo.png') }}" alt="Whisper of Hope" height="50">
         </a>
@@ -33,8 +63,8 @@
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <!-- Menu -->
-        <div class="collapse navbar-collapse" id="navbarNav">
+        <!-- Menu Items (right side) -->
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item">
                     <a href="{{ route('user.donate') }}"
@@ -62,28 +92,21 @@
                 </li>
             </ul>
 
-            <!-- Auth Section Aligned Right -->
-            <ul class="navbar-nav ms-auto align-items-center">
+            <!-- Auth Section - Clickable as one unit -->
+            <div class="auth-container">
                 @auth
-                    <li class="nav-item">
-                        <form action="{{ route('logout') }}" method="POST" class="d-inline">
-                            @csrf
-                            <button type="submit" class="btn menubtn me-2">Logout</button>
-                        </form>
-                    </li>
-                    <li class="nav-item">
-                        <i class="bi bi-person-fill text-dark ms-2"></i>
-                    </li>
+                    <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                        @csrf
+                        <button type="submit" class="auth-link">
+                            Logout <i class="bi bi-person-fill"></i>
+                        </button>
+                    </form>
                 @else
-                    <li class="nav-item">
-                        <a href="{{ route('login') }}" class="btn menubtn me-2">Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <i class="bi bi-person-fill text-dark ms-2"></i>
-                    </li>
+                    <a href="{{ route('login') }}" class="auth-link">
+                        Login <i class="bi bi-person-fill"></i>
+                    </a>
                 @endauth
-            </ul>
+            </div>
         </div>
-
     </div>
 </nav>
