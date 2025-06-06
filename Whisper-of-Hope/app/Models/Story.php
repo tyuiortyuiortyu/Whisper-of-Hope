@@ -11,10 +11,13 @@ class Story extends Model
     use HasFactory, HasUuids;
 
     protected $fillable = [
+        'id',
         'title',
         'image',
         'content',
-        'category_id'
+        'category_id',
+        'created_at',
+        'updated_at'
     ];
 
     protected $casts = [
