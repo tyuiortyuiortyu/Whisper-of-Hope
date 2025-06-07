@@ -12,7 +12,7 @@
 <body>
     @include('layout.partials.navbar')
 
-    <main class="container mt-4">
+    <main class="container.fluid">
         @yield('content')
     </main>
 
