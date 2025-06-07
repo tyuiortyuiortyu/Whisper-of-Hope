@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             ColorSeeder::class,
             WhisperSeeder::class,
+            CategorySeeder::class,
         ]);
     }
 }
