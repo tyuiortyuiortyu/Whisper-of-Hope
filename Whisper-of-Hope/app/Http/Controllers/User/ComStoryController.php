@@ -16,7 +16,8 @@
         public function index()
         {
             $categories = Category::all();
-            $stories = Story::paginate(6);
+            // $stories = Story::paginate(6);
+            $stories = Story::all();
             return view('user/community', compact('categories', 'stories'));
         }
 
@@ -39,9 +40,19 @@
         /**
          * Display the specified resource.
          */
-        public function show(string $id)
+        public function show($id)
         {
-            return view('user/story');
+            // return view('user/story');
+            $story = Story::with('category')->findOrFail($id);
+
+            // Ambil 3 story lain dari kategori yang sama, kecuali story ini
+            $relatedStories = Story::where('category_id', $story->category_id)
+                ->where('id', '!=', $story->id)
+                ->inRandomOrder()
+                ->take(3)
+                ->get();
+
+            return view('user.story', compact('story', 'relatedStories'));
         }
 
         /**
