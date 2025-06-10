@@ -17,36 +17,41 @@
 <!-- Rest of the content below (Mission, Vision, Team) -->
 <div class="container-fluid py-5 align-items-center">
     <!-- Mission Section -->
-    <div class="row justify-content-center align-items-center mb-5">
+    <div class="row justify-content-between align-items-center mb-5 mt-5">
         <div class="col-md-6 d-flex flex-column align-items-center text-center">
             <span class="mb-2 d-inline-block" style="width:104px; height:35px; border-radius:20px; background-color:#F9BCC4; color:#000; font-weight:400; font-size:15px; line-height:35px; text-align:center; font-family: 'Yantramanav', sans-serif; letter-spacing: 0.2px;">
-                About Us
+                Why We Here
             </span>
             <h3 style="font-weight: 500; font-size: 40px; font-family: 'Yantramanav';">Our Mission</h3>
-            <p>LALALALLA</p>
+            <div style="text-align: left;">
+                <p>1. To provide a simple and trustworthy platform for donating and requesting hair in a fair and transparent way.</p>
+                <p>2. To support the emotional healing and self-confidence of individuals affected by hair loss due to illness or medical treatments.</p>
+                <p>3. To build a caring and empathetic community that values health, dignity, and human connection.</p>
+            </div>
         </div>
-        <div class="col-md-6 d-flex justify-content-center">
-            <img src="/images/about/mission.png" alt="Mission Image" class="img-fluid rounded" style="width: 438px; height: 254px; object-fit: cover;">
+        <div class="col-md-6 d-flex justify-content-end">
+            <img src="/images/about/mission.png" alt="Mission Image" class="img-fluid rounded" style="width: 550px; height: 320px; object-fit: cover;">
         </div>
     </div>
 
     <!-- Vision Section -->
-    <div class="row align-items-center justify-content-center flex-md-row-reverse mb-5">
+    <div class="row align-items-center justify-content-between flex-md-row-reverse mb-5 mt-5">
         <div class="col-md-6 d-flex flex-column align-items-center text-center">
             <span class="mb-2 d-inline-block" style="width:104px; height:35px; border-radius:20px; background-color:#F9BCC4; color:#000; font-family:'Yantramanav'; font-weight:400; font-size:15px; line-height:35px; text-align:center;">
-                What We Do
+                The Goals
             </span>
             <h3 style="font-weight: 500; font-size: 40px; font-family: 'Yantramanav';">Our Vision</h3>
-            <p>LALALALLA</p>
+            <p>To become a bridge of hope for those who have lost their hair due to medical conditions, by building a compassionate community connected through kindness and donation.
+            </p>
         </div>
-        <div class="col-md-6 d-flex justify-content-center">
+        <div class="col-md-6 d-flex justify-content-start">
             <div class="row g-3 justify-content-center">
                 <div class="col-6 d-flex flex-column gap-3">
-                    <img src="/images/about/vision1.png" alt="Vision 1" class="img-fluid rounded mb-2" style="width: 175px; height: 151px; object-fit: cover;">
-                    <img src="/images/about/vision1.png" alt="Vision 2" class="img-fluid rounded" style="width: 175px; height: 151px; object-fit: cover;">
+                    <img src="/images/about/vission1a.png" alt="Vision 1" class="img-fluid rounded mb-2" style="width: 250px; height: 215px; object-fit: cover;">
+                    <img src="/images/about/vission1b.png" alt="Vision 2" class="img-fluid rounded" style="width: 250px; height: 215px; object-fit: cover;">
                 </div>
                 <div class="col-6">
-                    <img src="/images/about/vision2.png" alt="Vision 3" class="img-fluid rounded" style="width: 175px; height: 329px; object-fit: cover;">
+                    <img src="/images/about/vision2.png" alt="Vision 3" class="img-fluid rounded" style="width: 250px; height: 470px; object-fit: cover;">
                 </div>
             </div>
         </div>
