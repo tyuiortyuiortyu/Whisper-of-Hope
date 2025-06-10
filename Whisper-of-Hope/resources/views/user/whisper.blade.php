@@ -45,7 +45,7 @@
 
     @media (min-width: 1024px) {
       .masonry {
-        column-count: 3;
+        column-count: 4;
       }
     }
 
@@ -90,42 +90,103 @@
     }
     
     .add-button {
-      background-color: #f8bbd0;
+      background-color: #FFDBDF;
       color: #333;
       border: none;
-      border-radius: 25px;
-      padding: 0.75rem 1.5rem;
+      border-radius: 30px;
+      padding: 0.75rem;
       display: flex;
       align-items: center;
-      gap: 0.5rem;
+      justify-content: center;
+      gap: 0;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
       cursor: pointer;
-      font-size: 0.9rem;
+      font-size: 2rem;
       transition: all 0.3s ease;
       font-family: 'Yantramanav', sans-serif;
+      font-weight: 500;
+      width: 60px;
+      height: 60px;
+      overflow: visible;
+      position: relative;
     }
     
     .add-button:hover {
-      background-color: #f5a8c1;
-      transform: translateY(-2px);
+      background-color: #f8bbd0;
+      transform: translateY(-2px) scale(1.05);
       box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+      padding: 0.75rem 1rem;
+      width: 150px;
+      height: 60px;
+      justify-content: flex-end;
     }
     
     .add-button i {
-      font-size: 1.2rem;
+      background-color: #333;
+      color: white;
+      border-radius: 8px;
+      padding: 0.5rem;
+      font-size: 1rem;
+      width: 32px;
+      height: 32px;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      flex-shrink: 0;
     }
     
+    .add-button:hover i {
+      background-color: #555;
+      display: flex;
+    }
+
+    .plain-plus {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #333;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: none;
+      background-color: transparent;
+    }
+
+    .add-button:hover .plain-plus {
+      display: none;
+    }
+
+    .leave-note-text {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 0.75rem;
+      font-family: 'Yantramanav', sans-serif;
+      font-weight: 500;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      line-height: 1.1;
+      width: 120px;
+      text-align: left;
+      color: transparent;
+    }
+    
+    .add-button:hover .leave-note-text {
+      opacity: 1;
+      color: #333;
+    }
+
     .header-text {
       font-size: 5rem;
       font-weight: bold;
       margin-bottom: 2rem;
       margin-top: 1rem;
       font-family: 'Gidugu', cursive; /* Gidugu font for title */
-    }
-    
-    .leave-note-text {
-      font-size: 0.9rem;
-      font-family: 'Yantramanav', sans-serif;
     }
 
     /* Modal Styles */
@@ -147,7 +208,7 @@
     }
 
     .modal-content {
-      background: white;
+      background: #FEF0F0;
       border-radius: 0.5rem;
       padding: 2rem;
       max-width: 500px;
@@ -255,16 +316,17 @@
     .btn {
       padding: 0.75rem 1.5rem;
       border: none;
-      border-radius: 0.375rem;
+      border-radius: 2rem;
       cursor: pointer;
+      font-weight: 800;
       font-size: 1rem;
       transition: all 0.2s ease;
       font-family: 'Yantramanav', sans-serif;
     }
 
     .btn-primary {
-      background-color: #f8bbd0;
-      color: #333;
+      background-color: #F9BCC4;
+      color: black;
     }
 
     .btn-primary:hover {
@@ -340,7 +402,7 @@
     }
 
     .confirmation-content {
-        background: white;
+        background: #FFFCF5;
         border-radius: 0.5rem;
         padding: 1.5rem;
         max-width: 400px;
@@ -371,12 +433,13 @@
     }
 
     .btn-confirm {
-        background-color: #f8bbd0;
-        color: #333;
+        background-color: #F9BCC4;
+        color: black;
         padding: 0.75rem 1.5rem;
         border: none;
-        border-radius: 0.375rem;
+        border-radius: 2rem;
         cursor: pointer;
+        font-weight: 800;
         font-size: 1rem;
         font-family: 'Yantramanav', sans-serif;
         transition: background-color 0.2s ease;
@@ -387,12 +450,13 @@
     }
 
     .btn-cancel {
-        background-color: #6c757d;
-        color: white;
+        background-color: #D6D6D6;
+        color: black;
         padding: 0.75rem 1.5rem;
         border: none;
-        border-radius: 0.375rem;
+        border-radius: 2rem;
         cursor: pointer;
+        font-weight: 800;
         font-size: 1rem;
         font-family: 'Yantramanav', sans-serif;
         transition: background-color 0.2s ease;
@@ -413,8 +477,9 @@
 
 <div class="add-note-container" id="addNoteContainer">
     <button class="add-button" id="add-whisper">
-        <span class="leave-note-text">Leave a note of hope, strength, or support</span>
+        <span class="plain-plus">+</span>
         <i class="bi bi-plus-lg"></i>
+        <span class="leave-note-text">Leave a note of<br>hope & support</span>
     </button>
 </div>
 
@@ -458,7 +523,6 @@
             </div>
 
             <div class="modal-buttons">
-                <button type="button" class="btn btn-secondary" id="cancelBtn">Cancel</button>
                 <button type="submit" class="btn btn-primary" id="submitBtn">
                     Post Whisper
                     <div class="loading-spinner" id="loadingSpinner"></div>
@@ -492,7 +556,6 @@
     const modal = document.getElementById('whisperModal');
     const addWhisperBtn = document.getElementById('add-whisper');
     const closeModalBtn = document.getElementById('closeModal');
-    const cancelBtn = document.getElementById('cancelBtn');
     const whisperForm = document.getElementById('whisperForm');
     const submitBtn = document.getElementById('submitBtn');
     const loadingSpinner = document.getElementById('loadingSpinner');
@@ -702,7 +765,6 @@
     }
 
     closeModalBtn.addEventListener('click', attemptCloseModal);
-    cancelBtn.addEventListener('click', attemptCloseModal);
 
     // Confirmation modal event listeners
     confirmCancel.addEventListener('click', function() {

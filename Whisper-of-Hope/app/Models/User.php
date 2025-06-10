@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasFactory, Notifiable;
 
@@ -18,14 +18,14 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'username',
+        'name',
         'email',
-        'phone',
         'password',
-        'profile_pic',
+        'phone',
+        'profile_image',
+        'gender',
         'dob',
         'role',
-        'gender',
     ];
 
     /**
@@ -49,5 +49,12 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    protected $appends = ['profile_image_url'];
+
+    public function getProfileImageUrlAttribute()
+    {
+        return $this->profile_image ? asset('storage/' . $this->profile_image) : null;
     }
 }
