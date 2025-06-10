@@ -8,7 +8,7 @@
     
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
+    
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
 
@@ -86,6 +86,7 @@
     @include('layout.partials.navbar')
     <main class="py-4">
 
+    <!-- <main class="container mt-0"> -->
     <!-- @yield('hero') -->
     <!-- <main class="content-wrapper container mt-4"> -->
         @yield('content')
