@@ -45,7 +45,7 @@
     /* Ensure all text has same styling */
     .navbar-nav .nav-item .menubtn,
     .auth-container .auth-link {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        font-family: 'Yantramanav', sans-serif;
         letter-spacing: 0.5px;
         text-transform: none;
     }
