@@ -18,14 +18,14 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array<int, string>
      */
     protected $fillable = [
-        'username',
+        'name',
         'email',
-        'phone',
         'password',
-        'profile_pic',
+        'phone',
+        'profile_image',
+        'gender',
         'dob',
         'role',
-        'gender',
     ];
 
     /**
@@ -49,5 +49,12 @@ class User extends Authenticatable implements MustVerifyEmail
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    protected $appends = ['profile_image_url'];
+
+    public function getProfileImageUrlAttribute()
+    {
+        return $this->profile_image ? asset('storage/' . $this->profile_image) : null;
     }
 }

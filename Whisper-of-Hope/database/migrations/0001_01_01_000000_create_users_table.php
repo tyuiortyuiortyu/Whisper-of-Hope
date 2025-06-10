@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('phone')->nullable();
             $table->string('password');
-            $table->string('profile_pic')->nullable();
+            $table->string('profile_image')->nullable();
             $table->date('dob')->nullable();
             $table->enum('role', ['user', 'admin'])->default('user');
             $table->enum('gender', ['male', 'female'])->nullable();

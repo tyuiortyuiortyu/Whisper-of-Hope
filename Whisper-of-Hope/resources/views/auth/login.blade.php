@@ -1,176 +1,83 @@
-@extends('layout.app')
-
-@section('title', 'Login')
-
-@section('content')
-<div class="container min-vh-100 d-flex align-items-center justify-content-center">
-    <div class="row w-100 justify-content-center">
-        <div class="col-md-6 col-lg-4">
-            <div class="login-container p-4" style="background-color: #F9BCC4;">
-                <!-- Close Button (X icon) -->
-                <button type="button" class="btn-close position-absolute" style="top: 15px; right: 15px; background-image: url('/icons/close'); background-size: contain;"></button>
-                
-                <h2 class="login-title text-center mb-4">LOGIN</h2>
-                
-                @if($errors->any())
-                    <div class="alert alert-danger">
-                        @foreach($errors->all() as $error)
-                            <p class="mb-0">{{ $error }}</p>
-                        @endforeach
+<!-- Login Modal -->
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="border-radius: 20px; overflow: hidden; border: none; box-shadow: 0 4px 20px rgba(0,0,0,0.15); width: 400px;">
+            <div class="modal-body p-0">
+                <div style="background-color: #F9BCC4; padding: 40px; position: relative;">
+                    <button type="button" class="btn-close position-absolute" data-bs-dismiss="modal" aria-label="Close" style="top: 20px; right: 20px;"></button>
+                    <div class="text-center mb-5">
+                        <h2 class="fw-bold" style="color: #000;">LOGIN</h2>
                     </div>
-                @endif
-                
-                <form method="POST" action="{{ route('login') }}">
-                    @csrf
-                    
-                    <div class="mb-3 position-relative">
-                        <img src="/icons/email" alt="Email" class="position-absolute" style="left: 15px; top: 50%; transform: translateY(-50%); width: 20px;">
-                        <input 
-                            type="email" 
-                            class="form-control @error('email') is-invalid @enderror" 
-                            id="email" 
-                            name="email" 
-                            value="{{ old('email') }}" 
-                            placeholder="email" 
-                            required 
-                            autocomplete="email" 
-                            autofocus
-                            style="background-color: #FFF9EA; padding-left: 45px;"
-                        >
-                        @error('email')
-                            <div class="invalid-feedback">
-                                {{ $message }}
+                    <form method="POST" action="{{ route('login') }}">
+                        @csrf
+                        <div class="mb-4">
+                            <div class="input-group">
+                                <span class="input-group-text" style="background-color: #FFF9EA;">
+                                    <i class="bi bi-envelope" style="color: #888;"></i>
+                                </span>
+                                <input type="email" class="form-control @error('email') is-invalid @enderror"
+                                       name="email" value="{{ old('email') }}" required autocomplete="email" autofocus
+                                       placeholder="Enter your email" style="background-color: #FFF9EA;">
                             </div>
-                        @enderror
-                    </div>
-                    
-                    <div class="mb-3 position-relative">
-                        <img src="/icons/password" alt="Password" class="position-absolute" style="left: 15px; top: 50%; transform: translateY(-50%); width: 20px;">
-                        <input 
-                            type="password" 
-                            class="form-control @error('password') is-invalid @enderror password-field" 
-                            id="password" 
-                            name="password" 
-                            placeholder="password" 
-                            required 
-                            autocomplete="current-password"
-                            style="background-color: #FFF9EA; padding-left: 45px;"
-                        >
-                        <img src="/icons/eye" alt="Show Password" class="position-absolute toggle-password" style="right: 15px; top: 50%; transform: translateY(-50%); width: 20px; cursor: pointer;">
-                        @error('password')
-                            <div class="invalid-feedback">
-                                {{ $message }}
-                            </div>
-                        @enderror
-                    </div>
-                    
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-                            <label class="form-check-label" for="remember" style="color: #000;">
-                                Remember Me
-                            </label>
+                            @error('email')
+                                <span class="invalid-feedback d-block"><strong>{{ $message }}</strong></span>
+                            @enderror
                         </div>
-                        <a href="{{ route('password.request') }}" class="forgot-password-link">Forgot password?</a>
-                    </div>
-                    
-                    <button type="submit" class="btn btn-login w-100 mb-3" style="background-color: #FFF9EA; color: #000;">LOGIN</button>
-                    
-                    <div class="register-link text-center">
-                        Don't have any account? <a href="{{ route('register') }}">Register</a>
-                    </div>
-                </form>
+                        <div class="mb-4">
+                            <div class="input-group">
+                                <span class="input-group-text" style="background-color: #FFF9EA;">
+                                    <i class="bi bi-lock" style="color: #888;"></i>
+                                </span>
+                                <input type="password" class="form-control @error('password') is-invalid @enderror"
+                                       id="loginPassword" name="password" required autocomplete="current-password"
+                                       placeholder="Enter your password" style="background-color: #FFF9EA;">
+                                <span class="input-group-text toggle-password" style="background-color: #FFF9EA; cursor: pointer;">
+                                    <i class="bi bi-eye-slash" style="color: #888;"></i>
+                                </span>
+                            </div>
+                            @error('password')
+                                <span class="invalid-feedback d-block"><strong>{{ $message }}</strong></span>
+                            @enderror
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" name="remember" id="remember"
+                                       {{ old('remember') ? 'checked' : '' }}>
+                                <label class="form-check-label" for="remember">Remember me</label>
+                            </div>
+                            <div>
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#forgotPasswordModal" data-bs-dismiss="modal"
+                                   style="color: #000; font-size: 14px;">Forgot password?</a>
+                            </div>
+                        </div>
+                        <div class="d-grid mb-4">
+                            <button type="submit" class="btn fw-bold"
+                                    style="background-color: #FFF9EA; color: #333; border-radius: 10px;">
+                                LOGIN
+                            </button>
+                        </div>
+                        <div class="text-center" style="font-size: 14px;">
+                            Don't have any account?
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#registerModal" data-bs-dismiss="modal"
+                               style="color: #000; font-weight: 700;">Register</a>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
 </div>
-
-<style>
-    .login-container {
-        border-radius: 8px;
-        width: 100%;
-        max-width: 350px;
-        position: relative;
-    }
-    
-    .login-title {
-        font-weight: bold;
-        color: #000;
-        font-size: 24px;
-    }
-    
-    .form-control {
-        padding: 12px 15px;
-        border-radius: 4px;
-        border: 1px solid #ddd;
-        margin-bottom: 15px;
-        width: 100%;
-    }
-    
-    .form-control:focus {
-        border-color: #aaa;
-        outline: none;
-        box-shadow: none;
-    }
-    
-    .btn-login {
-        padding: 12px;
-        border: none;
-        border-radius: 4px;
-        font-weight: bold;
-        cursor: pointer;
-        transition: background 0.3s;
-    }
-    
-    .btn-login:hover {
-        background-color: #EEE9D1 !important;
-    }
-    
-    .forgot-password-link {
-        color: #666;
-        text-decoration: none;
-        font-size: 14px;
-    }
-    
-    .forgot-password-link:hover {
-        text-decoration: underline;
-    }
-    
-    .register-link {
-        color: #666;
-        font-size: 14px;
-    }
-    
-    .register-link a {
-        color: #000;
-        text-decoration: none;
-        font-weight: bold;
-    }
-    
-    .register-link a:hover {
-        text-decoration: underline;
-    }
-    
-    .btn-close {
-        border: none;
-        background-color: transparent;
-        width: 20px;
-        height: 20px;
-        padding: 0;
-    }
-</style>
-
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const togglePassword = document.querySelector('.toggle-password');
-        const passwordField = document.querySelector('.password-field');
-        let isPasswordVisible = false;
-        
+document.addEventListener('DOMContentLoaded', function() {
+    const togglePassword = document.querySelector('.toggle-password');
+    const password = document.getElementById('loginPassword');
+    if(togglePassword && password) {
         togglePassword.addEventListener('click', function() {
-            isPasswordVisible = !isPasswordVisible;
-            passwordField.type = isPasswordVisible ? 'text' : 'password';
-            togglePassword.src = isPasswordVisible ? '/icons/close_eye' : '/icons/eye';
+            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+            password.setAttribute('type', type);
+            this.querySelector('i').classList.toggle('bi-eye');
+            this.querySelector('i').classList.toggle('bi-eye-slash');
         });
-    });
+    }
+});
 </script>
-@endsection
