@@ -85,6 +85,9 @@
 <body>
     @include('layout.partials.navbar')
     <main class="py-4">
+
+    <!-- @yield('hero') -->
+    <!-- <main class="content-wrapper container mt-4"> -->
         @yield('content')
     </main>
     @include('layout.partials.footer')

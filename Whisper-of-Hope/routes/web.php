@@ -7,6 +7,7 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\WhisperController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\User\ComStoryController;
 
 // Main welcome page
 Route::get('/', function () {
@@ -23,9 +24,10 @@ Route::prefix('user')->group(function () {
         return view('user.about');
     })->name('user.about');
     
-    Route::get('/community', function () {
-        return view('user.community');
-    })->name('user.community');
+    Route::get('/community', [ComStoryController::class, 'index'])->name('user.community');
+    Route::get('/community/story/{id}', [ComStoryController::class, 'show'])->name('community.story');
+
+    // Route::resource('community', ComStoryController::class);
     
     Route::get('/donate', function () {
         return view('user.donate');
