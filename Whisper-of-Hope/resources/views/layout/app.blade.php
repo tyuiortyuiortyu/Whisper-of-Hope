@@ -84,7 +84,9 @@
 </head>
 <body>
     @include('layout.partials.navbar')
-
+    
+    <main class="container.fluid">
+    
     @yield('hero')  
 
     <main class="container py-0">
