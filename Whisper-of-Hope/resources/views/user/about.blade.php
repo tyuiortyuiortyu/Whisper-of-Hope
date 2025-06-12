@@ -25,7 +25,7 @@
     <div class="row justify-content-between align-items-center mb-5 mt-5">
         <div class="col-md-6 d-flex flex-column align-items-start text-start">
             <span class="mb-2 d-inline-block"
-                  style="width:140px; height:35px; border-radius:20px; background: linear-gradient(90deg, #F9BCC4 0%, #F791A9 100%); color:#000; font-weight:400; font-size:18px; line-height:35px; text-align:center; font-family: 'Yantramanav', sans-serif; letter-spacing: 0.2px;">
+                  style="width:140px; height:35px; border-radius:20px;  background-color:#F9BCC4; color:#000; font-weight:400; font-size:18px; line-height:35px; text-align:center; font-family: 'Yantramanav', sans-serif; letter-spacing: 0.2px;">
                 Why We Here
             </span>
             <h3 style="font-weight: 500; font-size: 40px; font-family: 'Yantramanav'; text-align: left;">Our Mission</h3>
@@ -41,14 +41,14 @@
     </div>
 
     <!-- Vision Section -->
-    <div class="row align-items-center justify-content-between flex-md-row-reverse mb-5 mt-5">
-        <div class="col-md-6 d-flex flex-column align-items-start text-start">
+    <div class="row align-items-center justify-content-between flex-md-row-reverse mb-5 mt-5" style="margin-bottom: 50px;">
+        <div class="col-md-6 d-flex flex-column align-items-start text-start ps-md-5">
             <span class="mb-2 d-inline-block" style="width:140px; height:35px; border-radius:20px; background-color:#F9BCC4; color:#000; font-family:'Yantramanav'; font-weight:400; font-size:18px; line-height:35px; text-align:center;">
-                The Goals
+            The Goals
             </span>
             <h3 style="font-weight: 500; font-size: 40px; font-family: 'Yantramanav'; text-align: left;">Our Vision</h3>
             <p style="font-size: 20px; text-align: left;">
-                To become a bridge of hope for those who have lost their hair due to medical conditions, by building a compassionate community connected through kindness and donation.
+            To become a bridge of hope for those who have lost their hair due to medical conditions, by building a compassionate community connected through kindness and donation.
             </p>
         </div>
         <div class="col-md-6 d-flex justify-content-start">
@@ -114,10 +114,16 @@
 </div>
 
 <style>
-  body, html {
+body, html {
     margin: 0;
     padding: 0;
-  }
+    overflow: auto;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;  /* IE and Edge */
+}
+body::-webkit-scrollbar, html::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+}
 
   .spacing-custom {
     letter-spacing: 2px;

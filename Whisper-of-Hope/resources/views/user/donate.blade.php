@@ -35,7 +35,15 @@ body {
     right: 0;
     top: 0; /* Mulai overlay di bawah gambar, sesuaikan jika perlu */
     z-index: -1;
+    overflow: auto;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;  /* IE and Edge */
 }
+
+body::-webkit-scrollbar, html::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+}
+
 .container {
     background-color: transparent; /* Make container transparent so the gradient shows through */
 }
