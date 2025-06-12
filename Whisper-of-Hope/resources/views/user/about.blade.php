@@ -23,11 +23,12 @@
 <div class="container-fluid py-5 align-items-center">
     <!-- Mission Section -->
     <div class="row justify-content-between align-items-center mb-5 mt-5">
-        <div class="col-md-6 d-flex flex-column align-items-center text-center">
-            <span class="mb-2 d-inline-block" style="width:140px; height:35px; border-radius:20px; background-color:#F9BCC4; color:#000; font-weight:400; font-size:18px; line-height:35px; text-align:center; font-family: 'Yantramanav', sans-serif; letter-spacing: 0.2px;">
+        <div class="col-md-6 d-flex flex-column align-items-start text-start">
+            <span class="mb-2 d-inline-block"
+                  style="width:140px; height:35px; border-radius:20px; background: linear-gradient(90deg, #F9BCC4 0%, #F791A9 100%); color:#000; font-weight:400; font-size:18px; line-height:35px; text-align:center; font-family: 'Yantramanav', sans-serif; letter-spacing: 0.2px;">
                 Why We Here
             </span>
-            <h3 style="font-weight: 500; font-size: 40px; font-family: 'Yantramanav';">Our Mission</h3>
+            <h3 style="font-weight: 500; font-size: 40px; font-family: 'Yantramanav'; text-align: left;">Our Mission</h3>
             <div style="text-align: left; font-size: 20px;">
                 <p>1. To provide a simple and trustworthy platform for donating and requesting hair in a fair and transparent way.</p>
                 <p>2. To support the emotional healing and self-confidence of individuals affected by hair loss due to illness or medical treatments.</p>
@@ -41,11 +42,11 @@
 
     <!-- Vision Section -->
     <div class="row align-items-center justify-content-between flex-md-row-reverse mb-5 mt-5">
-        <div class="col-md-6 d-flex flex-column align-items-center text-center">
+        <div class="col-md-6 d-flex flex-column align-items-start text-start">
             <span class="mb-2 d-inline-block" style="width:140px; height:35px; border-radius:20px; background-color:#F9BCC4; color:#000; font-family:'Yantramanav'; font-weight:400; font-size:18px; line-height:35px; text-align:center;">
                 The Goals
             </span>
-            <h3 style="font-weight: 500; font-size: 40px; font-family: 'Yantramanav';">Our Vision</h3>
+            <h3 style="font-weight: 500; font-size: 40px; font-family: 'Yantramanav'; text-align: left;">Our Vision</h3>
             <p style="font-size: 20px; text-align: left;">
                 To become a bridge of hope for those who have lost their hair due to medical conditions, by building a compassionate community connected through kindness and donation.
             </p>
