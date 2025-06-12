@@ -5,7 +5,7 @@
 <div class="container py-5">
 
     {{-- Judul --}}
-    <h1 class="text-center fw-bold" style="font-family: 'Gidugu'; font-size: 4.5rem">{{ strtoupper($story->title) }}</h1>
+    <h1 class="text-center fw-bold" style="font-family: 'Gidugu'; font-size: 4.5rem; letter-spacing: 0.1rem">{{ strtoupper($story->title) }}</h1>
 
     {{-- Author & Date --}}
     <p class="text-start text-muted" style="font-family: 'Yantramanav'">

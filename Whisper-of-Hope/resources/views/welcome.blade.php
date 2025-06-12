@@ -175,7 +175,7 @@
 
     .feature-header h3 {
         font-family: 'Gidugu', cursive; 
-        font-weight: 100;
+        font-weight: 700;
         color: #000;
         font-size: 4rem;
         margin: 0;
