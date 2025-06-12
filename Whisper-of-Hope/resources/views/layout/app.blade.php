@@ -89,7 +89,7 @@
     
     @yield('hero')  
 
-    <main class="container py-0">
+    <!-- <main class="container py-0"> -->
 
         <!-- <main class="container mt-0"> -->
         <!-- <main class="content-wrapper container mt-4"> -->
