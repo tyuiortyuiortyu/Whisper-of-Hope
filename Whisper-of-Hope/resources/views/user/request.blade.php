@@ -81,7 +81,7 @@
                         <div class="form-label">Your Details</div>
                         <div class="form-fields">
                             <label>Full Name</label>
-                            <input type="text" name="recipient_name" required>
+                            <input type="text" name="recipient_full_name" required>
                             <label>Age</label>
                             <input type="number" name="recipient_age" required>
                             <label>Email</label>
@@ -99,7 +99,7 @@
                             <div class="form-label">Recipient's Details</div>
                             <div class="form-fields">
                                 <label>Full Name</label>
-                                <input type="text" name="recipient_name" required>
+                                <input type="text" name="recipient_full_name" required>
                                 <label>Reason for Hair Loss</label>
                                 <input type="text" name="recipient_reason" required>
                             </div>
@@ -109,13 +109,13 @@
                             <div class="form-label">Your Details</div>
                             <div class="form-fields">
                                 <label>Full Name</label>
-                                <input type="text" name="your_name" required>
+                                <input type="text" name="requester_full_name" required>
                                 <label>Email</label>
-                                <input type="email" name="your_email" required>
+                                <input type="email" name="requester_email" required>
                                 <label>Phone Number</label>
-                                <input type="tel" name="your_phone" required>
+                                <input type="tel" name="requester_phone" required>
                                 <label>Relationship to the Recipient</label>
-                                <input type="text" name="your_reason" required>
+                                <input type="text" name="requester_reason" required>
                             </div>
                         </div>
                      </div>
@@ -126,7 +126,7 @@
                            <div class="form-label">Recipient's Details</div>
                            <div class="form-fields">
                                <label>Full Name</label>
-                               <input type="text" name="recipient_name" required>
+                               <input type="text" name="recipient_full_name" required>
                                <label>Age</label>
                                <input type="number" name="recipient_age" required>
                                <label>Email</label>
@@ -142,13 +142,13 @@
                            <div class="form-label">Your Details</div>
                            <div class="form-fields">
                                <label>Full Name</label>
-                               <input type="text" name="your_name" required>
+                               <input type="text" name="requester_full_name" required>
                                <label>Email</label>
-                               <input type="email" name="your_email" required>
+                               <input type="email" name="requester_email" required>
                                <label>Phone Number</label>
-                               <input type="tel" name="your_phone" required>
+                               <input type="tel" name="requester_phone" required>
                                <label>Healthcare Location</label>
-                               <input type="text" name="your_healthcare" required>
+                               <input type="text" name="requester_healthcare" required>
                            </div>
                        </div>
                     </div>
