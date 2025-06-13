@@ -213,7 +213,7 @@ body::-webkit-scrollbar, html::-webkit-scrollbar {
 
 
 {{-- Apply blur based on authentication status --}}
-<div class="@if (!auth()->check()) blur-sm @endif" style="position:relative;"> {{-- Removed z-index:1 here --}}
+<div class="@if (!auth()->check()) blur-sm @endif" style="position:relative;">
 <div class="container" style="margin-top: 500px;">
     <h2 class="text-center fw spacing-custom" style="font-size: 96px; font-family: 'Gidugu', sans-serif; font-weight:500;">
         Is Your Hair Ready to Give Hope?
@@ -423,9 +423,9 @@ body::-webkit-scrollbar, html::-webkit-scrollbar {
         }
     </script>
 </div>
-</div> {{-- End of blur-sm div --}}
+</div>
 
-{{-- Ensure submitFormModal is placed after the main content, ideally before closing </body> --}}
+
 <div class="modal fade" id="submitFormModal" tabindex="-1" aria-labelledby="submitModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modalContent"> {{-- This class already has your custom styling --}}
