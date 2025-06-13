@@ -1,6 +1,10 @@
+@php use Illuminate\Support\Facades\Auth; @endphp
 @extends('layout.app')
 
 @push('styles')
+<link href="https://fonts.googleapis.com/css2?family=Yantramanav:wght@400;700&family=Gidugu&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 <style>
 body::before {
     content: '';
@@ -46,38 +50,102 @@ body::-webkit-scrollbar, html::-webkit-scrollbar {
 .spacing-custom {
     letter-spacing: 0.5px;
 }
-.add-modal-overlay {
-    position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    width: 100vw; height: 100vh;
-    background: rgba(128,128,128,0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 9999;
-}
-.add-modal-content {
-    background: #fff;
-    border-radius: 24px;
-    padding: 24px 16px 16px 16px;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+
+#submitFormModal .modalContent {
+    position: relative;
+    background-color: #FEF0F0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    padding: 2rem;
     text-align: center;
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
 }
+
+#submitFormModal .modalHeader {
+    text-align: center;
+    align-items: center;
+}
+
+#submitFormModal .modalBody {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#submitFormModal .modalHeader h2 {
+    font-size: 1.5rem;
+    font-weight: 500;
+    font-family: 'Yantramanav', sans-serif;
+}
+
+#submitFormModal .modalBody p {
+    font-size: 1rem;
+    line-height: 1.2;
+    font-family: 'Yantramanav', sans-serif;
+}
+
+#submitFormModal .modalFooter .btn-submit {
+    background-color: #F9BCC4;
+    font-weight: 500;
+}
+
+#submitFormModal .modalFooter .btn-submit:hover {
+    background-color: #F791A9;
+    color: #FFFFFF;
+}
+
+#submitFormModal .modalHeader .modalBody .btn-submit {
+    margin-top: auto;
+}
+
 .form-label {
     flex: 1;
     font-weight: bold;
-    margin-bottom: 8px; /* 0.5rem = 8px */
-    font-size: 16px;    /* 1rem = 16px */
+    margin-bottom: 8px;
+    font-size: 16px;
 }
 .form-fields input {
     width: 100%;
     padding: 8px 16px;
-    margin-bottom: 16px; 
+    margin-bottom: 16px;
     border-radius: 5px;
     border: 1px solid #000;
     font-size: 16px;
     background-color: transparent;
 }
+
+#loginRequiredModal .modal-dialog {
+    max-width: 400px;
+    margin: 0 auto;
+    height: auto;
+}
+
+#loginRequiredModal .add-modal-content {
+    background-color: #FEF0F0;
+    border-radius: 10px;
+    width: 400px;
+    margin-top: 24px;
+    height: auto;
+    padding: 2rem;
+}
+
+.blur-sm {
+    filter: blur(4px);
+    pointer-events: none;
+}
+
+.modal-backdrop {
+    z-index: 1040;
+}
+
+#loginRequiredModal.modal {
+    z-index: 1050;
+}
+
 
 </style>
 @endpush
@@ -85,8 +153,68 @@ body::-webkit-scrollbar, html::-webkit-scrollbar {
 @section('title', 'Request a Wig Page')
 
 @section('content')
+
+{{-- Use Bootstrap's modal structure for loginRequiredModal --}}
+@if (!Auth::check())
+<div class="modal fade" id="loginRequiredModal" tabindex="-1" aria-labelledby="loginRequiredModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content add-modal-content">
+            <div class="modal-header border-0 d-flex flex-column align-items-center pb-0">
+                <h2 class="modal-title w-100 text-center" id="loginRequiredModalLabel" style="font-size: 32px; font-family: 'Yantramanav', sans-serif;">Login Required</h2>
+            </div>
+            <div class="modal-body text-center px-3 pb-3">
+                <p style="font-size: 20px; line-height: 1.2; font-family: 'Yantramanav', sans-serif;">
+                    You need to log in before accessing this page.
+                </p>
+                <a class="btn btn-pink px-4 rounded-pill mt-2" style="background-color: #F9BCC4; font-weight: 500; min-width: 200px; cursor: pointer;" href="#" id="showLoginModalBtn">Login
+                    <i class="bi bi-person-circle ms-2"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const loginRequiredModalElement = document.getElementById('loginRequiredModal');
+        const loginRequiredModal = new bootstrap.Modal(loginRequiredModalElement);
+
+        // Show the login required modal immediately if not authenticated
+        if (!{!! json_encode(Auth::check()) !!}) {
+            loginRequiredModal.show();
+            document.body.style.overflow = 'hidden'; 
+        }
+
+        // Handle the "Login" button click
+        document.getElementById('showLoginModalBtn').addEventListener('click', function (e) {
+            e.preventDefault();
+            loginRequiredModal.hide();
+            document.body.style.overflow = 'hidden';
+
+            var loginModal = document.getElementById('loginModal'); // Assuming 'loginModal' is your actual login form modal
+            if (loginModal && typeof bootstrap !== 'undefined') {
+            var modal = new bootstrap.Modal(loginModal);
+            modal.show();
+
+            // When login modal is closed, show loginRequiredModal again if not logged in
+            loginModal.addEventListener('hidden.bs.modal', function handler() {
+                if (!{!! json_encode(Auth::check()) !!}) {
+                loginRequiredModal.show();
+                document.body.style.overflow = 'hidden';
+                }
+                // Remove this handler after it runs once to avoid stacking
+                loginModal.removeEventListener('hidden.bs.modal', handler);
+            });
+            }
+        });
+    });
+</script>
+@endif
+
+
+{{-- Apply blur based on authentication status --}}
+<div class="@if (!auth()->check()) blur-sm @endif" style="position:relative;"> {{-- Removed z-index:1 here --}}
 <div class="container" style="margin-top: 500px;">
-    <!-- Header Section -->
     <h2 class="text-center fw spacing-custom" style="font-size: 96px; font-family: 'Gidugu', sans-serif; font-weight:500;">
         Is Your Hair Ready to Give Hope?
     </h2>
@@ -94,7 +222,6 @@ body::-webkit-scrollbar, html::-webkit-scrollbar {
         Here’s everything you need to know to donate your hair and help someone feel whole again.
     </p>
 
-    <!-- Criteria Section -->
     <div class="row text-center mb-5 justify-content-center align-items-stretch" style="font-family: 'Yantramanav', sans-serif; row-gap: 10px; margin-left: 0;">
         @php
             $criteria = [
@@ -138,7 +265,6 @@ body::-webkit-scrollbar, html::-webkit-scrollbar {
         @endforeach
     </div>
 
-    <!-- Reminders Section -->
     <div class="col-md-12 d-flex justify-content-center px-1 mb-5">
         <div class="p-4 rounded mb-3" style="background-color: #fcd6e2; max-width: 1150px; width: 100%;">
             <strong class="mb-2" style="font-size: 24px;">Friendly Reminders</strong>
@@ -150,7 +276,6 @@ body::-webkit-scrollbar, html::-webkit-scrollbar {
         </div>
     </div>
 
-    <!-- Info Section -->
     <div class="donate-bg">
         <div class="mx-auto" style="max-width: 1100px;">
             <p class="text-center" style="font-size: 24px;">
@@ -158,7 +283,6 @@ body::-webkit-scrollbar, html::-webkit-scrollbar {
             </p>
         </div>
 
-        <!-- How To Donate Section -->
         <div class="container py-5 d-flex flex-column align-items-center">
             <h2 class="text-center fw spacing-custom" style="font-size: 96px; font-family: 'Gidugu', sans-serif;">
                 HOW TO DONATE YOUR HAIR?
@@ -213,7 +337,6 @@ body::-webkit-scrollbar, html::-webkit-scrollbar {
         </div>
     </div>
 
-    <!-- Donation Form Section -->
     <div class="d-flex flex-column align-items-center justify-content-center">
         <div class="rounded-20 p-5 my-2 w-100"
             style="background-color: #FFF9EA; border-radius: 20px; padding: 40px 64px; margin: 8px 0px; max-width: 1200px; display: flex; flex-direction: column;
@@ -229,30 +352,45 @@ body::-webkit-scrollbar, html::-webkit-scrollbar {
                     <div class="form-fields col-md-9">
                         <div class="mb-1">
                             <label>Full Name</label>
-                            <input type="text" name="donator_name" class="bg-transparent always-transparent" required>
+                            <input type="text" name="full_name" class="bg-transparent always-transparent" required value="{{ old('full_name', Auth::check() ? Auth::user()->name : '') }}">
+                            @error('full_name')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
                         </div>
                         <div class="mb-1">
                             <label>Age</label>
-                            <input type="number" name="donator_age" class="bg-transparent always-transparent" required>
+                            <input type="number" name="age" class="bg-transparent always-transparent" required value="{{ old('age') }}">
+                            @error('age')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
                         </div>
                         <div class="mb-1">
                             <label>Email</label>
-                            <input type="email" name="donator_email" class="bg-transparent always-transparent" required>
+                            <input type="email" name="email" class="bg-transparent always-transparent" required value="{{ old('email',  Auth::check() ? Auth::user()->email : '') }}">
+                            @error('email')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
                         </div>
                         <div class="mb-1">
                             <label>Phone Number</label>
-                            <input type="tel" name="donator_phone" class="bg-transparent always-transparent" required>
+                            <input type="tel" name="phone" class="bg-transparent always-transparent" required value="{{ old('phone') }}">
+                            @error('phone')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
                         </div>
                         <div class="mb-1">
                             <label>The Length of Your Ponytails (cm)</label>
-                            <input type="number" name="hair_length" class="bg-transparent always-transparent" required>
+                            <input type="number" name="hair_length" class="bg-transparent always-transparent" required value="{{ old('hair_length') }}">
+                            @error('hair_length')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
                         </div>
                     </div>
                 </div>
                 <hr style="border: none; border-top: 1px solid #000; margin: 16px 0;">
                 <div class="text-center mb-4">
                     Thank you for your generosity! Your donation will help someone feel whole again.<br>
-Click               ‘Submit’ to complete your act of kindness.
+                    Click ‘Submit’ to complete your act of kindness.
                 </div>
                 <div class="form-button d-flex justify-content-center gap-3 mt-3">
                     <button type="reset" class="btn px-4 rounded-pill btn-clear" style="min-width: 150px; background-color: #E8E8E8; color: #000; border: none; font-weight: 500;">Clear</button>
@@ -272,40 +410,51 @@ Click               ‘Submit’ to complete your act of kindness.
         </div>
     </div>
 
-    <!-- Modal Section -->
-    <div class id="submitFormModal" tabindex="-1" aria-labelledby="submitModalLabel" aria-hidden="true">
-        <div class style="max-width: 700px;">
-            <div class="add-modal-content" style="background-color: #FEF0F0; border-radius: 10px; width: 400px; margin: 0 auto; height: auto;">
-                <div class="border-0 d-flex flex-column align-items-center">
-                    <h2 class="w-100 text-center" style="font-size: 26px; font-family: 'Yantramanav', sans-serif;">Thank you for your beautiful gift! </h2>
-                </div>
-                <div class="modal-body text-center">
-                    <p style="font-size: 16px; line-height: 1.2; font-family: 'Yantramanav', sans-serif;">
-                        Please mail your hair within 7 days to
-                        Jl. Pakuan No.3, Sumur Batu, Kec. Babakan Madang,
-                        Kabupaten Bogor, Jawa Barat 16810.
-                    </p>
-                </div>
-                <div class="modal-footer border-0 d-flex justify-content-center">
-                    <button type="button" class="btn btn-pink px-4 rounded-pill" data-bs-dismiss="modal" style="background-color: #F9BCC4; font-weight: 500; min-width: 200px;">OK</button>
-                </div>
+    {{-- Moved this button outside the blur-sm div for easier testing if needed --}}
+    <div class="d-flex justify-content-center my-4">
+        <button type="button" class="btn btn-secondary" onclick="showTestModal()">Test Modal</button>
+    </div>
+    <script>
+        function showTestModal() {
+            if (typeof bootstrap !== 'undefined') {
+                const modal = new bootstrap.Modal(document.getElementById('submitFormModal'));
+                modal.show();
+            }
+        }
+    </script>
+</div>
+</div> {{-- End of blur-sm div --}}
+
+{{-- Ensure submitFormModal is placed after the main content, ideally before closing </body> --}}
+<div class="modal fade" id="submitFormModal" tabindex="-1" aria-labelledby="submitModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modalContent"> {{-- This class already has your custom styling --}}
+            <div class="modalHeader">
+                <h2>Thank you for your beautiful gift!</h2>
+            </div>
+            <div class="modalBody" style="margin-top: 24px;">
+                <p>Please mail your hair within 7 days to<br>
+                Jl. Pakuan No.3, Sumur Batu, Kec. Babakan Madang,<br>
+                Kabupaten Bogor, Jawa Barat 16810.</p>
+            </div>
+            <div class="modalFooter d-flex flex-column align-items-center mt-4" style="cursor: pointer !important;">
+                <button type="button" class="btn btn-submit px-4 rounded-pill" data-bs-dismiss="modal" style="min-width: 150px; cursor: pointer !important;">
+                    OK
+                </button>
             </div>
         </div>
     </div>
+</div>
 
-    @push('scripts')
+@endsection
+
+@if(session('show_modal'))
+@push('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const form = document.getElementById('requestWigForm');
-            form.addEventListener('submit', function (e) {
-                e.preventDefault();
-                // Show Bootstrap modal
-                const modal = new bootstrap.Modal(document.getElementById('submitFormModal'));
-                modal.show();
-                // Optionally reset the form
-                form.reset();
-            });
+            const submitFormModal = new bootstrap.Modal(document.getElementById('submitFormModal'));
+            submitFormModal.show();
         });
     </script>
-    @endpush
-    @endsection
+@endpush
+@endif

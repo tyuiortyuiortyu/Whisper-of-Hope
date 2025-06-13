@@ -77,4 +77,12 @@ Route::middleware('auth')->group(function () {
 
 
 // Donate Hair Routes
-Route::post('/donate-hair', [DonateHairController::class, 'store'])->name('donate.hair.store');
+Route::post('/donate-hair', [DonateHairController::class, 'store'])
+    ->middleware('auth')
+    ->name('donate.hair.store');
+Route::get('/donate-hair', [DonateHairController::class, 'showDonatePage'])
+    ->middleware('auth')
+    ->name('donate.hair');
+
+    
+
