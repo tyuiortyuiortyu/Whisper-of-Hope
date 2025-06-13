@@ -16,7 +16,7 @@ return new class extends Migration
             $table->id();
             
             // Role/relationship to recipient
-            $table->enum('role', ['medical_professional', 'parent_guardian', 'myself'])->default('myself');
+            // $table->enum('role', ['medical_professional', 'parent_guardian', 'myself'])->default('myself');
             
             // Recipient details (always required)
             $table->string('recipient_full_name');
