@@ -309,6 +309,12 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+ // Adjust z-index for donate page so it appears above other content
+@if(request()->routeIs('user.donate'))
+    document.querySelector('.navbar').style.zIndex = 1800;
+@else
+    document.querySelector('.navbar').style.zIndex = '';
+@endif
 </script>
 
 <!-- Include auth modals -->
