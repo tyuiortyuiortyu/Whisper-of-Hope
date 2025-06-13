@@ -20,7 +20,7 @@
     
     body::-webkit-scrollbar {
         display: none; /* Safari and Chrome */
-    }
+    }   
     
     html {
         scrollbar-width: none; /* Firefox */
@@ -190,7 +190,7 @@
     }
 
     /* Modal Styles */
-    .modal-overlay {
+    .add-modal-overlay {
       position: fixed;
       top: 0;
       left: 0;
@@ -203,11 +203,11 @@
       z-index: 2000;
     }
 
-    .modal-overlay.show {
+    .add-modal-overlay.show {
       display: flex;
     }
 
-    .modal-content {
+    .add-modal-content {
       background: #FEF0F0;
       border-radius: 0.5rem;
       padding: 2rem;
@@ -222,22 +222,31 @@
       -ms-overflow-style: none; /* Internet Explorer 10+ */
     }
     
-    .modal-content::-webkit-scrollbar {
+    .add-modal-content::-webkit-scrollbar {
       display: none; /* Safari and Chrome */
     }
 
-    .modal-content h3 {
+    .add-modal-content h3 {
       font-family: 'Yantramanav', sans-serif;
       font-weight: 500;
     }
 
-    .modal-close {
+    .add-modal-close {
       position: absolute;
       top: 1rem;
       right: 1rem;
       background: none;
       border: none;
       font-size: 1.5rem;
+      cursor: pointer;
+      color: #666;
+    }
+
+    .btn-close{
+      position: absolute;
+      top: 2rem;
+      right: 2rem;
+      font-size: 1rem;
       cursor: pointer;
       color: #666;
     }
@@ -484,10 +493,10 @@
 </div>
 
 <!-- Modal -->
-<div class="modal-overlay" id="whisperModal">
-    <div class="modal-content">
-        <button class="modal-close" id="closeModal">&times;</button>
-        
+<div class="add-modal-overlay" id="whisperModal">
+    <div class="add-modal-content">
+        {{-- <button class="modal-close" id="closeModal" style="top: 20px; right: 20px;">&times;</button> --}}
+        <button type="button" class="btn-close position-absolute" id="closeModal" data-bs-dismiss="modal" aria-label="Close" ></button>
         <h3 style="margin-bottom: 1.5rem; margin-top: 0;">Create a Whisper of Hope</h3>
         
         <div id="alertContainer"></div>
@@ -522,7 +531,7 @@
                 </div>
             </div>
 
-            <div class="modal-buttons">
+            <div class="add-modal-buttons">
                 <button type="submit" class="btn btn-primary" id="submitBtn">
                     Post Whisper
                     <div class="loading-spinner" id="loadingSpinner"></div>
