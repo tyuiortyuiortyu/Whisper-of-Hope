@@ -69,8 +69,9 @@
             <span class="mb-2 d-inline-block" style="width:140px; height:35px; border-radius:20px; background-color:#F9BCC4; color:#000; font-family:'Yantramanav'; font-weight:400; font-size:18px; line-height:35px; text-align:center;">
                 Our Team
             </span>
-            <h1 class="text-black m-0 text-wrap spacing-custom" style="font-size: 84px; word-break: break-word; font-family: 'Gidugu'; line-height: 1;">
-                Learn more about Whisper of Hope<br>dedicated team members!
+            <h1 class="text-black m-0 text-wrap spacing-custom" style="font-size: 84px; word-break: break-word; font-family: 'Gidugu'; line-height: 0.7;">
+                Learn more about Whisper of Hope<br>
+                <span style="display: inline-block;">dedicated team members!</span>
             </h1>
         </div>
     
@@ -96,8 +97,8 @@
             <!-- Kotak -->
             <div class="position-absolute d-flex justify-content-center align-items-center"
                  style="height: 70px; background: #F791A9; border-bottom-left-radius: 30px; border-bottom-right-radius: 30px; z-index: 1; bottom: 12px; left: 50%; transform: translateX(-50%); width: 90%;">
-                <span style="color: #fff; font-size: 22px; font-family: 'Yantramanav', sans-serif; font-weight: 700;">
-                {{ $member['NIM'] }}
+                <span style="color: #fff; font-size: 22px; font-family: 'Yantramanav', sans-serif; font-weight: 700; margin-top: 15px; display: inline-block;">
+                    {{ $member['NIM'] }}
                 </span>
             </div>
     
