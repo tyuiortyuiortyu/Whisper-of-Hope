@@ -46,7 +46,7 @@ body::-webkit-scrollbar, html::-webkit-scrollbar {
 .spacing-custom {
     letter-spacing: 0.5px;
 }
-.modal-overlay {
+.add-modal-overlay {
     position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
     width: 100vw; height: 100vh;
@@ -56,7 +56,7 @@ body::-webkit-scrollbar, html::-webkit-scrollbar {
     justify-content: center;
     z-index: 9999;
 }
-.modal-content {
+.add-modal-content {
     background: #fff;
     border-radius: 24px;
     padding: 24px 16px 16px 16px;
@@ -273,9 +273,9 @@ Click               ‘Submit’ to complete your act of kindness.
     </div>
 
     <!-- Modal Section -->
-    <div class="modal fade" id="submitFormModal" tabindex="-1" aria-labelledby="submitModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" style="max-width: 700px;">
-            <div class="modal-content" style="background-color: #FEF0F0; border-radius: 10px; width: 400px; margin: 0 auto; height: auto;">
+    <div class id="submitFormModal" tabindex="-1" aria-labelledby="submitModalLabel" aria-hidden="true">
+        <div class style="max-width: 700px;">
+            <div class="add-modal-content" style="background-color: #FEF0F0; border-radius: 10px; width: 400px; margin: 0 auto; height: auto;">
                 <div class="border-0 d-flex flex-column align-items-center">
                     <h2 class="w-100 text-center" style="font-size: 26px; font-family: 'Yantramanav', sans-serif;">Thank you for your beautiful gift! </h2>
                 </div>
