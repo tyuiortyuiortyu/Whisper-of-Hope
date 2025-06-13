@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('purposes', function (Blueprint $table) {
             $table->id();
+            $table->enum('type', ['medical_professional', 'parent_guardian', 'myself'])->default('myself');
             $table->string('name');
             $table->timestamps();
         });

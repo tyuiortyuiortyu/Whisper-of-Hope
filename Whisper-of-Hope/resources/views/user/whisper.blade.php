@@ -486,8 +486,8 @@
 <!-- Modal -->
 <div class="modal-overlay" id="whisperModal">
     <div class="modal-content">
-        <button class="modal-close" id="closeModal">&times;</button>
-        
+        <button class="modal-close" id="closeModal" style="top: 20px; right: 20px;">&times;</button>
+        <button type="button" class="btn-close position-absolute" data-bs-dismiss="modal" aria-label="Close" ></button>
         <h3 style="margin-bottom: 1.5rem; margin-top: 0;">Create a Whisper of Hope</h3>
         
         <div id="alertContainer"></div>
