@@ -20,7 +20,7 @@ class StorySeeder extends Seeder
             DB::table('stories')->insert([
                 'id'          => Str::uuid(),
                 'title'       => 'Judul Cerita ' . $i,
-                'image'       => 'images/placeholderStory.jpeg',
+                'image'       => 'placeholderStory.jpeg',
                 'content'     => Str::limit('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.', 200),
                 'category_id' => rand(1, 3), // Asumsikan sudah ada 5 kategori
                 'created_at'  => $now,

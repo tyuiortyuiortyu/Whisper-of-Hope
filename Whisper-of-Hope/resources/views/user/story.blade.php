@@ -2,19 +2,21 @@
 @section('title', 'Story Page')
 
 @section('content')
-<div class="container py-5">
+<div class="container">
 
     {{-- Judul --}}
-    <h1 class="text-center fw-bold" style="font-family: 'Gidugu'; font-size: 4.5rem; letter-spacing: 0.1rem">{{ strtoupper($story->title) }}</h1>
+    <div class="mt-4 d-flex align-items-center justify-content-center">
+        <h1 class="text-center pb-5" style="font-family: 'Gidugu'; font-size: 4.5rem; letter-spacing: 0.1rem; font-weight: 700; line-height: 3rem">{{ strtoupper($story->title) }}</h1>
+    </div>
 
     {{-- Author & Date --}}
     <p class="text-start text-muted" style="font-family: 'Yantramanav'">
-        by {{ $story->author ?? 'Anonymous' }} on {{ \Carbon\Carbon::parse($story->created_at)->format('F d, Y h.i.s A') }}
+        by {{ $story->author ?? 'Whisper of Hope' }} on {{ \Carbon\Carbon::parse($story->created_at)->format('F d, Y h.i.s A') }}
     </p>
 
     {{-- Gambar --}}
     <div class="text-center py-2">
-        <img src="{{ asset($story->image) }}" alt="{{ $story->title }}" class="img-fluid" style="width: 100%; max-height: 500px; object-fit: cover;">
+        <img src="{{ asset('images/'.$story->image) }}" alt="{{ $story->title }}" class="img-fluid" style="width: 100%; max-height: 500px; object-fit: cover; border-radius: 1rem;">
     </div>
 
     {{-- Konten --}}
@@ -23,22 +25,22 @@
     </div>
 
     {{-- Related Stories --}}
-    <h3 class="text-center fw-bold mb-4" style="font-family: 'Gidugu'; font-size: 3.5rem;">You Might Also Like</h3>
+    <h3 class="text-center mb-4" style="font-family: 'Gidugu'; font-size: 3.5rem;">You Might Also Like</h3>
     <div class="row justify-content-center" id="story-container">
         @forelse ($relatedStories as $related)
-            <div class="col-md-4 mb-4 story-card justify-content-center">
-                <a href="{{ route('community.story', ['id' => $story->id]) }}" class="text-decoration-none text-dark">
-                    <div class="card h-100 shadow-sm story-hover mb-3">
-                        <img src="{{ asset($related->image) }}" class="card-img-top" alt="{{ $related->title }}">
-                        <div class="card-body text-black rounded-bottom" style="background-color: #F791A9">
-                            <h5 class="card-title" style="font-family: 'Yantramanav'; font-weight: 800;">
-                                {{ $related->title }}
-                            </h5>
-                            <p class="card-text" style="font-family: 'Yantramanav'">{{ Str::limit($related->content, 60) }}</p>
-                        </div>
+        <div class="col-md-4 px-4 story-card justify-content-center">
+            <a href="{{ route('community.story', ['id' => $story->id]) }}" class="full-link text-decoration-none text-dark">
+                <div class="card h-100 shadow-sm story-hover mb-3" style=" width: 100%; border-radius: 1rem;">
+                    <img src="{{ asset('images/'.$related->image) }}" class="card-img-top" alt="{{ $related->title }}" style="border-top-left-radius: 1rem; border-top-right-radius: 1rem;">
+                    <div class="card-body text-black" style="background-color: #F791A9; border-bottom-left-radius: 1rem; border-bottom-right-radius: 1rem;">
+                        <h5 class="card-title" style="font-family: 'Yantramanav'; font-weight: 800;">
+                            {{ $related->title }}
+                        </h5>
+                        <p class="card-text" style="font-family: 'Yantramanav'">{{ Str::limit($related->content, 60) }}</p>
                     </div>
-                </a>
-            </div>
+                </div>
+            </a>
+        </div>
         @empty
             <p class="text-center text-muted">No other stories in this category.</p>
         @endforelse
@@ -56,4 +58,9 @@
     .story-hover:hover {
         transform: scale(1.05);
     }
+/* 
+    .story-card {
+        width: 100%;
+        gap: 2rem;
+    } */
 </style>

@@ -173,7 +173,7 @@
         z-index: 10;
     }
 
-    .feature-header h3 {
+    .    h3 {
         font-family: 'Gidugu', cursive; 
         font-weight: 700;
         color: #000;

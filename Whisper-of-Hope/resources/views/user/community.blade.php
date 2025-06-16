@@ -17,14 +17,14 @@
 @section('content')
 <div class="container">
     {{-- Judul Kategori --}}
-    <div class="text-end" style = "margin-top: 6.5rem; margin-left: 0px;">
-        <h1 id="filter-title" class="display-6 mb-2" style="line-height: 4rem; font-family: 'gidugu'; font-size: 6rem">Community Stories</h1>
+    <div class="text-end" style = "margin-top: 2.7rem; margin-left: 0px;">
+        <h1 id="filter-title" class="display-6 mb-2" style="line-height: 4rem; font-family: 'gidugu'; font-size: 4.5rem">Community Stories</h1>
     </div>
 
     {{-- Kotak Filter Kategori --}}
     <div class="px-5 flex-column d-flex justify-content-center" style="height: 12rem; background-color: rgb(254,240,240); border-radius: 20px;">
     <h5 class="mb-2 ms-2" style="font-family: 'Yantramanav'; font-size:30px">Filter by Category:</h5>
-    <div class="d-flex flex-wrap gap-2 ms-5 pt-3">
+    <div class="d-flex flex-wrap gap-2 pt-3">
         <button class="btn text-dark rounded-pill px-4 py-2 filter-btn btn-light" data-category="all" style="font-family: 'Yantramanav'; font-size: 20px">All</button>
         @foreach ($categories as $category)
         <button class="btn text-dark rounded-pill px-4 py-2 filter-btn btn-light" data-category="{{ $category->id }}" style="font-family: 'Yantramanav'; font-size: 20px">
@@ -37,11 +37,11 @@
     {{-- Pilihan Story --}}
     <div class="row pt-5" id="story-container">
         @foreach ($stories as $story)
-        <div class="col-md-4 mb-5 story-card justify-content-center" data-category="{{ $story->category_id }}" style="display: none;">
-            <a href="{{ route('community.story', ['id' => $story->id]) }}" class="text-decoration-none text-dark">
-                <div class="card h-100 shadow-sm story-hover mb-3">
-                    <img src="{{ asset($story->image) }}" class="card-img-top" alt="...">
-                    <div class="card-body text-black rounded-bottom" style="background-color: #F791A9">
+        <div class="px-4 my-4 story-card" data-category="{{ $story->category_id }}" style="display: none;">
+            <a href="{{ route('community.story', ['id' => $story->id]) }}" class="full-link text-decoration-none text-dark">
+                <div class="card shadow-sm story-hover mb-3" style=" width: 100%; border-radius: 1rem;">
+                    <img src="{{ asset('images/'.$story->image) }}" class="card-img-top" alt="..." style="border-top-left-radius: 1rem; border-top-right-radius: 1rem;">
+                    <div class="card-body text-black" style="background-color: #F791A9; border-bottom-left-radius: 1rem; border-bottom-right-radius: 1rem;">
                         <h5 class="card-title mb-0" style="font-family: 'Yantramanav'; font-weight: 800;">
                             {{ $story->title }}
                         </h5>
@@ -69,9 +69,15 @@
 
 @push('styles')
 <style>
-    .bg-pink {
-        background-color: #f598b2;
+    .full-link {
+        display: inline-block; /* atau block */
+        width: 100%;
+        height: auto; /* ubah dari 100% ke auto */
     }
+
+    /* .bg-pink {
+        background-color: #f598b2;
+    } */
 
     .story-hover {
         transition: transform 0.3s ease;
@@ -87,6 +93,33 @@
 
     .btn-pink:hover {
         background-color: #f28ca6 !important;
+    }
+
+    .row {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .story-card {
+        width: 100%;
+    }
+
+    .pagination .page-item .page-link {
+        color: #000; /* warna teks */
+        background-color: #E8E8E8; /* warna latar belakang tombol */
+        border: 1px solid #E8E8E8; /* warna border */
+    }
+
+    .pagination .page-item.active .page-link {
+        color: white; /* warna teks tombol aktif */
+        background-color: #F791A9; /* warna latar tombol aktif */
+        border-color: #F791A9;
+    }
+
+    .pagination .page-item .page-link:hover {
+        background-color: #f9a7ba;
+        border-color: #f9a7ba;
+        color: white;
     }
 </style>
 @endpush
