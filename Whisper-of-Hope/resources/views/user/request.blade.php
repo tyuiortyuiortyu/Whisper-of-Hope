@@ -100,6 +100,8 @@
                             <div class="form-fields">
                                 <label>Full Name</label>
                                 <input type="text" name="recipient_full_name" required>
+                                <label>Age</label>
+                                <input type="number" name="recipient_age" required>
                                 <label>Reason for Hair Loss</label>
                                 <input type="text" name="recipient_reason" required>
                             </div>
