@@ -278,11 +278,12 @@
 
         <div id="donate-form-section" class="d-flex flex-column align-items-center justify-content-center">
             @guest
-                <div class="text-center my-5 p-4 rounded" style="background-color: #fff9ea; max-width: 800px; margin: auto;">
-                    <p class="mb-3" style="font-size: 20px;">
-                        Untuk donasi rambut, mohon <a href="#" id="openLoginModalLink">login</a> atau <a href="{{ route('register') }}">daftar</a>.
-                    </p>
-                </div>
+                <div class="z-0 container-guest">
+        <h2>For Yourself or Someone You Care For</h2>
+        <div class="hero-buttons">
+            <a href="{{ route('user.request') }}" class="btn btn-primary">Request a Wig!</a>
+        </div>
+    </div>
             @else
                 <div class="rounded-20 p-5 my-2 w-100"
                     style="background-color: #FFF9EA; border-radius: 20px; padding: 40px 64px; margin: 8px 0px; max-width: 1200px; display: flex; flex-direction: column;
