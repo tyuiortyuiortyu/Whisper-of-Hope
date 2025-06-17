@@ -1,4 +1,4 @@
-<footer class="py-3 shadow-sm" style="background-color: #FFDBDF; color: #000; font-weight: 600;">
+<footer class="mt-5 py-3 shadow-sm" style="background-color: #FFDBDF; color: #000; font-weight: 600;">
     <div class="container">
         <div class="row align-items-center">
             <div class="col-md-4 text-center text-md-start mb-2 mb-md-0">
