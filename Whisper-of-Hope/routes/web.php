@@ -9,6 +9,7 @@ use App\Http\Controllers\WhisperController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\User\ComStoryController;
 use App\Http\Controllers\DonateHairController;
+use App\Http\Controllers\User\RequestWigController;
 
 // Main welcome page
 Route::get('/', function () {
@@ -84,5 +85,10 @@ Route::get('/donate-hair', [DonateHairController::class, 'showDonatePage'])
     ->middleware('auth')
     ->name('donate.hair');
 
-    
 
+Route::post('/donate-hair', [DonateHairController::class, 'store'])->name('donate.hair.store');
+
+
+// Request Wig Routes
+Route::get('/request-wig', [RequestWigController::class, 'showRequestPage'])->middleware('auth')->name('request.wig');
+Route::post('/request-wig', [RequestWigController::class, 'storeRequest'])->middleware('auth')->name('request.wig.storeRequest');

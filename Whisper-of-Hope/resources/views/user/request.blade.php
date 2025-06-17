@@ -4,6 +4,7 @@
 
 @section('content')
 
+<meta name="csrf-token" content="{{ csrf_token() }}">
 
    <div class="z-0 content">
         <div class="z-1 img-gradient">
