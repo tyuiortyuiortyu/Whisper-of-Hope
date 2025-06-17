@@ -3,6 +3,9 @@
 @section('title', 'Request a Wig Page')
 
 @section('content')
+
+<meta name="csrf-token" content="{{ csrf_token() }}">
+
    <div class="z-0 content">
         <div class="z-1 img-gradient">
             <img src="{{ asset('images/request.jpg') }}" class="img-fluid" alt="Requesting Your Wig">
@@ -59,6 +62,9 @@
                 </div>
             </div>
         </div>
+    <!-- </div -->
+
+        @if (Auth::check())
 
         <div class="request-form">
             <div class="header-form">
@@ -75,7 +81,8 @@
                 <h2>Request a Wig</h2>
                 <hr>
 
-                <form id="requestWigForm">
+                <form id="requestWigForm" method="POST" action="{{ route('request.wig.storeRequest') }}">
+                    @csrf
                     <!-- For Myself -->
                     <div class="form-section" id="form-myself">
                         <div class="form-label">Your Details</div>
@@ -188,6 +195,38 @@
         </div>
     </div>
 
+@else
+    {{-- IF NOT LOGGED IN: Show the login modal --}}
+
+    <div class="z-0 container-guest">
+        <h2>For Yourself or Someone You Care For</h2>
+        <div class="hero-buttons">
+            <a href="{{ route('user.request') }}" class="btn btn-primary">Request a Wig!</a>
+        </div>
+    </div>
+    
+    {{-- 1. Include the login modal's HTML --}}
+    @include('auth.login')
+
+    {{-- 2. Add a script to automatically show the modal --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get the modal element
+            const loginModalEl = document.getElementById('loginModal');
+            
+            // Create a new Bootstrap modal instance with non-closable options
+            const loginModal = new bootstrap.Modal(loginModalEl, {
+                backdrop: 'static', // Prevents closing on backdrop click
+                keyboard: false     // Prevents closing with the Esc key
+            });
+
+            // Show the modal
+            loginModal.show();
+        });
+    </script>
+    
+@endif
+
     <style>
 
         @import url('https://fonts.googleapis.com/css2?family=Gidugu&family=Yantramanav:wght@300;400;500;700&display=swap');
@@ -198,12 +237,12 @@
             width: 100%;
             height: 100%;
             overflow-x: hidden;
-            background-color : #FFFFFF;
+            background-color : #FFFDFE;
             font-family: 'Yantramanav', sans-serif; 
         }
 
         .content {
-            background: linear-gradient(to bottom, #FFDBDF 0%,#FFDBDF 50%, #FFFFFF 85%,  #FFFFFF 100%);
+            background: linear-gradient(to bottom, #FFDBDF 0%,#FFDBDF 50%, #FFFDFE 85%,  #FFFDFE 100%);
             width: 100%;
             height: auto;
             position: relative;
@@ -267,7 +306,8 @@
         }
 
         .guide {
-            margin: 15rem 0rem;
+            /* margin: 15rem 0rem; */
+            margin: 5rem 0 0 0;
         }
         
         .container {
@@ -332,6 +372,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            margin-top: 8rem;
         }
 
         .header-form { 
@@ -366,6 +407,7 @@
             box-shadow: 2px 4px 4px 0px rgba(0, 0, 0, 0.25);
             padding: 2.5rem 3rem;
             margin: 1rem 0rem;
+            margin-bottom: 4rem;
             display: flex;
             flex-direction: column;
             /* position: relative; */
@@ -513,6 +555,47 @@
         #submitFormModal .modalHeader .modalBody .btn-submit {
             margin-top: auto;
         }
+
+        .container-guest {
+            height: 50vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;  
+        }
+
+        .container-guest h2 {
+            font-family: 'Gidugu', sans-serif;
+            font-size: 4.5rem;
+            /* margin-bottom: -0.8rem; */
+            margin: 0 1.2rem -0.8rem 1.2rem;
+        }
+
+        .hero-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 1rem 0;
+        }
+
+        .btn {
+            padding: 0.8rem 2.8rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background-color: #F9BCC4;
+            font-weight: 500;
+            color: #000000;
+        }
+
+        .btn-primary:hover {
+            background-color: #F791A9;
+            color: #FFFFFF;
+        }
+
     </style>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" xintegrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>

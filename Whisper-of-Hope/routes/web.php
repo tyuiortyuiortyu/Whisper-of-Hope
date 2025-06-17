@@ -9,7 +9,9 @@ use App\Http\Controllers\User\Auth\ResetPasswordController;
 use App\Http\Controllers\User\WhisperController;
 use App\Http\Controllers\User\ProfileController;
 use App\Http\Controllers\User\ComStoryController;
+
 use App\Http\Controllers\User\DonateHairController;
+use App\Http\Controllers\User\RequestWigController;
 
 use App\Http\Controllers\Admin\AdminLoginController;
 use App\Http\Controllers\Admin\UserAdminController;
@@ -116,3 +118,9 @@ Route::prefix('admin')->group(function () {
         Route::get('/community', [CommunityAdminController::class, 'index'])->name('admin.community_admin');
     });
 });
+Route::post('/donate-hair', [DonateHairController::class, 'store'])->name('donate.hair.store');
+
+
+// Request Wig Routes
+Route::get('/request-wig', [RequestWigController::class, 'showRequestPage'])->middleware('auth')->name('request.wig');
+Route::post('/request-wig', [RequestWigController::class, 'storeRequest'])->middleware('auth')->name('request.wig.storeRequest');
