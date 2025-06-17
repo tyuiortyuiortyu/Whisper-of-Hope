@@ -5,143 +5,146 @@
 <link href="https://fonts.googleapis.com/css2?family=Yantramanav:wght@400;700&family=Gidugu&display=swap" rel="stylesheet">
 
 <style>
-body::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 700px;
-    background-image: url({{ asset('/images/Donate_hair/donate.png') }});
-    background-size: cover;
-    background-position: top center;
-    background-repeat: no-repeat;
-    z-index: -1;
-}
-body::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 100px;
-    height: 600px;
-    background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%);
-    z-index: -1;
-}
-body {
-    overflow: auto;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-}
-body::-webkit-scrollbar, html::-webkit-scrollbar {
-    display: none;
-}
-.container {
-    background-color: transparent;
-}
-.donate-bg {
-    background: linear-gradient(to bottom, #fff 0%, #F9BCC4 45%, #fff 100%);
-    position: relative;
-    width: 100vw;
-    margin-left: calc(50% - 50vw);
-    margin-right: calc(50% - 50vw);
-}
-.spacing-custom {
-    letter-spacing: 0.5px;
-}
+    body::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 700px;
+        background-image: url({{ asset('/images/Donate_hair/donate.png') }});
+        background-size: cover;
+        background-position: top center;
+        background-repeat: no-repeat;
+        z-index: -1;
+    }
+    body::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 100px;
+        height: 600px;
+        background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%);
+        z-index: -1;
+    }
 
-#submitFormModal .modalContent {
-    position: relative;
-    background-color: #FEF0F0;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    border-radius: 10px;
-    padding: 2rem;
-    text-align: center;
-    width: 100%;
-    height: auto;
-    display: flex;
-    flex-direction: column;
-}
+    body {
+        overflow: auto;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+    body::-webkit-scrollbar, html::-webkit-scrollbar {
+        display: none;
+    }
 
-#submitFormModal .modalHeader {
-    text-align: center;
-    align-items: center;
-}
+    .container {
+        background-color: transparent;
+    }
 
-#submitFormModal .modalBody {
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
+    .donate-bg {
+        background: linear-gradient(to bottom, #fff 0%, #F9BCC4 45%, #fff 100%);
+        position: relative;
+        width: 100vw;
+        margin-left: calc(50% - 50vw);
+        margin-right: calc(50% - 50vw);
+    }
 
-#submitFormModal .modalHeader h2 {
-    font-size: 1.5rem;
-    font-weight: 500;
-    font-family: 'Yantramanav', sans-serif;
-}
+    .spacing-custom {
+        letter-spacing: 0.5px;
+    }
 
-#submitFormModal .modalBody p {
-    font-size: 1rem;
-    line-height: 1.2;
-    font-family: 'Yantramanav', sans-serif;
-}
+    #submitFormModal .modalContent {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #FEF0F0;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        border-radius: 10px;
+        padding: 2rem;
+        text-align: center;
+        width: 28%;
+        min-width: 400px;
+        height: auto;
+        z-index: 1000;
+        display: flex;
+        flex-direction: column;
+    }
 
-#submitFormModal .modalFooter .btn-submit {
-    background-color: #F9BCC4;
-    font-weight: 500;
-}
+    #submitFormModal .modalHeader {
+        text-align: center;
+        align-items: center;
+    }
 
-#submitFormModal .modalFooter .btn-submit:hover {
-    background-color: #F791A9;
-    color: #FFFFFF;
-}
+    #submitFormModal .modalBody {
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
 
-#submitFormModal .modalHeader .modalBody .btn-submit {
-    margin-top: auto;
-}
+    #submitFormModal .modalHeader h2 {
+        font-size: 1.5rem;
+        font-weight: 500;
+        font-family: 'Yantramanav', sans-serif;
+    }
 
-.form-label {
-    flex: 1;
-    font-weight: bold;
-    margin-bottom: 8px;
-    font-size: 16px;
-}
-.form-fields input {
-    width: 100%;
-    padding: 8px 16px;
-    margin-bottom: 16px;
-    border-radius: 5px;
-    border: 1px solid #000;
-    font-size: 16px;
-    background-color: transparent;
-}
+    #submitFormModal .modalBody p {
+        font-size: 1rem;
+        line-height: 1.2;
+        font-family: 'Yantramanav', sans-serif;
+    }
 
-#loginRequiredModal .modal-dialog {
-    max-width: 400px;
-    margin: 0 auto;
-    height: auto;
-}
+    #submitFormModal .modalFooter .btn-submit {
+        background-color: #F9BCC4;
+        font-weight: 500;
+    }
 
-#loginRequiredModal .add-modal-content {
-    background-color: #FEF0F0;
-    border-radius: 10px;
-    width: 400px;
-    margin-top: 24px;
-    height: auto;
-    padding: 2rem;
-}
+    #submitFormModal .modalFooter .btn-submit:hover {
+        background-color: #F791A9;
+        color: #FFFFFF;
+    }
 
-.content-blur-container {
-    filter: blur(4px);
-    transition: filter 0.3s ease-out;
-}
+    #submitFormModal .modalHeader .modalBody .btn-submit {
+        margin-top: auto;
+    }
 
-.modal-backdrop.show {
-    opacity: 0.5;
-    z-index: 1040;
-}
+    .form-label {
+        flex: 1;
+        font-weight: bold;
+        margin-bottom: 8px;
+        font-size: 16px;
+    }
+    .form-fields input {
+        width: 100%;
+        padding: 8px 16px;
+        margin-bottom: 16px;
+        border-radius: 5px;
+        border: 1px solid #000;
+        font-size: 16px;
+        background-color: transparent;
+    }
 
+    .content-blurred {
+        filter: blur(4px);
+        transition: filter 0.3s ease-out;
+        pointer-events: none;
+    }
+
+    .modal-backdrop.show {
+        opacity: 0.5;
+        z-index: 1040;
+    }
+
+    .btn-clear:hover {
+        background-color: #ccc !important;
+        color: #fff !important;
+    }
+    .btn-submit:hover {
+        background-color: #F791A9 !important;
+        color: #fff !important;
+    }
 </style>
 @endpush
 
@@ -273,216 +276,95 @@ body::-webkit-scrollbar, html::-webkit-scrollbar {
             </div>
         </div>
 
-        <div class="d-flex flex-column align-items-center justify-content-center">
-            <div class="rounded-20 p-5 my-2 w-100"
-                style="background-color: #FFF9EA; border-radius: 20px; padding: 40px 64px; margin: 8px 0px; max-width: 1200px; display: flex; flex-direction: column;
-                box-shadow: 4px 4px 12px 0 rgba(0,0,0,0.3);">
-                <h2 class="mb-0" style="font-family: 'Yantramanav', sans-serif; font-size: 28px; margin-left: 20px; margin-bottom: 0;">Donate Hair</h2>
-                <hr style="border: none; border-top: 1px solid #000; margin-top: 0; margin-bottom: 28px;">
-                <form id="DonateHairForm" method="POST" action="{{ route('donate.hair.store') }}">
-                    @csrf
-                    <div class="row mb-3" style="display: flex; margin-left: 10px;">
-                        <div class="form-label col-md-3 fw-bold d-flex align-items-start flex-column justify-content-start mb-2">
-                            Hair Donor's Detail
+        <div id="donate-form-section" class="d-flex flex-column align-items-center justify-content-center">
+            @guest
+                <div class="text-center my-5 p-4 rounded" style="background-color: #fff9ea; max-width: 800px; margin: auto;">
+                    <p class="mb-3" style="font-size: 20px;">
+                        Untuk donasi rambut, mohon <a href="#" id="openLoginModalLink">login</a> atau <a href="{{ route('register') }}">daftar</a>.
+                    </p>
+                </div>
+            @else
+                <div class="rounded-20 p-5 my-2 w-100"
+                    style="background-color: #FFF9EA; border-radius: 20px; padding: 40px 64px; margin: 8px 0px; max-width: 1200px; display: flex; flex-direction: column;
+                    box-shadow: 4px 4px 12px 0 rgba(0,0,0,0.3);">
+                    <h2 class="mb-0" style="font-family: 'Yantramanav', sans-serif; font-size: 28px; margin-left: 20px; margin-bottom: 0;">Donate Hair</h2>
+                    <hr style="border: none; border-top: 1px solid #000; margin-top: 0; margin-bottom: 28px;">
+                    <form id="DonateHairForm" method="POST" action="{{ route('donate.hair.store') }}">
+                        @csrf
+                        <div class="row mb-3" style="display: flex; margin-left: 10px;">
+                            <div class="form-label col-md-3 fw-bold d-flex align-items-start flex-column justify-content-start mb-2">
+                                Hair Donor's Detail
+                            </div>
+                            <div class="form-fields col-md-9">
+                                <div class="mb-1">
+                                    <label>Full Name</label>
+                                    <input type="text" name="full_name" class="bg-transparent always-transparent" required value="{{ old('full_name', Auth::check() ? Auth::user()->name : '') }}">
+                                    @error('full_name')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="mb-1">
+                                    <label>Age</label>
+                                    <input type="number" name="age" class="bg-transparent always-transparent" required value="{{ old('age') }}">
+                                    @error('age')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="mb-1">
+                                    <label>Email</label>
+                                    <input type="email" class="bg-transparent always-transparent" name="email" required value="{{ old('email', Auth::check() ? Auth::user()->email : '') }}">
+                                    @error('email')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="mb-1">
+                                    <label>Phone Number</label>
+                                    <input type="tel" class="bg-transparent always-transparent" name="phone" required value="{{ old('phone', Auth::check() ? Auth::user()->phone : '') }}">
+                                    @error('phone')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="mb-1">
+                                    <label>The Length of Your Ponytails (cm)</label>
+                                    <input type="number" class="bg-transparent always-transparent" name="hair_length" required value="{{ old('hair_length') }}">
+                                    @error('hair_length')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
                         </div>
-                        <div class="form-fields col-md-9">
-                            <div class="mb-1">
-                                <label>Full Name</label>
-                                <input type="text" name="full_name" class="bg-transparent always-transparent" required value="{{ old('full_name', Auth::check() ? Auth::user()->name : '') }}">
-                                @error('full_name')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
-                            <div class="mb-1">
-                                <label>Age</label>
-                                <input type="number" name="age" class="bg-transparent always-transparent" required value="{{ old('age') }}">
-                                @error('age')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
-                            <div class="mb-1">
-                                <label>Email</label>
-                                <input type="email" class="bg-transparent always-transparent" name="email" required value="{{ old('email', Auth::check() ? Auth::user()->email : '') }}">
-                                @error('email')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
-                            <div class="mb-1">
-                                <label>Phone Number</label>
-                                <input type="tel" class="bg-transparent always-transparent" name="phone" required value="{{ old('phone', Auth::check() ? Auth::user()->phone : '') }}">
-                                @error('phone')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
-                            <div class="mb-1">
-                                <label>The Length of Your Ponytails (cm)</label>
-                                <input type="number" class="bg-transparent always-transparent" name="hair_length" required value="{{ old('hair_length') }}">
-                                @error('hair_length')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
+                        <hr style="border: none; border-top: 1px solid #000; margin: 16px 0;">
+                        <div class="text-center mb-4">
+                            Terima kasih atas kemurahan hati Anda! Donasi Anda akan membantu seseorang merasa utuh kembali.<br>
+                            Klik ‘Submit’ untuk menyelesaikan tindakan kebaikan Anda.
                         </div>
-                    </div>
-                    <hr style="border: none; border-top: 1px solid #000; margin: 16px 0;">
-                    <div class="text-center mb-4">
-                        Thank you for your generosity! Your donation will help someone feel whole again.<br>
-                        Click ‘Submit’ to complete your act of kindness.
-                    </div>
-                    <div class="form-button d-flex justify-content-center gap-3 mt-3">
-                        <button type="reset" class="btn px-4 rounded-pill btn-clear" style="min-width: 150px; background-color: #E8E8E8; color: #000; border: none; font-weight: 500;">Clear</button>
-                        <button type="submit" class="btn btn-pink px-4 rounded-pill btn-submit" style="min-width: 150px; background-color: #F9BCC4; color: #000; font-weight: 500;">Submit</button>
-                    </div>
-                    <style>
-                        .btn-clear:hover {
-                            background-color: #ccc !important;
-                            color: #fff !important;
-                        }
-                        .btn-submit:hover {
-                            background-color: #F791A9 !important;
-                            color: #fff !important;
-                        }
-                    </style>
-                </form>
-            </div>
-        </div>
-
-        <script>
-            function showTestModal() {
-                if (typeof bootstrap !== 'undefined') {
-                    const modal = new bootstrap.Modal(document.getElementById('submitFormModal'));
-                    modal.show();
-                }
-            }
-        </script>
-    </div>
-</div>
-
-@if (!Auth::check())
-<div class="modal fade" id="loginRequiredModal" tabindex="-1" aria-labelledby="loginRequiredModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content add-modal-content">
-            <div class="modal-header border-0 d-flex flex-column align-items-center pb-0">
-                <h2 class="modal-title w-100 text-center" id="loginRequiredModalLabel" style="font-size: 32px; font-family: 'Yantramanav', sans-serif;">Login Required</h2>
-            </div>
-            <div class="modal-body text-center px-3 pb-3">
-                <p style="font-size: 20px; line-height: 1.2; font-family: 'Yantramanav', sans-serif;">
-                    You need to log in before accessing this page.
-                </p>
-                <a class="btn btn-pink px-4 rounded-pill mt-2" style="background-color: #F9BCC4; font-weight: 500; min-width: 200px; cursor: pointer;" href="#" id="showLoginModalBtn">Login
-                    <i class="bi bi-person-circle ms-2"></i>
-                </a>
-            </div>
-        </div>
-    </div>
-</div>
-@endif
-
-<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="loginModalLabel">Login</h5>
-            </div>
-            <div class="modal-body">
-                <form action="{{ route('login') }}" method="POST">
-                    @csrf
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email address</label>
-                        <input type="email" class="form-control" id="email" name="email" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="password" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="password" name="password" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary w-100">Login</button>
-                </form>
-                <hr>
-                <p class="text-center">
-                    Belum punya akun? <a href="#" id="showRegisterFromLoginBtn" class="text-decoration-none">Daftar di sini</a>
-                </p>
-                <p class="text-center">
-                    <a href="#" id="showForgotPwdFromLoginBtn" class="text-decoration-none">Lupa Kata Sandi?</a>
-                </p>
-            </div>
+                        <div class="form-button d-flex justify-content-center gap-3 mt-3">
+                            <button type="reset" class="btn px-4 rounded-pill btn-clear" style="min-width: 150px; background-color: #E8E8E8; color: #000; border: none; font-weight: 500;">Clear</button>
+                            <button type="submit" class="btn btn-pink px-4 rounded-pill btn-submit" style="min-width: 150px; background-color: #F9BCC4; color: #000; font-weight: 500;">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            @endguest
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="registerModalLabel">Register</h5>
-            </div>
-            <div class="modal-body">
-                <form action="{{ route('register') }}" method="POST">
-                    @csrf
-                    <div class="mb-3">
-                        <label for="register_name" class="form-label">Full Name</label>
-                        <input type="text" class="form-control" id="register_name" name="name" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="register_email" class="form-label">Email address</label>
-                        <input type="email" class="form-control" id="register_email" name="email" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="register_password" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="register_password" name="password" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="register_password_confirmation" class="form-label">Confirm Password</label>
-                        <input type="password" class="form-control" id="register_password_confirmation" name="password_confirmation" required>
-                    </div>
-                    <button type="submit" class="btn btn-success w-100">Register</button>
-                </form>
-                <hr>
-                <p class="text-center">
-                    Sudah punya akun? <a href="#" id="showLoginFromRegisterBtn" class="text-decoration-none">Login di sini</a>
-                </p>
-            </div>
-        </div>
-    </div>
-</div>
+@include('auth.login')
 
-<div class="modal fade" id="forgotPasswordModal" tabindex="-1" aria-labelledby="forgotPasswordModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="forgotPasswordModalLabel">Forgot Password</h5>
-            </div>
-            <div class="modal-body">
-                <form action="{{ route('password.email') }}" method="POST">
-                    @csrf
-                    <div class="mb-3">
-                        <label for="forgot_email" class="form-label">Email address</label>
-                        <input type="email" class="form-control" id="forgot_email" name="email" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary w-100">Send Password Reset Link</button>
-                </form>
-                <hr>
-                <p class="text-center">
-                    Ingat akun Anda? <a href="#" id="showLoginFromForgotPwdBtn" class="text-decoration-none">Login di sini</a>
-                </p>
-            </div>
-        </div>
-    </div>
-</div>
 
 <div class="modal fade" id="submitFormModal" tabindex="-1" aria-labelledby="submitModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modalContent">
             <div class="modalHeader">
-                <h2>Thank you for your beautiful gift!</h2>
+                <h2 style="margin-bottom: 18px;">Your request has been received!</h2>
             </div>
-            <div class="modalBody" style="margin-top: 24px;">
-                <p>Please mail your hair within 7 days to<br>
-                Jl. Pakuan No.3, Sumur Batu, Kec. Babakan Madang,<br>
-                Kabupaten Bogor, Jawa Barat 16810.</p>
+            <div class="modalBody">
+                <p>Please know you’re not alone in this journey,
+                    we’re honoured to walk this path with you.
+                    Kindly check your email for further details.</p>
             </div>
-            <div class="modalFooter d-flex flex-column align-items-center mt-4" style="cursor: pointer !important;">
-                <button type="button" class="btn btn-submit px-4 rounded-pill" data-bs-dismiss="modal" style="min-width: 150px; cursor: pointer !important;">
-                    OK
-                </button>
+            <div class="modalFooter">
+                <button type="button" class="btn btn-submit px-5 py-2 rounded-pill" style="min-width: 180px; border-radius: 30px; font-weight: 500;" data-bs-dismiss="modal">OK</button>
             </div>
         </div>
     </div>
@@ -490,184 +372,130 @@ body::-webkit-scrollbar, html::-webkit-scrollbar {
 
 @endsection
 
-@if(session('show_modal'))
-@push('scripts')
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const submitFormModal = new bootstrap.Modal(document.getElementById('submitFormModal'));
-            submitFormModal.show();
-        });
-    </script>
-@endpush
-@endif
-
 @push('scripts')
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        const loginRequiredModalElement = document.getElementById('loginRequiredModal');
-        const loginRequiredModal = new bootstrap.Modal(loginRequiredModalElement);
-
         const loginModalElement = document.getElementById('loginModal');
-        let loginModal = null;
-        if (loginModalElement) {
-             loginModal = new bootstrap.Modal(loginModalElement);
-        }
-
-        const registerModalElement = document.getElementById('registerModal');
-        let registerModal = null;
-        if (registerModalElement) {
-            registerModal = new bootstrap.Modal(registerModalElement);
-        }
-
-        const forgotPasswordModalElement = document.getElementById('forgotPasswordModal');
-        let forgotPasswordModal = null;
-        if (forgotPasswordModalElement) {
-            forgotPasswordModal = new bootstrap.Modal(forgotPasswordModalElement);
-        }
-
+        const registerModalElement = document.getElementById('registerModal'); 
+        const forgotPasswordModalElement = document.getElementById('forgotPasswordModal'); 
         const pageContentWrapper = document.getElementById('page-content-wrapper');
+        const submitFormModalElement = document.getElementById('submitFormModal');
 
-        if (!{!! json_encode(Auth::check()) !!}) {
-            if (!document.querySelector('.modal.show')) {
-                loginRequiredModal.show();
+        const loginModal = loginModalElement ? new bootstrap.Modal(loginModalElement, { backdrop: 'static', keyboard: false }) : null;
+        const registerModal = registerModalElement ? new bootstrap.Modal(registerModalElement, { backdrop: 'static', keyboard: false }) : null;
+        const forgotPasswordModal = forgotPasswordModalElement ? new bootstrap.Modal(forgotPasswordModalElement, { backdrop: 'static', keyboard: false }) : null;
+        const submitFormModal = submitFormModalElement ? new bootstrap.Modal(submitFormModalElement) : null;
+
+        let openingAnotherModal = false;
+
+        function hideModal(modalInstance) {
+            if (modalInstance) {
+                modalInstance.hide();
+            }
+        }
+
+        function handleGuestLoginModal() {
+            @guest
+                if (!openingAnotherModal) {
+                    loginModal.show();
+                }
+            @endguest
+        }
+
+        if (loginModalElement && loginModal) {
+            @guest
+                handleGuestLoginModal(); 
+
+
+                const openLoginModalLink = document.getElementById('openLoginModalLink');
+                if (openLoginModalLink) {
+                    openLoginModalLink.addEventListener('click', function(event) {
+                        event.preventDefault();
+                        hideModal(registerModal);
+                        hideModal(forgotPasswordModal);
+                        loginModal.show();
+                    });
+                }
+
+                loginModalElement.addEventListener('show.bs.modal', function () {
+                    if (pageContentWrapper) {
+                        pageContentWrapper.classList.add('content-blurred');
+                    }
+                });
+
+                // When login modal is hidden
+                loginModalElement.addEventListener('hidden.bs.modal', function () {
+                    if (pageContentWrapper) {
+                        pageContentWrapper.classList.remove('content-blurred');
+                    }
+                    @guest
+                        if (!openingAnotherModal) {
+                            setTimeout(() => {
+                                handleGuestLoginModal();
+                            }, 100); // Small delay to allow other modals to fully show if they triggered this hide
+                        }
+                    @endguest
+                });
+            @endguest
+        }
+
+        // --- Register Modal Logic ---
+        if (registerModalElement && registerModal) {
+            registerModalElement.addEventListener('show.bs.modal', function () {
+                openingAnotherModal = true; // Set flag when opening register modal
+                hideModal(loginModal); // Explicitly hide login modal
+                hideModal(forgotPasswordModal); // Explicitly hide forgot password modal
+
                 if (pageContentWrapper) {
-                    pageContentWrapper.classList.add('content-blur-container');
-                }
-                document.body.style.overflow = 'hidden';
-            }
-        } else {
-            if (pageContentWrapper) {
-                pageContentWrapper.classList.remove('content-blur-container');
-            }
-            document.body.style.overflow = '';
-        }
-
-        const showLoginModalBtn = document.getElementById('showLoginModalBtn');
-        if (showLoginModalBtn) {
-            showLoginModalBtn.addEventListener('click', function (e) {
-                e.preventDefault();
-                loginRequiredModal.hide();
-                if (loginModal) {
-                    loginModal.show();
+                    pageContentWrapper.classList.add('content-blurred');
                 }
             });
-        }
 
-        const showRegisterFromLoginBtn = document.getElementById('showRegisterFromLoginBtn');
-        if (showRegisterFromLoginBtn) {
-            showRegisterFromLoginBtn.addEventListener('click', function (e) {
-                e.preventDefault();
-                if (loginModal) {
-                    loginModal.hide();
-                }
-                if (registerModal) {
-                    registerModal.show();
-                }
-            });
-        }
-
-        const showForgotPwdFromLoginBtn = document.getElementById('showForgotPwdFromLoginBtn');
-        if (showForgotPwdFromLoginBtn) {
-            showForgotPwdFromLoginBtn.addEventListener('click', function (e) {
-                e.preventDefault();
-                if (loginModal) {
-                    loginModal.hide();
-                }
-                if (forgotPasswordModal) {
-                    forgotPasswordModal.show();
-                }
-            });
-        }
-
-        const showLoginFromRegisterBtn = document.getElementById('showLoginFromRegisterBtn');
-        if (showLoginFromRegisterBtn) {
-            showLoginFromRegisterBtn.addEventListener('click', function (e) {
-                e.preventDefault();
-                if (registerModal) {
-                    registerModal.hide();
-                }
-                if (loginModal) {
-                    loginModal.show();
-                }
-            });
-        }
-
-        const showLoginFromForgotPwdBtn = document.getElementById('showLoginFromForgotPwdBtn');
-        if (showLoginFromForgotPwdBtn) {
-            showLoginFromForgotPwdBtn.addEventListener('click', function (e) {
-                e.preventDefault();
-                if (forgotPasswordModal) {
-                    forgotPasswordModal.hide();
-                }
-                if (loginModal) {
-                    loginModal.show();
-                }
-            });
-        }
-
-        if (loginModalElement) {
-            loginModalElement.addEventListener('hidden.bs.modal', function () {
-                if (!{!! json_encode(Auth::check()) !!}) {
-                    if (!document.querySelector('.modal.show')) {
-                        loginRequiredModal.show();
-                        if (pageContentWrapper) {
-                            pageContentWrapper.classList.add('content-blur-container');
-                        }
-                        document.body.style.overflow = 'hidden';
-                    }
-                } else {
-                    if (pageContentWrapper) {
-                        pageContentWrapper.classList.remove('content-blur-container');
-                    }
-                    document.body.style.overflow = '';
-                }
-            });
-        }
-
-        if (registerModalElement) {
             registerModalElement.addEventListener('hidden.bs.modal', function () {
-                if (!{!! json_encode(Auth::check()) !!}) {
-                    if (!document.querySelector('.modal.show')) {
-                        if (loginModal) {
-                            loginModal.show();
-                        } else {
-                            loginRequiredModal.show();
-                        }
-                        if (pageContentWrapper) {
-                            pageContentWrapper.classList.add('content-blur-container');
-                        }
-                        document.body.style.overflow = 'hidden';
-                    }
-                } else {
-                    if (pageContentWrapper) {
-                        pageContentWrapper.classList.remove('content-blur-container');
-                    }
-                    document.body.style.overflow = '';
+                openingAnotherModal = false; // Reset flag when register modal is hidden
+                if (pageContentWrapper) {
+                    pageContentWrapper.classList.remove('content-blurred');
                 }
+                @guest
+                    // If user is still a guest after closing register, show login again
+                    setTimeout(() => {
+                        handleGuestLoginModal();
+                    }, 100);
+                @endguest
             });
         }
 
-        if (forgotPasswordModalElement) {
-            forgotPasswordModalElement.addEventListener('hidden.bs.modal', function () {
-                if (!{!! json_encode(Auth::check()) !!}) {
-                    if (!document.querySelector('.modal.show')) {
-                        if (loginModal) {
-                            loginModal.show();
-                        } else {
-                            loginRequiredModal.show();
-                        }
-                        if (pageContentWrapper) {
-                            pageContentWrapper.classList.add('content-blur-container');
-                        }
-                        document.body.style.overflow = 'hidden';
-                    }
-                } else {
-                    if (pageContentWrapper) {
-                        pageContentWrapper.classList.remove('content-blur-container');
-                    }
-                    document.body.style.overflow = '';
+        // --- Forgot Password Modal Logic ---
+        if (forgotPasswordModalElement && forgotPasswordModal) {
+            forgotPasswordModalElement.addEventListener('show.bs.modal', function () {
+                openingAnotherModal = true; // Set flag when opening forgot password modal
+                hideModal(loginModal); // Explicitly hide login modal
+                hideModal(registerModal); // Explicitly hide register modal
+
+                if (pageContentWrapper) {
+                    pageContentWrapper.classList.add('content-blurred');
                 }
             });
+
+            forgotPasswordModalElement.addEventListener('hidden.bs.modal', function () {
+                openingAnotherModal = false; // Reset flag when forgot password modal is hidden
+                if (pageContentWrapper) {
+                    pageContentWrapper.classList.remove('content-blurred');
+                }
+                @guest
+                    // If user is still a guest after closing forgot password, show login again
+                    setTimeout(() => {
+                        handleGuestLoginModal();
+                    }, 100);
+                @endguest
+            });
+        }
+
+        // --- Submit Form Modal Logic (unchanged) ---
+        if (submitFormModalElement && submitFormModal) {
+            @if(session('show_modal'))
+                submitFormModal.show();
+            @endif
         }
     });
 </script>
