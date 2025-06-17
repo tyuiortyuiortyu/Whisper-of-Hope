@@ -10,8 +10,9 @@ class HairRequest extends Model
 {
     use HasFactory;
 
+    protected $table = 'hair_requests';
+
     protected $fillable = [
-        'role',
         'recipient_full_name',
         'recipient_age',
         'recipient_email',
