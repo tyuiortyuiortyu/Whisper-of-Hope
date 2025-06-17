@@ -36,7 +36,7 @@
     </div>
 
     {{-- Pilihan Story --}}
-    <div class="row pt-5" id="story-container">
+    <div class="row pt-5 story-grid" id="story-container">
         @foreach ($stories as $story)
         <div class="px-4 my-4 story-card" data-category="{{ $story->category_id }}" style="display: none;">
             <a href="{{ route('community.story', ['id' => $story->id]) }}" class="full-link text-decoration-none text-dark">
@@ -96,7 +96,7 @@
         background-color: #f28ca6 !important;
     }
 
-    .row {
+    .story-grid{
         display: grid;
         grid-template-columns: repeat(3, 1fr);
     }
