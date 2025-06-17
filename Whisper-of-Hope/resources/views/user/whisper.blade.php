@@ -1,5 +1,4 @@
-@extends('layout.app')
-
+@extends('user.layout.app')
 @section('title', 'The Whisper Page')
 
 @section('content')

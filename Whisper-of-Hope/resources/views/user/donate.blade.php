@@ -1,5 +1,5 @@
 @php use Illuminate\Support\Facades\Auth; @endphp
-@extends('layout.app')
+@extends('user.layout.app')
 
 @push('styles')
 <link href="https://fonts.googleapis.com/css2?family=Yantramanav:wght@400;700&family=Gidugu&display=swap" rel="stylesheet">
@@ -169,7 +169,7 @@ body::-webkit-scrollbar, html::-webkit-scrollbar {
                 <a class="btn btn-pink px-4 rounded-pill mt-2" style="background-color: #F9BCC4; font-weight: 500; min-width: 200px; cursor: pointer;" href="#" id="showLoginModalBtn">Login
                     <i class="bi bi-person-circle ms-2"></i>
                 </a>
-            </div>
+            </div>  
         </div>
     </div>
 </div>

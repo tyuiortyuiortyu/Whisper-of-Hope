@@ -18,8 +18,8 @@
 
     .menubtn:hover,
     .menubtn.active {
-        background-color: #F78DA7;
-        color: white !important;
+        color: #F78DA7 !important;
+        background-color: transparent;
     }
 
     /* Auth link khusus login/profile */
@@ -41,8 +41,8 @@
     }
 
     .menubtn.active {
-        background-color: #F78DA7;
-        color: white;
+        color: #F78DA7;
+        background-color: transparent;
     }
 
     .auth-link:hover,
@@ -50,8 +50,8 @@
     .auth-link:focus,
     .auth-link.active,
     .auth-link[aria-expanded="true"] {
-        background-color: #F78DA7 !important;
-        color: white !important;
+        color: #F78DA7 !important;
+        background-color: transparent !important;
     }
 
     .auth-container {
@@ -312,12 +312,12 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 <!-- Include auth modals -->
-@include('auth.login')
-@include('auth.register')
-@include('passwords.forgot-password')
+@include('user.auth.login')
+@include('user.auth.register')
+@include('user.auth.passwords.forgot-password')
 
 <!-- Include profile modal if logged in -->
 @auth
-    @include('profile.profile')
-    @include('profile.edit-profile')
+    @include('user.profile.profile')
+    @include('user.profile.edit-profile')
 @endauth

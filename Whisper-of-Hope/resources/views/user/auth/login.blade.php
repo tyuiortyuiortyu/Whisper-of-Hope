@@ -12,12 +12,12 @@
                         @csrf
                         <div class="mb-4">
                             <div class="input-group">
-                                <span class="input-group-text" style="background-color: #FFF9EA;">
+                                <span class="input-group-text" style="background-color: #FFF9EA; border-right: 1px solid #ddd;">
                                     <i class="bi bi-envelope" style="color: #888;"></i>
                                 </span>
                                 <input type="email" class="form-control @error('email') is-invalid @enderror"
                                        name="email" value="{{ old('email') }}" required autocomplete="email" autofocus
-                                       placeholder="Enter your email" style="background-color: #FFF9EA;">
+                                       placeholder="Enter your email" style="background-color: #FFF9EA; border: none;">
                             </div>
                             @error('email')
                                 <span class="invalid-feedback d-block"><strong>{{ $message }}</strong></span>
@@ -25,14 +25,14 @@
                         </div>
                         <div class="mb-4">
                             <div class="input-group">
-                                <span class="input-group-text" style="background-color: #FFF9EA;">
+                                <span class="input-group-text" style="background-color: #FFF9EA; border-right: 1px solid #ddd;">
                                     <i class="bi bi-lock" style="color: #888;"></i>
                                 </span>
                                 <input type="password" class="form-control @error('password') is-invalid @enderror"
                                        id="loginPassword" name="password" required autocomplete="current-password"
-                                       placeholder="Enter your password" style="background-color: #FFF9EA;">
-                                <span class="input-group-text toggle-password" style="background-color: #FFF9EA; cursor: pointer;">
-                                    <i class="bi bi-eye-slash" style="color: #888;"></i>
+                                       placeholder="Enter your password" style="background-color: #FFF9EA; border: none;">
+                                <span class="input-group-text toggle-password" style="background-color: #FFF9EA; cursor: pointer; border-left: 1px solid #ddd;">
+                                    <i class="fas fa-eye-slash" style="color: #888;"></i>
                                 </span>
                             </div>
                             @error('password')
@@ -67,6 +67,33 @@
         </div>
     </div>
 </div>
+
+<style>
+.input-group {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    overflow: hidden;
+    background-color: #FFF9EA;
+}
+
+.input-group-text {
+    border: none !important;
+}
+
+.form-control {
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.input-group:focus-within {
+    box-shadow: 0 0 0 2px rgba(233, 30, 99, 0.2);
+}
+
+.toggle-password:hover {
+    background-color: #f0e68c !important;
+}
+</style>
+
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const togglePassword = document.querySelector('.toggle-password');
@@ -75,8 +102,15 @@ document.addEventListener('DOMContentLoaded', function() {
         togglePassword.addEventListener('click', function() {
             const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
             password.setAttribute('type', type);
-            this.querySelector('i').classList.toggle('bi-eye');
-            this.querySelector('i').classList.toggle('bi-eye-slash');
+            
+            const icon = this.querySelector('i');
+            if (type === 'password') {
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
         });
     }
 });

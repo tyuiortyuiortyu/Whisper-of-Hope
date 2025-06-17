@@ -1,4 +1,5 @@
-@extends('layout.app')
+@extends('user.layout.app')
+
 @section('title', 'Community Stories Page')
 
 {{-- Gambar Bagian paling atas --}}
