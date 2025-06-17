@@ -21,10 +21,13 @@
     @stack('styles')
     
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Yantramanav:wght@300;400;500;600;700&display=swap');
+        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Yantramanav';
         }
 
         /* Hide scrollbars */
@@ -38,7 +41,7 @@
         }
 
         body {
-            background-color: #f5f5f5;
+            background-color: white;
             overflow-x: hidden;
         }
 
@@ -54,7 +57,7 @@
         .main-content {
             flex: 1;
             margin-left: 280px;
-            background: #f5f5f5;
+            background: white;
             transition: margin-left 0.3s ease;
         }
 
@@ -62,17 +65,20 @@
             background: #ffffff;
             color: black;
             padding: 10px 20px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
             display: flex;
             justify-content: space-between;
             align-items: center;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+            position: relative;
+            z-index: 10;
         }
 
         .top-header h1 {
-            font-family: 'Gidugu', sans-serif;
-            font-size: 3.5rem;
+            font-family: 'Gidugu';
+            font-size: 4rem;
             font-weight: 400;
-            margin-left: 10px;
+            margin-left: 20px;
         }
 
         .header-actions {
@@ -125,12 +131,13 @@
         .content-area {
             padding: 30px;
             min-height: calc(100vh - 80px);
+            background: white;
         }
 
         .page-content {
             background: white;
             border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            box-shadow: none;
             overflow: hidden;
         }
 
