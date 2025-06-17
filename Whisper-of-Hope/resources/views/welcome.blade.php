@@ -1,4 +1,4 @@
-@extends('layout.app')
+@extends('user.layout.app')
 
 @section('title', 'Whisper of Hope - Home')
 

@@ -3,11 +3,10 @@
     namespace App\Http\Controllers\User;
 
     use Illuminate\Http\Request;
-    use App\Http\Controllers\Controller;
+    use App\Http\Controllers\Controller\User;
     use App\Models\Story;
     use App\Models\Category;
-    use resources\views\user;
-
+    
     class ComStoryController extends Controller
     {
         /**

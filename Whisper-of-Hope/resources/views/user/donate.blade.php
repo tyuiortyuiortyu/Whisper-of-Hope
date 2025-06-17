@@ -1,5 +1,5 @@
 @php use Illuminate\Support\Facades\Auth; @endphp
-@extends('layout.app')
+@extends('user.layout.app')
 
 @push('styles')
 <link href="https://fonts.googleapis.com/css2?family=Yantramanav:wght@400;700&family=Gidugu&display=swap" rel="stylesheet">
