@@ -1,12 +1,13 @@
 <style>
+    @import url('https://fonts.googleapis.com/css2?family=Yantramanav:wght@300;400;500;600;700&display=swap');
+    
     .menubtn {
         background-color: transparent;
         color: #000000;
-        border-radius: 999px;
         padding: 6px 20px;
         font-weight: 600;
         font-size: 1rem;
-        font-family: inherit;
+        font-family: 'Yantramanav', sans-serif;
         transition: all 0.3s ease;
         text-align: center;
         border: none;
@@ -26,11 +27,11 @@
     .auth-link {
         background-color: transparent;
         color: #000000;
-        border-radius: 999px;
+        border-radius: 0;
         padding: 6px 15px;
         font-weight: 600;
         font-size: 1rem;
-        font-family: inherit;
+        font-family: 'Yantramanav', sans-serif;
         transition: all 0.3s ease;
         text-align: center;
         border: none;
