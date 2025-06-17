@@ -349,7 +349,7 @@
     </div>
 </div>
 
-@include('auth.login')
+@include('user.auth.login')
 
 
 <div class="modal fade" id="submitFormModal" tabindex="-1" aria-labelledby="submitModalLabel" aria-hidden="true">
