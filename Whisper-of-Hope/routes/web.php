@@ -8,8 +8,11 @@ use App\Http\Controllers\User\Auth\ResetPasswordController;
 use App\Http\Controllers\User\WhisperController;
 use App\Http\Controllers\User\ProfileController;
 use App\Http\Controllers\User\ComStoryController;
+
 use App\Http\Controllers\User\DonateHairController;
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\User\RequestWigController;
+
 
 // Main welcome page
 Route::get('/', function () {
@@ -84,7 +87,6 @@ Route::get('/donate-hair', [DonateHairController::class, 'showDonatePage'])
     ->middleware('auth')
     ->name('donate.hair');
 
-    
 
 
 
@@ -105,3 +107,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('/logout', [AdminController::class, 'logout'])->name('logout');
     });
 });
+Route::post('/donate-hair', [DonateHairController::class, 'store'])->name('donate.hair.store');
+
+
+// Request Wig Routes
+Route::get('/request-wig', [RequestWigController::class, 'showRequestPage'])->middleware('auth')->name('request.wig');
+Route::post('/request-wig', [RequestWigController::class, 'storeRequest'])->middleware('auth')->name('request.wig.storeRequest');
