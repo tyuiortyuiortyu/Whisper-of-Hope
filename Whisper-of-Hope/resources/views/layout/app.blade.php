@@ -87,7 +87,7 @@
     
     <main class="container.fluid">
     
-    @yield('hero')  
+        @yield('hero')  
 
     <!-- <main class="container py-0"> -->
 
