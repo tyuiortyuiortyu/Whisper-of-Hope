@@ -6,8 +6,15 @@
 <div class="users-management">
     <div class="page-header">
         <div class="search-container">
-            <input type="text" id="searchInput" placeholder="Search" onkeyup="searchUsers()">
-            <i class="fas fa-search"></i>
+            <form method="GET" action="{{ route('admin.user_admin') }}" id="searchForm">
+                <input type="text" 
+                       id="searchInput" 
+                       name="search" 
+                       placeholder="Search users..." 
+                       value="{{ request('search') }}"
+                       onkeyup="debounceSearch()">
+                <img src="{{ asset('images/admin/user_admin/search.png') }}" class="search-icon" alt="Search" onclick="submitSearch()">
+            </form>
         </div>
         <button class="btn-add-user" onclick="showAddUserModal()">
             Add User
@@ -17,6 +24,12 @@
     @if(session('success'))
         <div class="alert alert-success">
             {{ session('success') }}
+        </div>
+    @endif
+
+    @if(session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
         </div>
     @endif
 
@@ -36,7 +49,7 @@
             <tbody id="usersTableBody">
                 @forelse($users as $user)
                 <tr>
-                    <td>{{ $user->user_id ?? $user->id }}</td>
+                    <td>{{ $user->id }}</td>
                     <td>
                         <div class="user-name-container">
                             <div class="profile-picture">
@@ -46,31 +59,97 @@
                                     <div class="default-avatar">{{ strtoupper(substr($user->name ?? 'U', 0, 1)) }}</div>
                                 @endif
                             </div>
-                            <span>{{ $user->name ?? $user->username }}</span>
+                            <span>{{ $user->name }}</span>
                         </div>
                     </td>
                     <td>{{ $user->email }}</td>
-                    <td>{{ $user->phone_number ?? $user->phone ?? '08xx xxxx xxxx' }}</td>
-                    <td>{{ ucfirst($user->gender ?? 'male') }}</td>
+                    <td>{{ $user->phone ?? '08xx xxxx xxxx' }}</td>
+                    <td>{{ ucfirst($user->gender ?? 'Not specified') }}</td>
                     <td>
-                        <span class="role-badge role-{{ $user->role ?? 'user' }}">
-                            <img src="{{ asset('images/admin/role_' . ($user->role ?? 'user') . '.png') }}" class="role-icon" alt="{{ ucfirst($user->role ?? 'user') }}">
-                            {{ ucfirst($user->role ?? 'user') }}
+                        <span class="role-badge role-{{ $user->role }}">
+                            <img src="{{ asset('images/admin/user_admin/role_' . $user->role . '.png') }}" class="role-icon" alt="{{ ucfirst($user->role) }}">
+                            {{ ucfirst($user->role) }}
                         </span>
                     </td>
                     <td>
-                        <button class="btn-delete" onclick="deleteUser({{ $user->user_id ?? $user->id }})">
-                            <img src="{{ asset('images/admin/delete.png') }}" class="delete-icon" alt="Delete">
-                        </button>
+                        @if($user->id !== auth()->id())
+                            <button class="btn-delete" onclick="deleteUser({{ $user->id }})">
+                                <img src="{{ asset('images/admin/user_admin/delete.png') }}" class="delete-icon" alt="Delete">
+                            </button>
+                        @else
+                            <span class="text-muted" style="font-size: 0.8rem;">Current User</span>
+                        @endif
                     </td>
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="7" class="no-data">No users found</td>
+                    <td colspan="7" class="no-data">
+                        @if(request('search'))
+                            No users found for "{{ request('search') }}"
+                        @else
+                            No users found
+                        @endif
+                    </td>
                 </tr>
                 @endforelse
             </tbody>
         </table>
+
+        <!-- Pagination -->
+        @if($users->hasPages())
+            <div class="pagination-container">
+                <div class="pagination-info">
+                    <span>Showing {{ $users->firstItem() }} to {{ $users->lastItem() }} of {{ $users->total() }} results</span>
+                </div>
+                <div class="pagination-wrapper">
+                    <div class="pagination-links">
+                        {{-- Previous Page Link --}}
+                        @if ($users->onFirstPage())
+                            <span class="pagination-btn nav-btn disabled">‹</span>
+                        @else
+                            <a href="{{ $users->previousPageUrl() }}" class="pagination-btn nav-btn">‹</a>
+                        @endif
+
+                        {{-- Page Numbers --}}
+                        @php
+                            $currentPage = $users->currentPage();
+                            $lastPage = $users->lastPage();
+                            $start = max(1, $currentPage - 2);
+                            $end = min($lastPage, $currentPage + 2);
+                        @endphp
+
+                        @if($start > 1)
+                            <a href="{{ $users->url(1) }}" class="pagination-btn">1</a>
+                            @if($start > 2)
+                                <span class="pagination-dots">...</span>
+                            @endif
+                        @endif
+
+                        @for($page = $start; $page <= $end; $page++)
+                            @if ($page == $currentPage)
+                                <span class="pagination-btn active">{{ $page }}</span>
+                            @else
+                                <a href="{{ $users->url($page) }}" class="pagination-btn">{{ $page }}</a>
+                            @endif
+                        @endfor
+
+                        @if($end < $lastPage)
+                            @if($end < $lastPage - 1)
+                                <span class="pagination-dots">...</span>
+                            @endif
+                            <a href="{{ $users->url($lastPage) }}" class="pagination-btn">{{ $lastPage }}</a>
+                        @endif
+
+                        {{-- Next Page Link --}}
+                        @if ($users->hasMorePages())
+                            <a href="{{ $users->nextPageUrl() }}" class="pagination-btn nav-btn">›</a>
+                        @else
+                            <span class="pagination-btn nav-btn disabled">›</span>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        @endif
     </div>
 </div>
 
@@ -79,7 +158,7 @@
     <div class="modal-content">
         <div class="modal-header">
             <h3>Add New User</h3>
-            <span class="close" onclick="closeModal('addUserModal')">&times;</span>
+            <img src="{{ asset('images/admin/user_admin/close.png') }}" class="close" onclick="closeModal('addUserModal')" alt="Close">
         </div>
         <form method="POST" action="{{ route('admin.users.create') }}">
             @csrf
@@ -190,12 +269,15 @@
         font-family: 'Yantramanav', sans-serif;
     }
     
-    .search-container i {
+    .search-icon {
         position: absolute;
         right: 15px;
         top: 50%;
         transform: translateY(-50%);
-        color: #999;
+        width: 16px;
+        height: 16px;
+        object-fit: contain;
+        cursor: pointer;
     }
     
     .btn-add-user {
@@ -207,7 +289,7 @@
         cursor: pointer;
         font-size: 14px;
         font-weight: 600;
-        font-family: 'Yantramanav', sans-serif;
+        font-family: 'Yantramanav';
         transition: all 0.3s ease;
         box-shadow: 0 2px 4px rgba(249,188,196,0.2);
         margin-left: 10px;
@@ -215,8 +297,8 @@
     
     .btn-add-user:hover {
         background: #F791A9;
-        transform: translateY(-1px);
-        box-shadow: 0 4px 8px rgba(249,188,196,0.3);
+        /* transform: translateY(-1px);
+        box-shadow: 0 4px 8px rgba(249,188,196,0.3); */
     }
     
     .alert {
@@ -229,6 +311,12 @@
         background: #d4edda;
         color: #155724;
         border: 1px solid #c3e6cb;
+    }
+    
+    .alert-danger {
+        background: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
     }
     
     .users-table-container {
@@ -319,7 +407,7 @@
     .default-avatar {
         width: 100%;
         height: 100%;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, #FFDBDF 10%, #F791A9 100%);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -369,8 +457,7 @@
         border: none;
         border-radius: 8px;
         cursor: pointer;
-        /* background: #ff4757;
-        color: white; */
+        background: transparent;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -380,16 +467,15 @@
     }
     
     .delete-icon {
-        width: 16px;
-        height: 16px;
+        width: 20px;
+        height: 20px;
         object-fit: contain;
-        filter: brightness(0) invert(1);
     }
     
     .btn-delete:hover {
-        background: #ff3742;
+        background: rgba(255, 0, 0, 0.1);
         transform: scale(1.05);
-        /* box-shadow: 0 4px 12px rgba(255, 71, 87, 0.4); */
+        border-radius: 50%;
     }
     
     .no-data {
@@ -440,14 +526,13 @@
     }
     
     .close {
-        font-size: 24px;
-        font-weight: bold;
+        width: 24px;
+        height: 24px;
+        object-fit: contain;
         cursor: pointer;
-        color: #999;
         background: none;
         border: none;
-        width: 30px;
-        height: 30px;
+        padding: 0;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -457,7 +542,7 @@
     
     .close:hover {
         background: #f5f5f5;
-        color: #333;
+        transform: scale(1.1);
     }
     
     .modal-body {
@@ -492,7 +577,7 @@
         border: 1px solid #e0e0e0;
         border-radius: 8px;
         font-size: 14px;
-        font-family: 'Yantramanav', sans-serif;
+        font-family: 'Yantramanav';
         transition: border-color 0.3s ease;
         background: white;
     }
@@ -552,9 +637,9 @@
     
     .modal-actions {
         display: flex;
-        justify-content: flex-end;
+        justify-content: center;
         gap: 12px;
-        padding: 20px 30px;
+        padding: 15px 30px 20px;
         background: #FFFCF5;
         border-radius: 0 0 15px 15px;
     }
@@ -563,10 +648,10 @@
     .btn-add {
         padding: 12px 28px;
         border: none;
-        border-radius: 8px;
+        border-radius: 50px;
         cursor: pointer;
         font-size: 14px;
-        font-family: 'Yantramanav', sans-serif;
+        font-family: 'Yantramanav';
         font-weight: 600;
         transition: all 0.3s ease;
         min-width: 100px;
@@ -592,8 +677,8 @@
     .btn-add:hover {
         background: #F791A9;
         border-color: #F791A9;
-        transform: translateY(-1px);
-        box-shadow: 0 4px 12px rgba(249, 188, 196, 0.4);
+        /* transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(249, 188, 196, 0.4); */
     }
     
     .btn-add:active {
@@ -623,7 +708,7 @@
     }
     
     .delete-modal .modal-actions {
-        padding: 20px 30px;
+        padding: 15px 30px 20px;
         border-top: none;
         gap: 15px;
         justify-content: center;
@@ -645,12 +730,110 @@
     .btn-delete-confirm:hover {
         background: #F791A9;
     }
+    
+    .pagination-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 25px;
+        border-top: 1px solid #e8e8e8;
+        background: white;
+    }
+    
+    .pagination-info {
+        font-size: 14px;
+        color: #666;
+        font-family: 'Yantramanav';
+    }
+    
+    .pagination-wrapper {
+        display: flex;
+        align-items: center;
+    }
+    
+    .pagination-links {
+        display: flex;
+        gap: 6px;
+        align-items: center;
+    }
+    
+    .pagination-btn {
+        padding: 8px 12px;
+        border: none;
+        background: white;
+        color: #333;
+        text-decoration: none;
+        border-radius: 6px;
+        font-size: 14px;
+        font-family: 'Yantramanav';
+        font-weight: 500;
+        min-width: 32px;
+        height: 32px;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid #ddd;
+    }
+    
+    .pagination-btn:hover:not(.disabled):not(.active) {
+        background: white;
+        color: #333;
+        text-decoration: none;
+        border-color: #ccc;
+    }
+    
+    .pagination-btn.active {
+        background: #F791A9;
+        color: white;
+        font-weight: 600;
+        border-color: #F791A9;
+    }
+    
+    .pagination-btn.nav-btn {
+        font-size: 16px;
+        font-weight: 600;
+        width: 32px;
+        min-width: 32px;
+        background: white;
+        color: #333;
+        border-color: #ddd;
+    }
+    
+    .pagination-btn.nav-btn:hover:not(.disabled) {
+        background: white;
+        color: #333;
+        border-color: #ccc;
+    }
+    
+    .pagination-btn.disabled {
+        background: #E8E8E8;
+        color: #999;
+        cursor: not-allowed;
+        opacity: 0.6;
+        border-color: #E8E8E8;
+    }
+    
+    .pagination-btn.disabled:hover {
+        transform: none;
+        background: #E8E8E8;
+        border-color: #E8E8E8;
+    }
+    
+    .pagination-dots {
+        padding: 8px 4px;
+        color: #666;
+        font-size: 14px;
+        font-family: 'Yantramanav';
+        font-weight: 500;
+    }
 </style>
 @endpush
 
 @push('scripts')
 <script>
     let userToDelete = null;
+    let searchTimeout = null;
     
     function showAddUserModal() {
         document.getElementById('addUserModal').style.display = 'block';
@@ -691,25 +874,21 @@
         }
     }
     
-    function searchUsers() {
-        const input = document.getElementById('searchInput');
-        const filter = input.value.toLowerCase();
-        const tbody = document.getElementById('usersTableBody');
-        const rows = tbody.getElementsByTagName('tr');
-        
-        for (let i = 0; i < rows.length; i++) {
-            const cells = rows[i].getElementsByTagName('td');
-            let found = false;
-            
-            for (let j = 0; j < cells.length - 1; j++) {
-                if (cells[j].textContent.toLowerCase().indexOf(filter) > -1) {
-                    found = true;
-                    break;
-                }
-            }
-            
-            rows[i].style.display = found ? '' : 'none';
-        }
+    function debounceSearch() {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(function() {
+            submitSearch();
+        }, 500); // Wait 500ms after user stops typing
+    }
+    
+    function submitSearch() {
+        document.getElementById('searchForm').submit();
+    }
+    
+    // Clear search functionality
+    function clearSearch() {
+        document.getElementById('searchInput').value = '';
+        submitSearch();
     }
     
     // Close modal when clicking outside
@@ -724,6 +903,16 @@
             }
         }
     }
+    
+    // Handle enter key in search
+    document.getElementById('searchInput').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            submitSearch();
+        }
+    });
 </script>
 @endpush
+
 @endsection
+
