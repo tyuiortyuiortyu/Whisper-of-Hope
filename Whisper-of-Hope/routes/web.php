@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+
 use App\Http\Controllers\User\Auth\LoginController;
 use App\Http\Controllers\User\Auth\RegisterController;
 use App\Http\Controllers\User\Auth\ForgotPasswordController;
@@ -8,8 +9,16 @@ use App\Http\Controllers\User\Auth\ResetPasswordController;
 use App\Http\Controllers\User\WhisperController;
 use App\Http\Controllers\User\ProfileController;
 use App\Http\Controllers\User\ComStoryController;
+
 use App\Http\Controllers\User\DonateHairController;
-use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\User\RequestWigController;
+
+use App\Http\Controllers\Admin\AdminLoginController;
+use App\Http\Controllers\Admin\UserAdminController;
+use App\Http\Controllers\Admin\RequestAdminController;
+use App\Http\Controllers\Admin\DonateAdminController;
+use App\Http\Controllers\Admin\WhisperAdminController;
+use App\Http\Controllers\Admin\CommunityAdminController;
 
 // Main welcome page
 Route::get('/', function () {
@@ -42,7 +51,6 @@ Route::prefix('user')->group(function () {
     Route::get('/whisper', [WhisperController::class, 'index'])->name('user.whisper');
 });
 
-
 // API routes for whispers
 Route::prefix('api/whispers')->group(function () {
     Route::get('/', [WhisperController::class, 'getWhispers'])->name('api.whispers.index');
@@ -52,56 +60,67 @@ Route::prefix('api/whispers')->group(function () {
 // API routes for colors
 Route::get('api/colors', [WhisperController::class, 'getColors'])->name('api.colors.index');
 
-// Authentication Routes
-Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [LoginController::class, 'login']);
-Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+// User Authentication Routes (Guest only)
+Route::middleware('guest')->group(function () {
+    Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+    Route::post('/login', [LoginController::class, 'login']);
+    Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
+    Route::post('/register', [RegisterController::class, 'register']);
+    Route::get('/forgot-password', [ForgotPasswordController::class, 'showForgotPasswordForm'])->name('password.request');
+    Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+    Route::get('/reset-password/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
+    Route::post('/reset-password', [ResetPasswordController::class, 'reset'])->name('password.update');
+});
 
-// Registration Routes
-Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
-Route::post('/register', [RegisterController::class, 'register']);
+// User logout (accessible to all authenticated users)
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout')->middleware('auth');
 
-// Forgot Password (request link)
-Route::get('/forgot-password', [ForgotPasswordController::class, 'showForgotPasswordForm'])->name('password.request');
-Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
-
-// Reset Password (reset form)
-Route::get('/reset-password/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
-Route::post('/reset-password', [ResetPasswordController::class, 'reset'])->name('password.update');
-
-// Profile Routes
-Route::middleware('auth')->group(function () {
+// Profile Routes (User middleware)
+Route::middleware('user')->group(function () {
     Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
 });
 
-// Donate Hair Routes
-Route::post('/donate-hair', [DonateHairController::class, 'store'])
-    ->middleware('auth')
-    ->name('donate.hair.store');
-Route::get('/donate-hair', [DonateHairController::class, 'showDonatePage'])
-    ->middleware('auth')
-    ->name('donate.hair');
+// Donate Hair Routes (User middleware)
+Route::middleware('user')->group(function () {
+    Route::post('/donate-hair', [DonateHairController::class, 'store'])->name('donate.hair.store');
+    Route::get('/donate-hair', [DonateHairController::class, 'showDonatePage'])->name('donate.hair');
+});
 
+// Admin Routes
+Route::prefix('admin')->group(function () {
+    // Admin Login Routes (No middleware - accessible to everyone)
+    Route::get('/login', [AdminLoginController::class, 'showLoginForm'])->name('admin.login');
+    Route::post('/login', [AdminLoginController::class, 'login'])->name('admin.login.submit');
     
-
-
-
-// Admin routes
-Route::prefix('admin')->name('admin.')->group(function () {
-    Route::get('/login', [AdminController::class, 'showLoginForm'])->name('login');
-    Route::post('/login', [AdminController::class, 'login'])->name('login.submit');
+    // Admin logout (accessible to authenticated users)
+    Route::post('/logout', [AdminLoginController::class, 'logout'])->name('admin.logout')->middleware('auth');
     
-    Route::middleware('auth')->group(function () {
-        Route::get('/users', [AdminController::class, 'users'])->name('user_admin');
-        Route::post('/users', [AdminController::class, 'createUser'])->name('users.create');
-        Route::put('/users/{user}', [AdminController::class, 'updateUser'])->name('users.update');
-        Route::delete('/users/{user}', [AdminController::class, 'deleteUser'])->name('users.delete');
-        Route::get('/wig-requests', [AdminController::class, 'wigRequests'])->name('request_admin');
-        Route::get('/donations', [AdminController::class, 'donations'])->name('donate_admin');
-        Route::get('/whisper', [AdminController::class, 'whisper'])->name('whisper_admin');
-        Route::get('/stories', [AdminController::class, 'stories'])->name('community_admin');
-        Route::post('/logout', [AdminController::class, 'logout'])->name('logout');
+    // Admin Protected Routes (Admin middleware)
+    Route::middleware('admin')->group(function () {
+        // User Management
+        Route::get('/users', [UserAdminController::class, 'index'])->name('admin.user_admin');
+        Route::post('/users', [UserAdminController::class, 'create'])->name('admin.users.create');
+        Route::put('/users/{user}', [UserAdminController::class, 'update'])->name('admin.users.update');
+        Route::delete('/users/{user}', [UserAdminController::class, 'destroy'])->name('admin.users.destroy');
+        
+        // Request Management
+        Route::get('/requests', [RequestAdminController::class, 'index'])->name('admin.request_admin');
+        
+        // Donation Management
+        Route::get('/donations', [DonateAdminController::class, 'index'])->name('admin.donate_admin');
+        
+        // Whisper Management
+        Route::get('/whisper', [WhisperAdminController::class, 'index'])->name('admin.whisper_admin');
+        
+        // Community Stories Management
+        Route::get('/community', [CommunityAdminController::class, 'index'])->name('admin.community_admin');
     });
 });
+Route::post('/donate-hair', [DonateHairController::class, 'store'])->name('donate.hair.store');
+
+
+// Request Wig Routes
+Route::get('/request-wig', [RequestWigController::class, 'showRequestPage'])->middleware('auth')->name('request.wig');
+Route::post('/request-wig', [RequestWigController::class, 'storeRequest'])->middleware('auth')->name('request.wig.storeRequest');

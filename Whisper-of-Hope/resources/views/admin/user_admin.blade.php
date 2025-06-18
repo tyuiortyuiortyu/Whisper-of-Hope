@@ -5,7 +5,6 @@
 @section('content')
 <div class="users-management">
     <div class="page-header">
-        <h2>Users</h2>
         <div class="search-container">
             <input type="text" id="searchInput" placeholder="Search" onkeyup="searchUsers()">
             <i class="fas fa-search"></i>
@@ -37,19 +36,31 @@
             <tbody id="usersTableBody">
                 @forelse($users as $user)
                 <tr>
-                    <td>{{ $user->id }}</td>
-                    <td>{{ $user->name }}</td>
-                    <td>{{ $user->email }}</td>
-                    <td>{{ $user->phone ?? '08xx xxxx xxxx' }}</td>
-                    <td>{{ $user->gender ?? 'male' }}</td>
+                    <td>{{ $user->user_id ?? $user->id }}</td>
                     <td>
-                        <span class="role-badge role-{{ $user->role }}">
-                            <i class="fas fa-user"></i> {{ ucfirst($user->role) }}
+                        <div class="user-name-container">
+                            <div class="profile-picture">
+                                @if($user->profile_image)
+                                    <img src="{{ asset('storage/' . $user->profile_image) }}" alt="Profile">
+                                @else
+                                    <div class="default-avatar">{{ strtoupper(substr($user->name ?? 'U', 0, 1)) }}</div>
+                                @endif
+                            </div>
+                            <span>{{ $user->name ?? $user->username }}</span>
+                        </div>
+                    </td>
+                    <td>{{ $user->email }}</td>
+                    <td>{{ $user->phone_number ?? $user->phone ?? '08xx xxxx xxxx' }}</td>
+                    <td>{{ ucfirst($user->gender ?? 'male') }}</td>
+                    <td>
+                        <span class="role-badge role-{{ $user->role ?? 'user' }}">
+                            <img src="{{ asset('images/admin/role_' . ($user->role ?? 'user') . '.png') }}" class="role-icon" alt="{{ ucfirst($user->role ?? 'user') }}">
+                            {{ ucfirst($user->role ?? 'user') }}
                         </span>
                     </td>
                     <td>
-                        <button class="btn-delete" onclick="deleteUser({{ $user->id }})">
-                            <i class="fas fa-trash"></i>
+                        <button class="btn-delete" onclick="deleteUser({{ $user->user_id ?? $user->id }})">
+                            <img src="{{ asset('images/admin/delete.png') }}" class="delete-icon" alt="Delete">
                         </button>
                     </td>
                 </tr>
@@ -72,66 +83,95 @@
         </div>
         <form method="POST" action="{{ route('admin.users.create') }}">
             @csrf
-            <div class="form-group">
-                <label>Name</label>
-                <input type="text" name="name" required>
+            <div class="modal-body">
+                <div class="form-section">
+                    <label class="form-label">Role</label>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" name="role" value="user" checked>
+                            <span class="radio-custom"></span>
+                            User
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="role" value="admin">
+                            <span class="radio-custom"></span>
+                            Admin
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <label class="form-label">Name</label>
+                    <input type="text" name="name" class="form-input" required>
+                </div>
+
+                <div class="form-section">
+                    <label class="form-label">Email</label>
+                    <input type="email" name="email" class="form-input" required>
+                </div>
+
+                <div class="form-section">
+                    <label class="form-label">Password</label>
+                    <input type="password" name="password" class="form-input" required minlength="8">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-section half-width">
+                        <label class="form-label">Phone Number</label>
+                        <input type="text" name="phone" class="form-input">
+                    </div>
+                    <div class="form-section half-width">
+                        <label class="form-label">Gender</label>
+                        <select name="gender" class="form-input" required>
+                            <option value="">Select Gender</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                        </select>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label>Email</label>
-                <input type="email" name="email" required>
-            </div>
-            <div class="form-group">
-                <label>Password</label>
-                <input type="password" name="password" required>
-            </div>
-            <div class="form-group">
-                <label>Phone Number</label>
-                <input type="text" name="phone">
-            </div>
-            <div class="form-group">
-                <label>Gender</label>
-                <select name="gender" required>
-                    <option value="">Select Gender</option>
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>Role</label>
-                <select name="role" required>
-                    <option value="user">User</option>
-                    <option value="admin">Admin</option>
-                </select>
-            </div>
+            
             <div class="modal-actions">
                 <button type="button" class="btn-cancel" onclick="closeModal('addUserModal')">Cancel</button>
-                <button type="submit" class="btn-submit">Add User</button>
+                <button type="submit" class="btn-add">Add User</button>
             </div>
         </form>
     </div>
 </div>
 
+<!-- Delete Confirmation Modal -->
+<div id="deleteUserModal" class="modal">
+    <div class="modal-content delete-modal">
+        <div class="modal-body text-center">
+            <h3>Are you sure want to delete this user?</h3>
+        </div>
+        
+        <div class="modal-actions">
+            <button type="button" class="btn-cancel" onclick="closeModal('deleteUserModal')">Cancel</button>
+            <button type="button" class="btn-delete-confirm" onclick="confirmDelete()">OK</button>
+        </div>
+    </div>
+</div>
+
 @push('styles')
 <style>
-    .users-management {
-        padding: 30px;
-        background: #f5f5f5;
-        min-height: 100vh;
-    }
+    @import url('https://fonts.googleapis.com/css2?family=Yantramanav:wght@300;400;500;600;700&display=swap');
     
+    .users-management {
+        padding: 0;
+        background: white;
+        font-family: 'Yantramanav';
+    }
+
     .page-header {
         display: flex;
         justify-content: space-between;
         align-items: center;
         margin-bottom: 30px;
         gap: 20px;
-    }
-    
-    .page-header h2 {
-        color: #333;
-        margin: 0;
-        font-size: 28px;
-        font-weight: 600;
+        padding: 0 30px;
+        padding-top: 20px;
+        margin-left: 650px;
     }
     
     .search-container {
@@ -147,6 +187,7 @@
         border-radius: 25px;
         font-size: 14px;
         background: white;
+        font-family: 'Yantramanav', sans-serif;
     }
     
     .search-container i {
@@ -158,23 +199,29 @@
     }
     
     .btn-add-user {
-        background: #ff69b4;
-        color: white;
+        background: #F9BCC4;
+        color: black;
         border: none;
-        padding: 12px 24px;
-        border-radius: 25px;
+        padding: 10px 50px;
+        border-radius: 50px;
         cursor: pointer;
         font-size: 14px;
-        font-weight: 500;
+        font-weight: 600;
+        font-family: 'Yantramanav', sans-serif;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 4px rgba(249,188,196,0.2);
+        margin-left: 10px;
     }
     
     .btn-add-user:hover {
-        background: #ff1493;
+        background: #F791A9;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 8px rgba(249,188,196,0.3);
     }
     
     .alert {
         padding: 15px;
-        margin-bottom: 20px;
+        margin: 0 30px 20px 30px;
         border-radius: 8px;
     }
     
@@ -186,81 +233,174 @@
     
     .users-table-container {
         background: white;
-        border-radius: 10px;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
         overflow: hidden;
+        margin: 0;
+        border: 1px solid #e8e8e8;
     }
     
     .users-table {
         width: 100%;
-        border-collapse: collapse;
+        border-collapse: separate;
+        border-spacing: 0;
+        background: white;
     }
     
     .users-table th,
     .users-table td {
-        padding: 15px;
+        padding: 18px 25px;
         text-align: left;
-        border-bottom: 1px solid #f0f0f0;
+        vertical-align: middle;
     }
     
     .users-table th {
-        background: #f8f9fa;
+        background: #fafafa;
         font-weight: 600;
-        color: #333;
+        color: #2c2c2c;
         font-size: 14px;
+        font-family: 'Yantramanav';
+        border-bottom: 2px solid #f0f0f0;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
     }
     
     .users-table td {
-        font-size: 14px;
-        color: #555;
+        font-size: 15px;
+        color: #2c2c2c;
+        font-family: 'Yantramanav';
+        background: white;
+        border-bottom: 2px solid #e8e8e8;
+    }
+    
+    .users-table tbody tr {
+        border-bottom: 2px solid #e8e8e8;
+        position: relative;
+    }
+    
+    .users-table tbody tr:last-child td {
+        border-bottom: 2px solid #e8e8e8;
     }
     
     .users-table tbody tr:hover {
-        background: #f9f9f9;
+        background: #fafafa;
+    }
+    
+    .users-table tbody tr:hover td {
+        background: #fafafa;
+        border-bottom: 2px solid #e8e8e8;
+    }
+    
+    .user-name-container {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+    
+    .profile-picture {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f0f0f0;
+        flex-shrink: 0;
+        border: 2px solid #e8e8e8;
+    }
+    
+    .profile-picture img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    
+    .default-avatar {
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        color: white;
+        font-size: 18px;
+        font-family: 'Yantramanav';
+    }
+    
+    .user-name-container span {
+        font-weight: 500;
+        color: #2c2c2c;
     }
     
     .role-badge {
-        padding: 6px 12px;
-        border-radius: 20px;
-        font-size: 12px;
+        padding: 8px 16px;
+        border-radius: 25px;
+        font-size: 13px;
         font-weight: 500;
         display: inline-flex;
         align-items: center;
-        gap: 5px;
+        gap: 8px;
+        font-family: 'Yantramanav';
+        border: 1px solid transparent;
+    }
+    
+    .role-icon {
+        width: 16px;
+        height: 16px;
+        object-fit: contain;
     }
     
     .role-user {
         background: #e8f5e8;
         color: #2e7d32;
+        border-color: #c8e6c9;
     }
     
     .role-admin {
         background: #ffebee;
         color: #d32f2f;
+        border-color: #ffcdd2;
     }
     
     .btn-delete {
-        padding: 8px 12px;
+        padding: 8px;
         border: none;
-        border-radius: 6px;
+        border-radius: 8px;
         cursor: pointer;
-        font-size: 14px;
-        background: #ff4444;
-        color: white;
+        /* background: #ff4757;
+        color: white; */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        transition: all 0.3s ease;
+    }
+    
+    .delete-icon {
+        width: 16px;
+        height: 16px;
+        object-fit: contain;
+        filter: brightness(0) invert(1);
     }
     
     .btn-delete:hover {
-        background: #cc0000;
+        background: #ff3742;
+        transform: scale(1.05);
+        /* box-shadow: 0 4px 12px rgba(255, 71, 87, 0.4); */
     }
     
     .no-data {
         text-align: center;
         color: #999;
         font-style: italic;
-        padding: 30px;
+        padding: 40px;
+        font-size: 16px;
     }
     
-    /* Modal Styles */
+    /* Enhanced Modal Styles */
     .modal {
         display: none;
         position: fixed;
@@ -269,114 +409,283 @@
         top: 0;
         width: 100%;
         height: 100%;
-        background-color: rgba(0,0,0,0.4);
+        background-color: rgba(0,0,0,0.5);
     }
     
     .modal-content {
-        background-color: white;
-        margin: 5% auto;
+        background-color: #FFFCF5;
+        margin: 3% auto;
         padding: 0;
-        border-radius: 10px;
+        border-radius: 15px;
         width: 90%;
-        max-width: 500px;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        max-width: 520px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        position: relative;
     }
     
     .modal-header {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 20px;
-        border-bottom: 1px solid #eee;
+        padding: 25px 30px;
+        border-bottom: 1px solid #f0f0f0;
     }
     
     .modal-header h3 {
         margin: 0;
         color: #333;
+        font-family: 'Yantramanav';
+        font-size: 1.4rem;
+        font-weight: 600;
     }
     
     .close {
-        font-size: 28px;
+        font-size: 24px;
         font-weight: bold;
         cursor: pointer;
         color: #999;
+        background: none;
+        border: none;
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        transition: all 0.3s ease;
     }
     
     .close:hover {
+        background: #f5f5f5;
         color: #333;
     }
     
-    .modal form {
-        padding: 20px;
+    .modal-body {
+        padding: 25px 30px;
     }
     
-    .form-group {
-        margin-bottom: 15px;
+    .form-section {
+        margin-bottom: 20px;
     }
     
-    .form-group label {
+    .form-row {
+        display: flex;
+        gap: 15px;
+    }
+    
+    .half-width {
+        flex: 1;
+    }
+    
+    .form-label {
         display: block;
-        margin-bottom: 5px;
+        margin-bottom: 8px;
         font-weight: 500;
         color: #333;
+        font-family: 'Yantramanav';
+        font-size: 14px;
     }
     
-    .form-group input,
-    .form-group select {
+    .form-input {
         width: 100%;
-        padding: 10px;
-        border: 1px solid #ddd;
-        border-radius: 5px;
+        padding: 12px 15px;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
         font-size: 14px;
+        font-family: 'Yantramanav', sans-serif;
+        transition: border-color 0.3s ease;
+        background: white;
+    }
+    
+    .form-input:focus {
+        outline: none;
+        border-color: #F9BCC4;
+        box-shadow: 0 0 0 3px rgba(249, 188, 196, 0.1);
+    }
+    
+    .radio-group {
+        display: flex;
+        gap: 25px;
+        margin-top: 5px;
+    }
+    
+    .radio-option {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        font-family: 'Yantramanav', sans-serif;
+        font-size: 14px;
+        color: #333;
+        font-weight: 400;
+    }
+    
+    .radio-option input[type="radio"] {
+        display: none;
+    }
+    
+    .radio-custom {
+        width: 18px;
+        height: 18px;
+        border: 2px solid #ddd;
+        border-radius: 50%;
+        margin-right: 10px;
+        position: relative;
+        transition: all 0.3s ease;
+    }
+    
+    .radio-option input[type="radio"]:checked + .radio-custom {
+        border-color: #F9BCC4;
+        background: #F9BCC4;
+    }
+    
+    .radio-option input[type="radio"]:checked + .radio-custom::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 8px;
+        height: 8px;
+        background: white;
+        border-radius: 50%;
     }
     
     .modal-actions {
         display: flex;
         justify-content: flex-end;
-        gap: 10px;
-        margin-top: 20px;
+        gap: 12px;
+        padding: 20px 30px;
+        background: #FFFCF5;
+        border-radius: 0 0 15px 15px;
     }
     
     .btn-cancel,
-    .btn-submit {
-        padding: 10px 20px;
+    .btn-add {
+        padding: 12px 28px;
         border: none;
-        border-radius: 5px;
+        border-radius: 8px;
         cursor: pointer;
         font-size: 14px;
+        font-family: 'Yantramanav', sans-serif;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        min-width: 100px;
     }
     
     .btn-cancel {
-        background: #6c757d;
-        color: white;
+        background: #D6D6D6;
+        color: black;
+        border-radius: 50px;
     }
     
-    .btn-submit {
-        background: #ff69b4;
-        color: white;
+    .btn-cancel:hover {
+        background: #C3C3C3;
+        color: black;
+    }
+    
+    .btn-add {
+        background: #F9BCC4;
+        color: #333;
+        border: 1px solid #F9BCC4;
+    }
+    
+    .btn-add:hover {
+        background: #F791A9;
+        border-color: #F791A9;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(249, 188, 196, 0.4);
+    }
+    
+    .btn-add:active {
+        transform: translateY(0);
+        box-shadow: 0 2px 4px rgba(249, 188, 196, 0.2);
+    }
+    
+    /* Delete Modal Styles */
+    .delete-modal {
+        max-width: 400px;
+        text-align: center;
+        margin: 50vh auto;
+        transform: translateY(-50%);
+    }
+    
+    .delete-modal .modal-body {
+        padding: 40px 30px 20px 30px;
+    }
+    
+    .delete-modal .modal-body h3 {
+        margin: 0;
+        color: black;
+        font-family: 'Yantramanav';
+        font-size: 1.2rem;
+        font-weight: 500;
+        line-height: 1.4;
+    }
+    
+    .delete-modal .modal-actions {
+        padding: 20px 30px;
+        border-top: none;
+        gap: 15px;
+        justify-content: center;
+    }
+    
+    .btn-delete-confirm {
+        padding: 12px 28px;
+        border: none;
+        border-radius: 50px;
+        cursor: pointer;
+        font-size: 14px;
+        font-family: 'Yantramanav';
+        font-weight: 600;
+        min-width: 100px;
+        background: #F9BCC4;
+        color: #333;
+    }
+    
+    .btn-delete-confirm:hover {
+        background: #F791A9;
     }
 </style>
 @endpush
 
 @push('scripts')
 <script>
+    let userToDelete = null;
+    
     function showAddUserModal() {
         document.getElementById('addUserModal').style.display = 'block';
     }
     
     function closeModal(modalId) {
         document.getElementById(modalId).style.display = 'none';
+        if (modalId === 'deleteUserModal') {
+            userToDelete = null;
+        }
     }
     
     function deleteUser(userId) {
-        if (confirm('Are you sure you want to delete this user?')) {
+        userToDelete = userId;
+        document.getElementById('deleteUserModal').style.display = 'block';
+    }
+    
+    function confirmDelete() {
+        if (userToDelete) {
             const form = document.createElement('form');
             form.method = 'POST';
-            form.action = `/admin/users/${userId}`;
-            form.innerHTML = `
-                @csrf
-                @method('DELETE')
-            `;
+            form.action = `/admin/users/${userToDelete}`;
+            
+            const csrfInput = document.createElement('input');
+            csrfInput.type = 'hidden';
+            csrfInput.name = '_token';
+            csrfInput.value = '{{ csrf_token() }}';
+            
+            const methodInput = document.createElement('input');
+            methodInput.type = 'hidden';
+            methodInput.name = '_method';
+            methodInput.value = 'DELETE';
+            
+            form.appendChild(csrfInput);
+            form.appendChild(methodInput);
             document.body.appendChild(form);
             form.submit();
         }
@@ -409,6 +718,9 @@
         for (let i = 0; i < modals.length; i++) {
             if (event.target === modals[i]) {
                 modals[i].style.display = 'none';
+                if (modals[i].id === 'deleteUserModal') {
+                    userToDelete = null;
+                }
             }
         }
     }

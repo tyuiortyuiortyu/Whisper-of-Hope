@@ -3,10 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Login | Whisper of Hope</title>
+    <title>Admin Login</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Yantramanav:wght@300;400;500;600;700&display=swap');
+        
         * {
             margin: 0;
             padding: 0;
@@ -14,7 +16,7 @@
         }
 
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: 'Yantramanav';
             height: 100vh;
             overflow: hidden;
         }
@@ -40,8 +42,8 @@
         }
 
         .login-form {
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(10px);
+            background: white;
+            backdrop-filter: blur(100px);
             padding: 40px;
             border-radius: 15px;
             width: 400px;
@@ -50,16 +52,18 @@
         }
 
         .login-form h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            color: #333;
+            font-size: 3rem;
+            margin-bottom: -5px;
+            color: black;
             font-weight: bold;
+            font-family: 'Yantramanav';
         }
 
         .login-form p {
-            color: #666;
+            color: black;
             margin-bottom: 30px;
             font-size: 0.9rem;
+            font-family: 'Yantramanav';
         }
 
         .input-group {
@@ -67,11 +71,11 @@
             margin-bottom: 20px;
             border-radius: 5px;
             overflow: hidden;
-            border: 1px solid #ddd;
+            border: 1px solid #F9BCC4;
         }
 
         .input-group-text {
-            background-color: #FFF9EA;
+            background-color: #F9BCC4;
             border: none;
             padding: 12px 15px;
             display: flex;
@@ -80,7 +84,7 @@
         }
 
         .input-group-text i {
-            color: #888;
+            color: black;
             font-size: 1rem;
         }
 
@@ -88,10 +92,11 @@
             flex: 1;
             padding: 12px 15px;
             border: none;
-            background-color: #FFF9EA;
+            background-color: #F9BCC4;
             font-size: 1rem;
             outline: none;
             color: #333;
+            font-family: 'Yantramanav', sans-serif;
         }
 
         .form-control:focus {
@@ -100,11 +105,12 @@
         }
 
         .form-control::placeholder {
-            color: #999;
+            color: black;
+            font-size: 0.9rem;
         }
 
         .toggle-password {
-            background-color: #FFF9EA;
+            background-color: #F9BCC4;
             border: none;
             padding: 12px 15px;
             cursor: pointer;
@@ -115,32 +121,33 @@
         }
 
         .toggle-password:hover {
-            background-color: #f0e68c;
+            background-color: #F9BCC4;
         }
 
         .toggle-password i {
-            color: #888;
+            color: black;
             font-size: 1rem;
         }
 
         .login-btn {
             width: 60%;
             padding: 12px;
-            background: #FFF9EA;
+            background: #F9BCC4;
             border: none;
             border-radius: 10px;
             font-size: 1rem;
             font-weight: bold;
-            color: #333;
+            color: black;
             cursor: pointer;
             transition: all 0.3s ease;
             margin-top: 10px;
+            font-family: 'Yantramanav';
         }
 
         .login-btn:hover {
-            background: #f0e68c;
+            background: #F9BCC4;
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(233, 30, 99, 0.3);
+            /* box-shadow: 0 5px 15px rgba(233, 30, 99, 0.3); */
         }
 
         .login-btn:active {
@@ -151,11 +158,12 @@
             color: #dc3545;
             font-size: 0.9rem;
             margin-top: 10px;
-            text-align: left;
+            text-align: center;
             background: rgba(220, 53, 69, 0.1);
             padding: 10px;
             border-radius: 10px;
             border-left: 4px solid #dc3545;
+            font-family: 'Yantramanav';
         }
 
         .error-message p {
@@ -164,8 +172,8 @@
 
         /* Loading state for button */
         .login-btn.loading {
-            background: #ddd;
-            cursor: not-allowed;
+            background: #F9BCC4;
+            cursor: not-allowed;    
             pointer-events: none;
         }
 

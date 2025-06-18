@@ -12,50 +12,67 @@
     <ul class="sidebar-menu">
         <li class="menu-item {{ request()->routeIs('admin.user_admin') ? 'active' : '' }}">
             <a href="{{ route('admin.user_admin') }}">
-                <img src="/icons/user.png" class="menu-icon" alt="Users">
+                <img src="/images/admin/users.png" class="menu-icon" alt="Users">
                 <span>Users</span>
             </a>
         </li>
         
         <li class="menu-item {{ request()->routeIs('admin.request_admin') ? 'active' : '' }}">
             <a href="{{ route('admin.request_admin') }}">
-                <img src="/icons/request_wig.png" class="menu-icon" alt="Requested Wig">
+                <img src="/images/admin/requested-wig.png" class="menu-icon" alt="Requested Wig">
                 <span>Requested Wig</span>
             </a>
         </li>
         
         <li class="menu-item {{ request()->routeIs('admin.donate_admin') ? 'active' : '' }}">
             <a href="{{ route('admin.donate_admin') }}">
-                <img src="/icons/donate_hair.png" class="menu-icon" alt="Donated Hair">
+                <img src="/images/admin/donated-hair.png" class="menu-icon" alt="Donated Hair">
                 <span>Donated Hair</span>
             </a>
         </li>
         
         <li class="menu-item {{ request()->routeIs('admin.whisper_admin') ? 'active' : '' }}">
             <a href="{{ route('admin.whisper_admin') }}">
-                <img src="/icons/the_whisper.png" class="menu-icon" alt="The Whisper">
+                <img src="/images/admin/the-whispers.png" class="menu-icon" alt="The Whisper">
                 <span>The Whisper</span>
             </a>
         </li>
         
         <li class="menu-item {{ request()->routeIs('admin.community_admin') ? 'active' : '' }}">
             <a href="{{ route('admin.community_admin') }}">
-                <img src="/icons/community_stories.png" class="menu-icon" alt="Community Stories">
+                <img src="/images/admin/community-stories.png" class="menu-icon" alt="Community Stories">
                 <span>Community Stories</span>
             </a>
         </li>
     </ul>
     
     <div class="sidebar-footer">
-        <a href="{{ route('admin.login') }}" class="logout-btn">
-            <img src="/icons/logout.png" class="menu-icon" alt="Logout">
+        <a href="#" class="logout-btn" onclick="event.preventDefault(); logoutAdmin();">
+            <img src="/images/admin/logout.png" class="menu-icon" alt="Logout">
             <span>Logout</span>
         </a>
     </div>
 </nav>
 
+<script>
+function logoutAdmin() {
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = '{{ route("admin.logout") }}';
+    
+    const csrfInput = document.createElement('input');
+    csrfInput.type = 'hidden';
+    csrfInput.name = '_token';
+    csrfInput.value = '{{ csrf_token() }}';
+    
+    form.appendChild(csrfInput);
+    document.body.appendChild(form);
+    form.submit();
+}
+</script>
+
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Yantramanav:wght@400;500;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Yantramanav:wght@300;400;500;600;700&display=swap');
     
     .sidebar {
         width: 280px;
@@ -68,7 +85,7 @@
         left: 0;
         top: 0;
         z-index: 1000;
-        font-family: 'Yantramanav';
+        font-family: 'Yantramanav', sans-serif;
     }
 
     .sidebar-header {
@@ -92,15 +109,17 @@
 
     .logo-text h3 {
         font-size: 2rem;
-        font-weight: 500;
+        font-weight: 600;
         margin-bottom: -5px;
         color: #333;
+        font-family: 'Yantramanav', sans-serif;
     }
 
     .logo-text span {
         font-size: 1rem;
         font-weight: 400;
         color: black;
+        font-family: 'Yantramanav', sans-serif;
     }
 
     .sidebar-menu {
@@ -128,6 +147,7 @@
         margin-right: 0;
         margin-bottom: 20px;
         margin-left: 0;
+        font-family: 'Yantramanav', sans-serif;
     }
 
     .menu-icon {
@@ -161,6 +181,7 @@
         transition: all 0.2s ease;
         font-size: 0.95rem;
         font-weight: 500;
+        font-family: 'Yantramanav', sans-serif;
     }
 
     .logout-btn:hover {

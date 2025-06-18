@@ -11,7 +11,7 @@ class ForgotPasswordController extends Controller
 {
     public function showForgotPasswordForm()
     {
-        return view('auth.passwords.forgot-password'); // Make sure this matches your view path
+        return view('auth.passwords.forgot-password'); 
     }
 
     public function sendResetLinkEmail(Request $request)
