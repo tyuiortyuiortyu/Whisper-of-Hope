@@ -278,67 +278,87 @@
 
         <div id="donate-form-section" class="d-flex flex-column align-items-center justify-content-center">
             @guest
+                {{-- Section for guests: Prompt to request a wig --}}
                 <div class="z-0 container-guest">
-        <h2>For Yourself or Someone You Care For</h2>
-        <div class="hero-buttons">
-            <a href="{{ route('user.request') }}" class="btn btn-primary">Request a Wig!</a>
-        </div>
-    </div>
+                    <h2>For Yourself or Someone You Care For</h2>
+                    <div class="hero-buttons">
+                        <a href="{{ route('user.request') }}" class="btn btn-primary">Request a Wig!</a>
+                    </div>
+                </div>
             @else
+                {{-- Section for authenticated users: Hair Donation Form --}}
                 <div class="rounded-20 p-5 my-2 w-100"
                     style="background-color: #FFF9EA; border-radius: 20px; padding: 40px 64px; margin: 8px 0px; max-width: 1200px; display: flex; flex-direction: column;
                     box-shadow: 4px 4px 12px 0 rgba(0,0,0,0.3);">
+
                     <h2 class="mb-0" style="font-family: 'Yantramanav', sans-serif; font-size: 28px; margin-left: 20px; margin-bottom: 0;">Donate Hair</h2>
                     <hr style="border: none; border-top: 1px solid #000; margin-top: 0; margin-bottom: 28px;">
+
                     <form id="DonateHairForm" method="POST" action="{{ route('donate.hair.store') }}">
                         @csrf
+
+                        {{-- Hair Donor's Details Section --}}
                         <div class="row mb-3" style="display: flex; margin-left: 10px;">
                             <div class="form-label col-md-3 fw-bold d-flex align-items-start flex-column justify-content-start mb-2">
                                 Hair Donor's Detail
                             </div>
                             <div class="form-fields col-md-9">
+                                {{-- Full Name Field --}}
                                 <div class="mb-1">
-                                    <label>Full Name</label>
-                                    <input type="text" name="full_name" class="bg-transparent always-transparent" required value="{{ old('full_name', Auth::check() ? Auth::user()->name : '') }}">
+                                    <label for="full_name">Full Name</label>
+                                    <input type="text" id="full_name" name="full_name" class="bg-transparent always-transparent" required value="{{ old('full_name', Auth::check() ? Auth::user()->name : '') }}">
                                     @error('full_name')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
+
+                                {{-- Age Field --}}
                                 <div class="mb-1">
-                                    <label>Age</label>
-                                    <input type="number" name="age" class="bg-transparent always-transparent" required value="{{ old('age') }}">
+                                    <label for="age">Age</label>
+                                    <input type="number" id="age" name="age" class="bg-transparent always-transparent" required value="{{ old('age') }}">
                                     @error('age')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
+
+                                {{-- Email Field --}}
                                 <div class="mb-1">
-                                    <label>Email</label>
-                                    <input type="email" class="bg-transparent always-transparent" name="email" required value="{{ old('email', Auth::check() ? Auth::user()->email : '') }}">
+                                    <label for="email">Email</label>
+                                    <input type="email" id="email" class="bg-transparent always-transparent" name="email" required value="{{ old('email', Auth::check() ? Auth::user()->email : '') }}">
                                     @error('email')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
+
+                                {{-- Phone Number Field --}}
                                 <div class="mb-1">
-                                    <label>Phone Number</label>
-                                    <input type="tel" class="bg-transparent always-transparent" name="phone" required value="{{ old('phone', Auth::check() ? Auth::user()->phone : '') }}">
+                                    <label for="phone">Phone Number</label>
+                                    <input type="tel" id="phone" class="bg-transparent always-transparent" name="phone" required value="{{ old('phone', Auth::check() ? Auth::user()->phone : '') }}">
                                     @error('phone')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
+
+                                {{-- Hair Length Field --}}
                                 <div class="mb-1">
-                                    <label>The Length of Your Ponytails (cm)</label>
-                                    <input type="number" class="bg-transparent always-transparent" name="hair_length" required value="{{ old('hair_length') }}">
+                                    <label for="hair_length">The Length of Your Ponytails (cm)</label>
+                                    <input type="number" id="hair_length" class="bg-transparent always-transparent" name="hair_length" required value="{{ old('hair_length') }}">
                                     @error('hair_length')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
                             </div>
                         </div>
+
                         <hr style="border: none; border-top: 1px solid #000; margin: 16px 0;">
+
+                        {{-- Thank You Message --}}
                         <div class="text-center mb-4">
                             Terima kasih atas kemurahan hati Anda! Donasi Anda akan membantu seseorang merasa utuh kembali.<br>
                             Klik ‘Submit’ untuk menyelesaikan tindakan kebaikan Anda.
                         </div>
+
+                        {{-- Form Buttons --}}
                         <div class="form-button d-flex justify-content-center gap-3 mt-3">
                             <button type="reset" class="btn px-4 rounded-pill btn-clear" style="min-width: 150px; background-color: #E8E8E8; color: #000; border: none; font-weight: 500;">Clear</button>
                             <button type="submit" class="btn btn-pink px-4 rounded-pill btn-submit" style="min-width: 150px; background-color: #F9BCC4; color: #000; font-weight: 500;">Submit</button>
@@ -377,8 +397,8 @@
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const loginModalElement = document.getElementById('loginModal');
-        const registerModalElement = document.getElementById('registerModal'); 
-        const forgotPasswordModalElement = document.getElementById('forgotPasswordModal'); 
+        const registerModalElement = document.getElementById('registerModal');
+        const forgotPasswordModalElement = document.getElementById('forgotPasswordModal');
         const pageContentWrapper = document.getElementById('page-content-wrapper');
         const submitFormModalElement = document.getElementById('submitFormModal');
 
@@ -397,17 +417,20 @@
 
         function handleGuestLoginModal() {
             @guest
-                if (!openingAnotherModal) {
-                    loginModal.show();
+                if (loginModal) { // Ensure loginModal exists before trying to show it
+                    if (!openingAnotherModal) {
+                        loginModal.show();
+                    }
                 }
             @endguest
         }
 
         if (loginModalElement && loginModal) {
             @guest
-                handleGuestLoginModal(); 
+                // This ensures the login modal shows up automatically when a guest visits the page initially.
+                handleGuestLoginModal();
 
-
+                // Event listener for a link/button that explicitly opens the login modal.
                 const openLoginModalLink = document.getElementById('openLoginModalLink');
                 if (openLoginModalLink) {
                     openLoginModalLink.addEventListener('click', function(event) {
@@ -418,34 +441,28 @@
                     });
                 }
 
+                // Event listener for when the login modal is shown
                 loginModalElement.addEventListener('show.bs.modal', function () {
                     if (pageContentWrapper) {
                         pageContentWrapper.classList.add('content-blurred');
                     }
                 });
 
-                // When login modal is hidden
+                // Event listener for when the login modal is hidden
                 loginModalElement.addEventListener('hidden.bs.modal', function () {
                     if (pageContentWrapper) {
                         pageContentWrapper.classList.remove('content-blurred');
                     }
-                    @guest
-                        if (!openingAnotherModal) {
-                            setTimeout(() => {
-                                handleGuestLoginModal();
-                            }, 100); // Small delay to allow other modals to fully show if they triggered this hide
-                        }
-                    @endguest
                 });
-            @endguest
+            @endguest {{-- THIS WAS THE MISSING @endguest --}}
         }
 
         // --- Register Modal Logic ---
         if (registerModalElement && registerModal) {
             registerModalElement.addEventListener('show.bs.modal', function () {
-                openingAnotherModal = true; // Set flag when opening register modal
-                hideModal(loginModal); // Explicitly hide login modal
-                hideModal(forgotPasswordModal); // Explicitly hide forgot password modal
+                openingAnotherModal = true;
+                hideModal(loginModal);
+                hideModal(forgotPasswordModal);
 
                 if (pageContentWrapper) {
                     pageContentWrapper.classList.add('content-blurred');
@@ -453,25 +470,20 @@
             });
 
             registerModalElement.addEventListener('hidden.bs.modal', function () {
-                openingAnotherModal = false; // Reset flag when register modal is hidden
+                openingAnotherModal = false;
                 if (pageContentWrapper) {
                     pageContentWrapper.classList.remove('content-blurred');
                 }
-                @guest
-                    // If user is still a guest after closing register, show login again
-                    setTimeout(() => {
-                        handleGuestLoginModal();
-                    }, 100);
-                @endguest
+                // No automatic re-showing of login modal here.
             });
         }
 
         // --- Forgot Password Modal Logic ---
         if (forgotPasswordModalElement && forgotPasswordModal) {
             forgotPasswordModalElement.addEventListener('show.bs.modal', function () {
-                openingAnotherModal = true; // Set flag when opening forgot password modal
-                hideModal(loginModal); // Explicitly hide login modal
-                hideModal(registerModal); // Explicitly hide register modal
+                openingAnotherModal = true;
+                hideModal(loginModal);
+                hideModal(registerModal);
 
                 if (pageContentWrapper) {
                     pageContentWrapper.classList.add('content-blurred');
@@ -479,16 +491,10 @@
             });
 
             forgotPasswordModalElement.addEventListener('hidden.bs.modal', function () {
-                openingAnotherModal = false; // Reset flag when forgot password modal is hidden
+                openingAnotherModal = false;
                 if (pageContentWrapper) {
                     pageContentWrapper.classList.remove('content-blurred');
                 }
-                @guest
-                    // If user is still a guest after closing forgot password, show login again
-                    setTimeout(() => {
-                        handleGuestLoginModal();
-                    }, 100);
-                @endguest
             });
         }
 
