@@ -206,7 +206,7 @@
     </div>
     
     {{-- 1. Include the login modal's HTML --}}
-    @include('auth.login')
+    @include('user.auth.login')
 
     {{-- 2. Add a script to automatically show the modal --}}
     <script>
