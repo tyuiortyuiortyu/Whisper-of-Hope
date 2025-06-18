@@ -75,14 +75,14 @@ Route::middleware('guest')->group(function () {
 // User logout (accessible to all authenticated users)
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout')->middleware('auth');
 
-// Profile Routes (User middleware)
+// Profile Routes (User middleware - only users)
 Route::middleware('user')->group(function () {
     Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
 });
 
-// Donate Hair Routes (User middleware)
+// Donate Hair Routes (User middleware - only users)
 Route::middleware('user')->group(function () {
     Route::post('/donate-hair', [DonateHairController::class, 'store'])->name('donate.hair.store');
     Route::get('/donate-hair', [DonateHairController::class, 'showDonatePage'])->name('donate.hair');
@@ -94,11 +94,11 @@ Route::prefix('admin')->group(function () {
     Route::get('/login', [AdminLoginController::class, 'showLoginForm'])->name('admin.login');
     Route::post('/login', [AdminLoginController::class, 'login'])->name('admin.login.submit');
     
-    // Admin logout (accessible to authenticated users)
-    Route::post('/logout', [AdminLoginController::class, 'logout'])->name('admin.logout')->middleware('auth');
-    
-    // Admin Protected Routes (Admin middleware)
+    // Admin Protected Routes (Admin middleware - only admins)
     Route::middleware('admin')->group(function () {
+        // Admin logout (only for admins)
+        Route::post('/logout', [AdminLoginController::class, 'logout'])->name('admin.logout');
+        
         // User Management
         Route::get('/users', [UserAdminController::class, 'index'])->name('admin.user_admin');
         Route::post('/users', [UserAdminController::class, 'create'])->name('admin.users.create');
@@ -118,9 +118,9 @@ Route::prefix('admin')->group(function () {
         Route::get('/community', [CommunityAdminController::class, 'index'])->name('admin.community_admin');
     });
 });
-Route::post('/donate-hair', [DonateHairController::class, 'store'])->name('donate.hair.store');
 
-
-// Request Wig Routes
-Route::get('/request-wig', [RequestWigController::class, 'showRequestPage'])->middleware('auth')->name('request.wig');
-Route::post('/request-wig', [RequestWigController::class, 'storeRequest'])->middleware('auth')->name('request.wig.storeRequest');
+// Request Wig Routes (User middleware - only users)
+Route::middleware('user')->group(function () {
+    Route::get('/request-wig', [RequestWigController::class, 'showRequestPage'])->name('request.wig');
+    Route::post('/request-wig', [RequestWigController::class, 'storeRequest'])->name('request.wig.storeRequest');
+});

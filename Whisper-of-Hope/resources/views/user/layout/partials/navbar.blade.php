@@ -122,6 +122,24 @@
         border-radius: 50%;
         object-fit: cover;
     }
+
+    /* Simple Modal Backdrop System */
+    .modal {
+        z-index: 1055;
+    }
+
+    .modal-backdrop {
+        z-index: 1050;
+        transition: opacity 0.3s ease-in-out;
+    }
+
+    .modal-backdrop.fade {
+        opacity: 0;
+    }
+
+    .modal-backdrop.fade.show {
+        opacity: 0.5;
+    }
 </style>
 
 <nav class="navbar navbar-expand-lg sticky-top" style="background-color: #FFDBDF;">
@@ -181,12 +199,9 @@
                             <a href="#" data-bs-toggle="modal" data-bs-target="#profileModal">
                                 <i class="bi bi-person me-2"></i>Profile
                             </a>
-                            <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                            <a href="#" onclick="event.preventDefault(); logoutUser();">
                                 <i class="bi bi-box-arrow-right me-2"></i>Logout
                             </a>
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                @csrf
-                            </form>
                         </div>
                     </div>
                 @else
@@ -200,6 +215,21 @@
 </nav>
 
 <script>
+function logoutUser() {
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = '{{ route("logout") }}';
+    
+    const csrfInput = document.createElement('input');
+    csrfInput.type = 'hidden';
+    csrfInput.name = '_token';
+    csrfInput.value = '{{ csrf_token() }}';
+    
+    form.appendChild(csrfInput);
+    document.body.appendChild(form);
+    form.submit();
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     // Button references
     var loginBtn = document.querySelector('.auth-link[data-bs-target="#loginModal"]');
@@ -220,7 +250,6 @@ document.addEventListener('DOMContentLoaded', function() {
     var activeMenuStack = [];
 
     function storeActiveMenuBtns() {
-        // Save all currently active menu buttons, then deactivate them
         var currentActive = [];
         menuBtns.forEach(function(btn) {
             if(btn.classList.contains('active')) {
@@ -230,33 +259,65 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         activeMenuStack.push(currentActive);
     }
+    
     function restoreActiveMenuBtns() {
-        // Restore last saved menu state
         var lastActive = activeMenuStack.pop() || [];
         lastActive.forEach(function(btn) {
             btn.classList.add('active');
         });
     }
 
+    // Clean force remove all modals and backdrops
+    function forceCleanup() {
+        // Force close all modals
+        modals.forEach(function(modal) {
+            if (modal) {
+                modal.classList.remove('show');
+                modal.setAttribute('aria-hidden', 'true');
+                modal.style.display = 'none';
+                
+                // Destroy any existing modal instance
+                var instance = bootstrap.Modal.getInstance(modal);
+                if (instance) {
+                    instance.dispose();
+                }
+            }
+        });
+        
+        // Force remove all backdrops
+        const backdrops = document.querySelectorAll('.modal-backdrop');
+        backdrops.forEach(backdrop => backdrop.remove());
+        
+        // Reset body
+        document.body.classList.remove('modal-open');
+        document.body.style.overflow = '';
+        document.body.style.paddingRight = '';
+    }
+
     function handleModal(btn, modal) {
         if(btn && modal) {
             modal.addEventListener('show.bs.modal', function() {
-                // If any other modal is open, pop the stack for each open modal
-                var openModals = modals.filter(function(m) {
-                    return m && m !== modal && m.classList.contains('show');
-                });
-                for(var i=0; i<openModals.length && activeMenuStack.length>0; i++) {
-                    activeMenuStack.pop();
-                }
-                // Only store if this modal is not already open (prevent double-push)
-                if (!modal.classList.contains('show')) {
-                    storeActiveMenuBtns();
-                }
+                storeActiveMenuBtns();
                 btn.classList.add('active');
             });
+            
             modal.addEventListener('hide.bs.modal', function() {
                 btn.classList.remove('active');
                 restoreActiveMenuBtns();
+            });
+            
+            modal.addEventListener('hidden.bs.modal', function() {
+                setTimeout(function() {
+                    var anyOpen = modals.some(function(m) {
+                        return m && m.classList.contains('show');
+                    });
+                    if(!anyOpen) {
+                        activeMenuStack = [];
+                        [loginBtn, registerBtn, forgotBtn, profileBtn].forEach(function(btn){
+                            if(btn) btn.classList.remove('active');
+                        });
+                    }
+                }, 50);
             });
         }
     }
@@ -267,50 +328,61 @@ document.addEventListener('DOMContentLoaded', function() {
     handleModal(profileBtn, profileModal);
     handleModal(profileBtn, editProfileModal);
 
-    // Modal switcher: always close all modals before opening a new one
-    document.querySelectorAll('[data-bs-toggle="modal"][data-bs-target]').forEach(function(link) {
-        link.addEventListener('click', function(e) {
-            var target = this.getAttribute('data-bs-target');
-            if(target && target.startsWith('#')) {
-                // Hide all modals first
-                modals.forEach(function(m) {
-                    if(m && m.classList.contains('show')) {
-                        var modalInstance = bootstrap.Modal.getInstance(m);
-                        if(modalInstance) modalInstance.hide();
-                    }
-                });
-                // Delay to allow Bootstrap to cleanup, then show the target modal
+    // Simplified modal switcher
+    document.addEventListener('click', function(e) {
+        const target = e.target.closest('[data-bs-toggle="modal"][data-bs-target]');
+        if (target) {
+            const targetModalId = target.getAttribute('data-bs-target');
+            if (targetModalId && targetModalId.startsWith('#')) {
+                e.preventDefault();
+                
+                // Force cleanup first
+                forceCleanup();
+                
+                // Wait a moment, then show new modal
                 setTimeout(function() {
-                    var modalEl = document.querySelector(target);
-                    if(modalEl) {
-                        var modalInstance = bootstrap.Modal.getOrCreateInstance(modalEl);
+                    const targetModal = document.querySelector(targetModalId);
+                    if (targetModal) {
+                        // Create fresh modal instance
+                        const modalInstance = new bootstrap.Modal(targetModal, {
+                            backdrop: true,
+                            keyboard: true
+                        });
                         modalInstance.show();
                     }
-                }, 300);
-                e.preventDefault();
+                }, 100); // Short delay for cleanup
             }
-        });
+        }
     });
 
-    // Always reset stack if all modals are closed (extra safety)
+    // Handle backdrop clicks and escape key
+    document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('modal-backdrop')) {
+            forceCleanup();
+        }
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            forceCleanup();
+        }
+    });
+
+    // Handle X button clicks specifically
     modals.forEach(function(modal) {
-        if(modal) {
-            modal.addEventListener('hidden.bs.modal', function() {
-                var anyOpen = modals.some(function(m) {
-                    return m && m.classList.contains('show');
+        if (modal) {
+            const closeBtn = modal.querySelector('.btn-close');
+            if (closeBtn) {
+                closeBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    forceCleanup();
                 });
-                if(!anyOpen) {
-                    activeMenuStack = [];
-                    // Also deactivate all auth-link buttons
-                    [loginBtn, registerBtn, forgotBtn, profileBtn].forEach(function(btn){
-                        if(btn) btn.classList.remove('active');
-                    });
-                }
-            });
+            }
         }
     });
 });
- // Adjust z-index for donate page so it appears above other content
+
+// Adjust z-index for donate page so it appears above other content
 @if(request()->routeIs('user.donate'))
     document.querySelector('.navbar').style.zIndex = 1800;
 @else

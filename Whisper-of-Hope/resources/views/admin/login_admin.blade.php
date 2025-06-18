@@ -42,13 +42,13 @@
         }
 
         .login-form {
-            background: white;
-            backdrop-filter: blur(100px);
+            background: rgba(255, 255, 255, 0.7);
             padding: 40px;
             border-radius: 15px;
             width: 400px;
             text-align: center;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            /* box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1); */
+            /* border: 1px solid rgba(255, 255, 255, 0.2); */
         }
 
         .login-form h1 {
@@ -71,7 +71,7 @@
             margin-bottom: 20px;
             border-radius: 5px;
             overflow: hidden;
-            border: 1px solid #F9BCC4;
+            /* border: 1px solid #ddd; */
         }
 
         .input-group-text {
@@ -96,12 +96,12 @@
             font-size: 1rem;
             outline: none;
             color: #333;
-            font-family: 'Yantramanav', sans-serif;
+            font-family: 'Yantramanav';
         }
 
         .form-control:focus {
             outline: none;
-            box-shadow: 0 0 0 2px rgba(233, 30, 99, 0.2);
+            /* box-shadow: 0 0 0 2px rgba(233, 30, 99, 0.2); */
         }
 
         .form-control::placeholder {
@@ -200,25 +200,25 @@
         <div class="login-form-container">
             <div class="login-form">
                 <h1>Welcome!</h1>
-                <p>Please log in using .....</p>
+                <p>Please log in using admin account</p>
                 
                 <form method="POST" action="{{ route('admin.login.submit') }}" id="loginForm">
                     @csrf
                     
                     <div class="input-group">
                         <span class="input-group-text">
-                            <i class="fas fa-envelope"></i>
+                            <img src="{{ asset('images/admin/login/email.png') }}" alt="Email" style="width: 16px; height: 16px;">
                         </span>
-                        <input type="email" class="form-control" name="email" placeholder="email" value="{{ old('email') }}" required>
+                        <input type="email" class="form-control" name="email" placeholder="email" value="{{ old('email') }}" required autocomplete="email">
                     </div>
                     
                     <div class="input-group">
                         <span class="input-group-text">
-                            <i class="fas fa-lock"></i>
+                            <img src="{{ asset('images/admin/login/password.png') }}" alt="Password" style="width: 16px; height: 16px;">
                         </span>
-                        <input type="password" class="form-control" name="password" placeholder="password" id="passwordField" required>
+                        <input type="password" class="form-control" name="password" placeholder="password" id="passwordField" required autocomplete="current-password">
                         <span class="toggle-password" id="togglePassword">
-                            <i class="bi bi-eye-slash"></i>
+                            <img id="eyeIcon" src="{{ asset('images/admin/login/eye_close.png') }}" alt="Toggle Password" style="width: 16px; height: 16px;">
                         </span>
                     </div>
                     
@@ -227,6 +227,12 @@
                             @foreach ($errors->all() as $error)
                                 <p>{{ $error }}</p>
                             @endforeach
+                        </div>
+                    @endif
+
+                    @if (session('message'))
+                        <div class="error-message">
+                            <p>{{ session('message') }}</p>
                         </div>
                     @endif
                     
@@ -240,16 +246,16 @@
         // Password toggle functionality
         document.getElementById('togglePassword').addEventListener('click', function() {
             const passwordField = document.getElementById('passwordField');
-            const toggleIcon = this.querySelector('i');
+            const eyeIcon = document.getElementById('eyeIcon');
             
             if (passwordField.type === 'password') {
                 passwordField.type = 'text';
-                toggleIcon.classList.remove('bi-eye-slash');
-                toggleIcon.classList.add('bi-eye');
+                eyeIcon.src = '{{ asset("images/admin/login/eye.png") }}';
+                eyeIcon.alt = 'Hide Password';
             } else {
                 passwordField.type = 'password';
-                toggleIcon.classList.remove('bi-eye');
-                toggleIcon.classList.add('bi-eye-slash');
+                eyeIcon.src = '{{ asset("images/admin/login/eye_close.png") }}';
+                eyeIcon.alt = 'Show Password';
             }
         });
 
@@ -257,16 +263,9 @@
         document.getElementById('loginForm').addEventListener('submit', function(e) {
             const loginBtn = document.getElementById('loginBtn');
             
+            // Don't prevent default submission, just add loading state
             loginBtn.classList.add('loading');
             loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Logging in...';
-            
-            // Re-enable after 3 seconds if form doesn't submit properly
-            setTimeout(() => {
-                if (loginBtn.classList.contains('loading')) {
-                    loginBtn.classList.remove('loading');
-                    loginBtn.innerHTML = 'LOGIN';
-                }
-            }, 3000);
         });
 
         // Prevent form resubmission on page refresh

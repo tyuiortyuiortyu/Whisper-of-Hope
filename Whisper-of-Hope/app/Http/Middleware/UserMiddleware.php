@@ -20,7 +20,10 @@ class UserMiddleware
             return redirect()->route('login');
         }
 
-        if (!in_array(Auth::user()->role, ['user', 'admin'])) {
+        if (Auth::user()->role !== 'user') {
+            if (Auth::user()->role === 'admin') {
+                return redirect()->route('admin.user_admin');
+            }
             abort(403, 'Access denied. User privileges required.');
         }
 
