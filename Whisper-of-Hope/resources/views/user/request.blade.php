@@ -211,6 +211,7 @@
         </div>
     </div>
     
+    {{-- 1. Include the login modal's HTML --}}
     @include('user.auth.login')
 
     <!-- show modal -->
