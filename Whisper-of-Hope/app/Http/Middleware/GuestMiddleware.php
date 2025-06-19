@@ -24,7 +24,7 @@ class GuestMiddleware
                 return redirect()->route('admin.user_admin');
             }
             
-            return redirect()->route('user.whisper');
+            return redirect()->route('welcome');
         }
 
         return $next($request);
