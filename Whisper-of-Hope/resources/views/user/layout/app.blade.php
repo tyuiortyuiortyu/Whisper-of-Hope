@@ -31,7 +31,6 @@
         }
         .navbar {
             background-color: #FFDBDF !important;
-            border-radius: 0 0 20px 20px;
             box-shadow: 0 4px 20px rgba(0,0,0,0.10);
             font-family: 'Yantramanav', Arial, sans-serif !important;
         }

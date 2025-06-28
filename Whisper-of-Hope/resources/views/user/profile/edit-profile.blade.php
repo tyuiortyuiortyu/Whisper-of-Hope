@@ -198,5 +198,45 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+
+    // Handle Edit Profile modal close to show Profile modal
+    const editProfileModal = document.getElementById('editProfileModal');
+    if (editProfileModal) {
+        editProfileModal.addEventListener('hidden.bs.modal', function() {
+            // Only return to profile modal if no other modal is being opened
+            setTimeout(function() {
+                const anyModalOpen = document.querySelector('.modal.show');
+                if (!anyModalOpen) {
+                    // Show profile modal with blank backdrop
+                    const profileModal = document.getElementById('profileModal');
+                    if (profileModal) {
+                        const modalInstance = new bootstrap.Modal(profileModal, {
+                            backdrop: true,
+                            keyboard: true
+                        });
+                        modalInstance.show();
+                    }
+                }
+            }, 150);
+        });
+
+        // Handle X button for edit profile
+        const editCloseBtn = editProfileModal.querySelector('.btn-close');
+        if (editCloseBtn) {
+            editCloseBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const modalInstance = bootstrap.Modal.getInstance(editProfileModal);
+                if (modalInstance) {
+                    modalInstance.hide();
+                } else {
+                    editProfileModal.classList.remove('show');
+                    editProfileModal.style.display = 'none';
+                    // Clean backdrops
+                    const backdrops = document.querySelectorAll('.modal-backdrop');
+                    backdrops.forEach(backdrop => backdrop.remove());
+                }
+            });
+        }
+    }
 });
 </script>

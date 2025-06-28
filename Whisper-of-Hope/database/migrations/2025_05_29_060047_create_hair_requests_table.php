@@ -15,9 +15,11 @@ return new class extends Migration
         Schema::create('hair_requests', function (Blueprint $table) {
             $table->id();
             
-            // Role/relationship to recipient
-            // $table->enum('role', ['medical_professional', 'parent_guardian', 'myself'])->default('myself');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             
+            // Form type
+            $table->enum('who_for', ['myself', 'parent_guardian', 'health_professional'])->default('myself');
+
             // Recipient details (always required)
             $table->string('recipient_full_name');
             $table->integer('recipient_age');
@@ -34,8 +36,6 @@ return new class extends Migration
             // Medical professional specific fields
             $table->string('healthcare_location')->nullable();
             
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('purpose_id')->constrained('purposes')->onDelete('cascade');
             $table->timestamps();
         });
     }
