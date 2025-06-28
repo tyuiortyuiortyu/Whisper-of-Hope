@@ -53,8 +53,9 @@
 
     .hero-container {
         max-width: 1200px;
+        min-height: 80vh;
         margin: auto;
-        padding: 0 2rem;
+        padding: 0 1rem;
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 4rem;
@@ -106,7 +107,7 @@
     }
 
     .btn-primary:hover {
-        background-color: #f5a8c1;
+        background-color: #F791A9;
         transform: translateY(-2px);
     }
 
@@ -311,14 +312,17 @@
     .section-title {
         font-family: 'Gidugu', cursive;
         font-size: 5rem;
+        font-weight: 500;
         color: #F791A9;
-        margin-bottom:-2rem;
+        letter-spacing: 0.1rem;
+        margin-bottom:-4rem;
     }
 
     .section-subtitle {
         color: #333;
         font-size: 5rem;
-        font-weight: bold;
+        font-weight: 500;
+        letter-spacing: 0.1rem;
         margin-bottom: 3rem;
         font-family: 'Gidugu', cursive;
     }
@@ -393,7 +397,7 @@
     .carousel-section .section-title {
         font-family: 'Gidugu', cursive;
         font-size: 6rem;
-        color: #333;
+        color: black;
         margin-bottom: 1rem;
         /* text-decoration: underline; */
         text-decoration-color: #333;
@@ -403,10 +407,11 @@
     }
 
     .carousel-section .section-subtitle {
-        color: #333;
-        font-size: 1.2rem;
+        color: black;
+        font-size: 1.4rem;
         font-family: 'Yantramanav', sans-serif;
         font-weight: normal;
+        letter-spacing: 0ch;
         max-width: 800px;
         margin-left: auto;
         margin-right: auto;
@@ -426,7 +431,7 @@
         display: flex;
         justify-content: flex-start;
         gap: 1rem;
-        width: calc(180px * 7 + 2rem * 6);
+        width: calc(180px * 14 + 1rem * 13); /* Double the images for infinite effect */
         transition: transform 0.5s ease;
         padding: 0 calc((1000px - (180px * 5 + 1rem * 4)) / 2);
     }
@@ -531,7 +536,7 @@
     }
 
     .faq-question {
-        background-color: #C4D6F2;
+        background-color: #C1D5F4;
         padding: 1rem 1.5rem;
         cursor: pointer;
         display: flex;
@@ -554,7 +559,7 @@
     }
 
     .faq-answer {
-        background-color: #F5F0E8;
+        background-color: #FFF9EA;
         padding: 0 1.5rem;
         max-height: 0;
         overflow: hidden;
@@ -574,7 +579,7 @@
     /* Contact Section */
     .contact-section {
         background: #FFFFFF;
-        padding-top: 3rem;
+        padding-top: 1rem;
         padding-bottom: 5rem;
         min-height: auto; 
         display: flex;
@@ -587,7 +592,7 @@
         max-width: 1200px;
         margin: 0 auto;
         padding: 0 2rem;
-        margin-bottom: 3rem;
+        margin-bottom: 1rem;
         width: 100%;
     }
 
@@ -686,6 +691,7 @@
     .form-input {
         width: 100%;
         padding: 1rem;
+        padding-left: 1.8rem;
         border: none;
         border-radius: 2rem;
         font-size: 1rem;
@@ -706,9 +712,9 @@
     }
 
     .form-textarea {
-        resize: vertical;
-        min-height: 150px;
+        min-height: 250px;
         border-radius: 1.5rem;
+        resize: none;
     }
 
     .form-row {
@@ -725,11 +731,12 @@
         padding: 1rem 2.5rem;
         border-radius: 2rem;
         font-size: 1.1rem;
-        justify-content: center;
         font-weight: 600;
         cursor: pointer;
         transition: all 0.3s ease;
-        display: inline-block;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
     }
 
     .send-btn:hover {
@@ -778,8 +785,8 @@
             <h1>Only by<br>Helping Each Other<br><span class="highlight">We can Make<br>World Better</span></h1>
             <p>Every person deserves the opportunity to a better tomorrow</p>
             <div class="hero-buttons">
-                <a href="#" class="btn btn-primary">Donate Hair!</a>
-                <a href="#" class="btn btn-primary">Request a Wig!</a>
+                <a href="{{ route('user.donate') }}" class="btn btn-primary">Donate Hair!</a>
+                <a href="{{ route('user.request') }}" class="btn btn-primary">Request a Wig!</a>
             </div>
         </div>
         <div class="hero-image">
@@ -930,6 +937,28 @@
                 <div class="carousel-slide">
                     <img src="{{ asset('images/landing/carousel7.png') }}" alt="Happy recipient 7" />
                 </div>
+                <!-- Duplicate images for infinite scroll effect -->
+                <div class="carousel-slide">
+                    <img src="{{ asset('images/landing/carousel1.png') }}" alt="Happy recipient 1" />
+                </div>
+                <div class="carousel-slide">
+                    <img src="{{ asset('images/landing/carousel2.png') }}" alt="Happy recipient 2" />
+                </div>
+                <div class="carousel-slide">
+                    <img src="{{ asset('images/landing/carousel3.png') }}" alt="Happy recipient 3" />
+                </div>
+                <div class="carousel-slide">
+                    <img src="{{ asset('images/landing/carousel4.png') }}" alt="Happy recipient 4" />
+                </div>
+                <div class="carousel-slide">
+                    <img src="{{ asset('images/landing/carousel5.png') }}" alt="Happy recipient 5" />
+                </div>
+                <div class="carousel-slide">
+                    <img src="{{ asset('images/landing/carousel6.png') }}" alt="Happy recipient 6" />
+                </div>
+                <div class="carousel-slide">
+                    <img src="{{ asset('images/landing/carousel7.png') }}" alt="Happy recipient 7" />
+                </div>
             </div>
         </div>
     </div>
@@ -1041,27 +1070,37 @@
 let currentSlide = 0;
 const totalSlides = 7;
 const visibleSlides = 5;
-const maxSlidePosition = totalSlides - visibleSlides; // 2 (positions 0, 1, 2)
+const maxSlidePosition = totalSlides; // Changed to totalSlides for infinite loop
 
 function updateCarousel() {
     const track = document.getElementById('carouselTrack');
     const slideWidth = 180; // Width of each slide
     const gap = 16; // 1rem gap
     const translateX = currentSlide * (slideWidth + gap);
-    track.style.transform = `translateX(-${translateX}px)`;
     
-    // Update indicators
+    // Disable transition temporarily when resetting position
+    if (currentSlide === totalSlides) {
+        track.style.transition = 'none';
+        track.style.transform = `translateX(0px)`;
+        currentSlide = 0;
+        // Force a reflow
+        track.offsetHeight;
+        track.style.transition = 'transform 0.5s ease';
+    } else {
+        track.style.transform = `translateX(-${translateX}px)`;
+    }
+    
+    // Update indicators (optional, since we have infinite scroll)
     const indicators = document.querySelectorAll('.carousel-indicator');
     indicators.forEach((indicator, index) => {
-        indicator.classList.toggle('active', index === currentSlide);
+        indicator.classList.toggle('active', index === currentSlide % totalSlides);
     });
 }
 
 function nextSlide() {
-    if (currentSlide < maxSlidePosition) {
-        currentSlide++;
-    } else {
-        currentSlide = 0; // Loop back to beginning
+    currentSlide++;
+    if (currentSlide > totalSlides) {
+        currentSlide = 1;
     }
     updateCarousel();
 }
@@ -1070,13 +1109,23 @@ function previousSlide() {
     if (currentSlide > 0) {
         currentSlide--;
     } else {
-        currentSlide = maxSlidePosition; // Loop to end
+        // Jump to the end of the duplicated sequence
+        currentSlide = totalSlides - 1;
+        const track = document.getElementById('carouselTrack');
+        track.style.transition = 'none';
+        const slideWidth = 180;
+        const gap = 16;
+        const translateX = totalSlides * (slideWidth + gap);
+        track.style.transform = `translateX(-${translateX}px)`;
+        // Force a reflow
+        track.offsetHeight;
+        track.style.transition = 'transform 0.5s ease';
     }
     updateCarousel();
 }
 
 function goToSlide(slideIndex) {
-    if (slideIndex >= 0 && slideIndex <= maxSlidePosition) {
+    if (slideIndex >= 0 && slideIndex < totalSlides) {
         currentSlide = slideIndex;
         updateCarousel();
     }

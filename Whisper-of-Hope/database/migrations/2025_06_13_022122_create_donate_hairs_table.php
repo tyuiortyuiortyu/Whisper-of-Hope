@@ -11,10 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('purposes', function (Blueprint $table) {
+        Schema::create('hair_donations', function (Blueprint $table) {
             $table->id();
-            $table->enum('type', ['medical_professional', 'parent_guardian', 'myself'])->default('myself');
-            $table->string('name');
+            $table->string('full_name');
+            $table->integer('age');
+            $table->string('email');
+            $table->string('phone');
+            $table->float('hair_length');
             $table->timestamps();
         });
     }
@@ -24,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('purposes');
+        Schema::dropIfExists('hair_donations');
     }
 };
