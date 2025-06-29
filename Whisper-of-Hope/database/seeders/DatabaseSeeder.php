@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
             WhisperSeeder::class,
             CategorySeeder::class,
             StorySeeder::class,
+            AdminSeeder::class,
         ]);
     }
 }

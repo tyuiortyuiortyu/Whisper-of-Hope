@@ -1,8 +1,11 @@
-@extends('layout.app')
+@extends('user.layout.app')
 
 @section('title', 'Request a Wig Page')
 
 @section('content')
+
+<meta name="csrf-token" content="{{ csrf_token() }}">
+
    <div class="z-0 content">
         <div class="z-1 img-gradient">
             <img src="{{ asset('images/request.jpg') }}" class="img-fluid" alt="Requesting Your Wig">
@@ -59,43 +62,54 @@
                 </div>
             </div>
         </div>
+    <!-- </div -->
+
+        @if (Auth::check())
 
         <div class="request-form">
             <div class="header-form">
                 <h1>For Yourself or Someone You Care For</h1>
-                <label class="dropdown-label" for="who-for">Who is this wig for?</label>
-                <select class="dropdown-select" id="who-for" name="who-for">
-                    <option>I am applying for myself</option>
-                    <option>I am applying for my child as their parent/guardian</option>
-                    <option>I am applying for a patient as a medical professional</option>
-                </select>
             </div>
-
+                
             <div class="form-container">
                 <h2>Request a Wig</h2>
                 <hr>
+                
+                <form id="requestWigForm" method="POST" action="{{ route('request.wig.storeRequest') }}">
+                    @csrf
 
-                <form id="requestWigForm">
+                    <!-- Dropdown Option -->
+                    <div style="padding: 0 1.2rem; margin-bottom: 2rem;">
+                        <label class="dropdown-label" for="who_for">Who is this wig for?</label>
+                        <select class="dropdown-select" id="who_for" name="who_for" required>
+                            <option value="myself">I am applying for myself</option>
+                            <option value="parent_guardian">I am applying for my child as their parent/guardian</option>
+                            <option value="health_professional">I am applying for a patient as a medical professional</option>
+                        </select>
+                    </div>
+
                     <!-- For Myself -->
-                    <div class="form-section" id="form-myself">
-                        <div class="form-label">Your Details</div>
-                        <div class="form-fields">
-                            <label>Full Name</label>
-                            <input type="text" name="recipient_full_name" required>
-                            <label>Age</label>
-                            <input type="number" name="recipient_age" required>
-                            <label>Email</label>
-                            <input type="email" name="recipient_email" required>
-                            <label>Phone Number</label>
-                            <input type="tel" name="recipient_phone" required>
-                            <label>Reason for Hair Loss</label>
-                            <input type="text" name="recipient_reason" required>
+                    <div class="form-section-wrapper" id="myself">
+                        <div class="form-section">
+                            <div class="form-label">Your Details</div>
+                            <div class="form-fields">
+                                <label>Full Name</label>
+                                <input type="text" name="recipient_full_name" required>
+                                <label>Age</label>
+                                <input type="number" name="recipient_age" required>
+                                <label>Email</label>
+                                <input type="email" name="recipient_email" required>
+                                <label>Phone Number</label>
+                                <input type="tel" name="recipient_phone" required>
+                                <label>Reason for Hair Loss</label>
+                                <input type="text" name="recipient_reason" required>
+                            </div>
                         </div>
                     </div>
-    
+
                     <!-- As Parent/Guardian -->
-                     <div class="for-child" id="form-parent">
-                        <div class="form-section" >
+                    <div class="form-section-wrapper" id="parent_guardian">
+                        <div class="form-section">
                             <div class="form-label">Recipient's Details</div>
                             <div class="form-fields">
                                 <label>Full Name</label>
@@ -117,55 +131,54 @@
                                 <label>Phone Number</label>
                                 <input type="tel" name="requester_phone" required>
                                 <label>Relationship to the Recipient</label>
-                                <input type="text" name="requester_reason" required>
+                                <input type="text" name="relationship_to_recipient" required>
                             </div>
                         </div>
-                     </div>
-    
-                    <!-- As Health Professional -->
-                    <div class="for-patient" id="form-healthpro">
-                        <div class="form-section">
-                           <div class="form-label">Recipient's Details</div>
-                           <div class="form-fields">
-                               <label>Full Name</label>
-                               <input type="text" name="recipient_full_name" required>
-                               <label>Age</label>
-                               <input type="number" name="recipient_age" required>
-                               <label>Email</label>
-                               <input type="email" name="recipient_email" required>
-                               <label>Phone Number</label>
-                               <input type="tel" name="recipient_phone" required>
-                               <label>Reason for Hair Loss</label>
-                               <input type="text" name="recipient_reason" required>
-                           </div>
-                       </div>
-                       <hr>
-                       <div class="form-section">
-                           <div class="form-label">Your Details</div>
-                           <div class="form-fields">
-                               <label>Full Name</label>
-                               <input type="text" name="requester_full_name" required>
-                               <label>Email</label>
-                               <input type="email" name="requester_email" required>
-                               <label>Phone Number</label>
-                               <input type="tel" name="requester_phone" required>
-                               <label>Healthcare Location</label>
-                               <input type="text" name="requester_healthcare" required>
-                           </div>
-                       </div>
                     </div>
-    
+
+                    <!-- As Health Professional -->
+                    <div class="form-section-wrapper" id="health_professional">
+                        <div class="form-section">
+                            <div class="form-label">Recipient's Details</div>
+                            <div class="form-fields">
+                                <label>Full Name</label>
+                                <input type="text" name="recipient_full_name" required>
+                                <label>Age</label>
+                                <input type="number" name="recipient_age" required>
+                                <label>Email</label>
+                                <input type="email" name="recipient_email" required>
+                                <label>Phone Number</label>
+                                <input type="tel" name="recipient_phone" required>
+                                <label>Reason for Hair Loss</label>
+                                <input type="text" name="recipient_reason" required>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="form-section">
+                            <div class="form-label">Your Details</div>
+                            <div class="form-fields">
+                                <label>Full Name</label>
+                                <input type="text" name="requester_full_name" required>
+                                <label>Email</label>
+                                <input type="email" name="requester_email" required>
+                                <label>Phone Number</label>
+                                <input type="tel" name="requester_phone" required>
+                                <label>Healthcare Location</label>
+                                <input type="text" name="healthcare_location" required>
+                            </div>
+                        </div>
+                    </div>
+
                     <hr>
                     <div class="form-note">
                         Thank you for trusting us! Our team will review your request promptly.<br>
                         Click ‘Submit’ to send us your information.
                     </div>
                     <div class="form-button">
-                        <button type="reset" class="btn btn-clear">Clear</button>
+                        <button type="button" id="clear-form-btn" class="btn btn-clear">Clear</button>
                         <button type="submit" class="btn btn-submit">Submit</button>
                     </div>
                 </form>
-
             </div>
         </div>
     </div>
@@ -188,6 +201,35 @@
         </div>
     </div>
 
+@else
+    <!-- if not logged in, pop up login -->
+
+    <div class="z-0 container-guest">
+        <h2>For Yourself or Someone You Care For</h2>
+        <div class="hero-buttons">
+            <a href="{{ route('user.request') }}" class="btn btn-primary">Request a Wig!</a>
+        </div>
+    </div>
+    
+    {{-- 1. Include the login modal's HTML --}}
+    @include('user.auth.login')
+
+    <!-- show modal -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const loginModalEl = document.getElementById('loginModal');
+            
+            const loginModal = new bootstrap.Modal(loginModalEl, {
+                backdrop: 'static', // prevents closing on backdrop click
+                keyboard: false     // prevents closing with the esc key
+            });
+
+            loginModal.show();
+        });
+    </script>
+    
+@endif
+
     <style>
 
         @import url('https://fonts.googleapis.com/css2?family=Gidugu&family=Yantramanav:wght@300;400;500;700&display=swap');
@@ -198,12 +240,12 @@
             width: 100%;
             height: 100%;
             overflow-x: hidden;
-            background-color : #FFFFFF;
+            background-color : #FFFDFE;
             font-family: 'Yantramanav', sans-serif; 
         }
 
         .content {
-            background: linear-gradient(to bottom, #FFDBDF 0%,#FFDBDF 50%, #FFFFFF 85%,  #FFFFFF 100%);
+            background: linear-gradient(to bottom, #FFDBDF 0%,#FFDBDF 50%, #FFFDFE 85%,  #FFFDFE 100%);
             width: 100%;
             height: auto;
             position: relative;
@@ -267,7 +309,8 @@
         }
 
         .guide {
-            margin: 15rem 0rem;
+            /* margin: 15rem 0rem; */
+            margin: 5rem 0 0 0;
         }
         
         .container {
@@ -332,6 +375,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            margin-top: 8rem;
         }
 
         .header-form { 
@@ -366,6 +410,7 @@
             box-shadow: 2px 4px 4px 0px rgba(0, 0, 0, 0.25);
             padding: 2.5rem 3rem;
             margin: 1rem 0rem;
+            margin-bottom: 4rem;
             display: flex;
             flex-direction: column;
             /* position: relative; */
@@ -513,62 +558,143 @@
         #submitFormModal .modalHeader .modalBody .btn-submit {
             margin-top: auto;
         }
+
+        .container-guest {
+            height: 50vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;  
+        }
+
+        .container-guest h2 {
+            font-family: 'Gidugu', sans-serif;
+            font-size: 4.5rem;
+            /* margin-bottom: -0.8rem; */
+            margin: 0 1.2rem -0.8rem 1.2rem;
+        }
+
+        .hero-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 1rem 0;
+        }
+
+        .btn {
+            padding: 0.8rem 2.8rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background-color: #F9BCC4;
+            font-weight: 500;
+            color: #000000;
+        }
+
+        .btn-primary:hover {
+            background-color: #F791A9;
+            color: #FFFFFF;
+        }
+
+        .btn-primary:active,
+        .btn-primary:focus {
+            background-color: #F791A9 !important;
+            border-color: #F791A9 !important;
+            box-shadow: none !important;
+        }
+
     </style>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" xintegrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
+    @if (Auth::check())
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const dropdown = document.getElementById('who-for');
-            const allFormSections = [
-                document.getElementById('form-myself'),
-                document.getElementById('form-parent'),
-                document.getElementById('form-healthpro')
-            ];
-            
-            function setFormState(sectionToShow) {
-                allFormSections.forEach(section => {
-                    const inputs = section.querySelectorAll('input');
-                    
-                    if (section === sectionToShow) {
+            const dropdown = document.getElementById('who_for');
+            const requestForm = document.getElementById('requestWigForm');
+            const clearButton = document.getElementById('clear-form-btn');
+
+            const formSections = {
+                'myself': document.getElementById('myself'),
+                'parent_guardian': document.getElementById('parent_guardian'),
+                'health_professional': document.getElementById('health_professional')
+            };
+
+            function setFormState(selectedValue) {
+                for (const key in formSections) {
+                    const sectionDiv = formSections[key];
+                    if (!sectionDiv) continue; // skip if a div is not found
+
+                    const inputs = sectionDiv.querySelectorAll('input');
+
+                    if (key === selectedValue) {
                         // section to show
-                        section.style.display = 'flex';
+                        sectionDiv.style.display = 'block';
                         inputs.forEach(input => {
-                            input.disabled = false; // disable the input
-                            input.required = true;  // required for validation
+                            input.disabled = false;
                         });
                     } else {
                         // section to hide
-                        section.style.display = 'none';
+                        sectionDiv.style.display = 'none';
                         inputs.forEach(input => {
                             input.disabled = true;
-                            input.required = false;
                         });
                     }
-                });
+                }
             }
-            
+
             dropdown.addEventListener('change', function() {
-                const selectedIndex = dropdown.selectedIndex;
-                setFormState(allFormSections[selectedIndex]);
+                setFormState(this.value);
             });
 
-            // initial state
-            setFormState(allFormSections[dropdown.selectedIndex]);
-            
-            const requestForm = document.getElementById('requestWigForm');
-            const submitModalEl = document.getElementById('submitFormModal');
-            const submitModal = new bootstrap.Modal(submitModalEl);
-
-            requestForm.addEventListener('submit', function (event){
-                event.preventDefault(); 
-                submitModal.show();
+            clearButton.addEventListener('click', function() {
+                const currentSelectedValue = dropdown.value;
+                const visibleSection = formSections[currentSelectedValue];
+                if (visibleSection) {
+                    const clearInputs = visibleSection.querySelectorAll('input[type="text"], input[type="email"], input[type="tel"], input[type="number"]');
+                    clearInputs.forEach(input => {
+                        input.value = '';
+                    });
+                }
             });
 
-            submitModalEl.addEventListener('hidden.bs.modal', function () {
-                requestForm.reset();
-                dropdown.dispatchEvent(new Event('change')); // Reset form
+            requestForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                try {
+                    const response = await fetch(this.action, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                            'Accept': 'application/json',
+                        },
+                        body: new FormData(this)
+                    });
+                    const data = await response.json();
+                    if (response.ok) {
+                        const submitModal = new bootstrap.Modal(document.getElementById('submitFormModal'));
+                        submitModal.show();
+                        document.getElementById('submitFormModal').addEventListener('hidden.bs.modal', () => {
+                            requestForm.reset();
+                            dropdown.dispatchEvent(new Event('change'));
+                        });
+                    } else {
+                        let errorMsg = 'Error: ' + (data.message || 'Submission failed');
+                        if (data.errors) {
+                            errorMsg += '\n\n' + Object.values(data.errors).map(e => '• ' + e.join('\n')).join('\n');
+                        }
+                        alert(errorMsg);
+                    }
+                } catch (error) {
+                    console.error("Submission Error:", error);
+                    alert('An unexpected network or script error occurred. Please try again.');
+                }
+            });
+
+            setFormState(dropdown.value);
         });
-    });
     </script>
+    @endif
 @endsection
