@@ -71,36 +71,35 @@
                 <h1>For Yourself or Someone You Care For</h1>
             </div>
                 
-            <div class="form-container">
-                <h2>Request a Wig</h2>
-                <hr>
+            <form id="requestWigForm" method="POST" action="{{ route('request.wig.storeRequest') }}" class="align-items-center justify-content-center">
+                @csrf
                 
-                <form id="requestWigForm" method="POST" action="{{ route('request.wig.storeRequest') }}">
-                    @csrf
-
-                    <!-- Dropdown Option -->
-                    <div style="padding: 0 1.2rem; margin-bottom: 2rem;">
-                        <label class="dropdown-label" for="who_for">Who is this wig for?</label>
-                        <select class="dropdown-select" id="who_for" name="who_for" required>
-                            <option value="myself">I am applying for myself</option>
-                            <option value="parent_guardian">I am applying for my child as their parent/guardian</option>
-                            <option value="health_professional">I am applying for a patient as a medical professional</option>
-                        </select>
-                    </div>
-
+                <!-- Dropdown Option -->
+                <div style="padding: 0 1.2rem; margin-bottom: 2rem;">
+                    <label class="dropdown-label" for="who_for">Who is this wig for?</label>
+                    <select class="dropdown-select" id="who_for" name="who_for" required>
+                        <option value="myself">I am applying for myself</option>
+                        <option value="parent_guardian">I am applying for my child as their parent/guardian</option>
+                        <option value="health_professional">I am applying for a patient as a medical professional</option>
+                    </select>
+                </div>
+                
+                <div class="form-container">
+                    <h2>Request a Wig</h2>
+                    <hr>
                     <!-- For Myself -->
                     <div class="form-section-wrapper" id="myself">
                         <div class="form-section">
                             <div class="form-label">Your Details</div>
                             <div class="form-fields">
                                 <label>Full Name</label>
-                                <input type="text" name="recipient_full_name" required>
+                                <input type="text" name="recipient_full_name" id="recipient_full_name_myself" required>
                                 <label>Age</label>
                                 <input type="number" name="recipient_age" required>
                                 <label>Email</label>
-                                <input type="email" name="recipient_email" required>
+                                <input type="email" name="recipient_email" id="recipient_email_myself" required>
                                 <label>Phone Number</label>
-                                <input type="tel" name="recipient_phone" required>
+                                <input type="tel" name="recipient_phone" id="recipient_phone_myself" required>
                                 <label>Reason for Hair Loss</label>
                                 <input type="text" name="recipient_reason" required>
                             </div>
@@ -125,11 +124,11 @@
                             <div class="form-label">Your Details</div>
                             <div class="form-fields">
                                 <label>Full Name</label>
-                                <input type="text" name="requester_full_name" required>
+                                <input type="text" name="requester_full_name" id="requester_full_name_pg" required>
                                 <label>Email</label>
-                                <input type="email" name="requester_email" required>
+                                <input type="email" name="requester_email" id="requester_email_pg" required>
                                 <label>Phone Number</label>
-                                <input type="tel" name="requester_phone" required>
+                                <input type="tel" name="requester_phone" id="requester_phone_pg" required>
                                 <label>Relationship to the Recipient</label>
                                 <input type="text" name="relationship_to_recipient" required>
                             </div>
@@ -158,11 +157,11 @@
                             <div class="form-label">Your Details</div>
                             <div class="form-fields">
                                 <label>Full Name</label>
-                                <input type="text" name="requester_full_name" required>
+                                <input type="text" name="requester_full_name" id="requester_full_name_hp" required>
                                 <label>Email</label>
-                                <input type="email" name="requester_email" required>
+                                <input type="email" name="requester_email" id="requester_email_hp" required>
                                 <label>Phone Number</label>
-                                <input type="tel" name="requester_phone" required>
+                                <input type="tel" name="requester_phone" id="requester_phone_hp" required>
                                 <label>Healthcare Location</label>
                                 <input type="text" name="healthcare_location" required>
                             </div>
@@ -211,22 +210,7 @@
         </div>
     </div>
     
-    {{-- 1. Include the login modal's HTML --}}
     @include('user.auth.login')
-
-    <!-- show modal -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const loginModalEl = document.getElementById('loginModal');
-            
-            const loginModal = new bootstrap.Modal(loginModalEl, {
-                backdrop: 'static', // prevents closing on backdrop click
-                keyboard: false     // prevents closing with the esc key
-            });
-
-            loginModal.show();
-        });
-    </script>
     
 @endif
 
@@ -376,16 +360,24 @@
             align-items: center;
             justify-content: center;
             margin-top: 8rem;
+            width: 100%;
         }
 
         .header-form { 
-            margin-bottom: 1rem;
+            /* margin-bottom: 1rem; */
             text-align: center;
         }
 
         .header-form h1 {
             font-family: 'Gidugu', sans-serif;
             font-size: 4.5rem;
+        }
+
+        #requestWigForm {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .dropdown-label {
@@ -606,12 +598,24 @@
             box-shadow: none !important;
         }
 
+        input[readonly] {
+            background-color: #E8E8E8; 
+            cursor: not-allowed;                 
+        }
+
     </style>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" xintegrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
     @if (Auth::check())
     <script>
+        // pass user data 
+        const authUser = @json([
+            'name' => Auth::user()->name,
+            'email' => Auth::user()->email,
+            'phone' => Auth::user()->phone
+        ]);
+
         document.addEventListener('DOMContentLoaded', function() {
             const dropdown = document.getElementById('who_for');
             const requestForm = document.getElementById('requestWigForm');
@@ -621,6 +625,25 @@
                 'myself': document.getElementById('myself'),
                 'parent_guardian': document.getElementById('parent_guardian'),
                 'health_professional': document.getElementById('health_professional')
+            };
+
+            // specific input fields for each section
+            const fields = {
+                myself: {
+                    name: document.getElementById('recipient_full_name_myself'),
+                    email: document.getElementById('recipient_email_myself'),
+                    phone: document.getElementById('recipient_phone_myself')
+                },
+                parent_guardian: {
+                    name: document.getElementById('requester_full_name_pg'),
+                    email: document.getElementById('requester_email_pg'),
+                    phone: document.getElementById('requester_phone_pg')
+                },
+                health_professional: {
+                    name: document.getElementById('requester_full_name_hp'),
+                    email: document.getElementById('requester_email_hp'),
+                    phone: document.getElementById('requester_phone_hp')
+                }
             };
 
             function setFormState(selectedValue) {
@@ -646,15 +669,68 @@
                 }
             }
 
+            function autofillFields(selectedValue) {
+                Object.values(fields).forEach(group => {
+                    if(group.name) {
+                        group.name.value = '';
+                        group.name.readOnly = false;
+                    }
+                    if(group.email) {
+                        group.email.value = '';
+                        group.email.readOnly = false;
+                    }
+                     if(group.phone) {
+                        group.phone.value = '';
+                        group.phone.readOnly = false;
+                    }
+                });
+
+                if (selectedValue === 'myself') {
+                    // autofill 'myself' fields
+                    fields.myself.name.value = authUser.name;
+                    fields.myself.name.readOnly = true;
+
+                    fields.myself.email.value = authUser.email;
+                    fields.myself.email.readOnly = true;
+
+                    if (authUser.phone) {
+                        fields.myself.phone.value = authUser.phone;
+                        fields.myself.phone.readOnly = true; // if !NULL, read-only
+                    } else {
+                        fields.myself.phone.value = '';
+                        fields.myself.phone.readOnly = false; // if NULL, edit
+                    }
+
+                } else if (selectedValue === 'parent_guardian' || selectedValue === 'health_professional') {
+                    // autofill 'parent_guardian' or 'health_professional' fields
+                    const currentFields = fields[selectedValue];
+
+                    currentFields.name.value = authUser.name;
+                    currentFields.name.readOnly = true;
+
+                    currentFields.email.value = authUser.email;
+                    currentFields.email.readOnly = true;
+
+                    if (authUser.phone) {
+                        currentFields.phone.value = authUser.phone;
+                        currentFields.phone.readOnly = true;
+                    } else {
+                        currentFields.phone.value = '';
+                        currentFields.phone.readOnly = false;
+                    }
+                }
+            }
+
             dropdown.addEventListener('change', function() {
                 setFormState(this.value);
+                autofillFields(this.value);
             });
 
             clearButton.addEventListener('click', function() {
                 const currentSelectedValue = dropdown.value;
                 const visibleSection = formSections[currentSelectedValue];
                 if (visibleSection) {
-                    const clearInputs = visibleSection.querySelectorAll('input[type="text"], input[type="email"], input[type="tel"], input[type="number"]');
+                    const clearInputs = visibleSection.querySelectorAll('input:not([readonly])');
                     clearInputs.forEach(input => {
                         input.value = '';
                     });
@@ -678,7 +754,9 @@
                         submitModal.show();
                         document.getElementById('submitFormModal').addEventListener('hidden.bs.modal', () => {
                             requestForm.reset();
-                            dropdown.dispatchEvent(new Event('change'));
+                            // dropdown.dispatchEvent(new Event('change'));
+                            setFormState(dropdown.value);
+                            autofillFields(dropdown.value);
                         });
                     } else {
                         let errorMsg = 'Error: ' + (data.message || 'Submission failed');
@@ -694,6 +772,21 @@
             });
 
             setFormState(dropdown.value);
+            autofillFields(dropdown.value);
+        });
+    </script>
+    @else
+    <!-- show modal -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const loginModalEl = document.getElementById('loginModal');
+            
+            const loginModal = new bootstrap.Modal(loginModalEl, {
+                backdrop: 'static', // prevents closing on backdrop click
+                keyboard: false     // prevents closing with the esc key
+            });
+
+            loginModal.show();
         });
     </script>
     @endif
