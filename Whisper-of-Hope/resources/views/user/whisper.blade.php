@@ -183,7 +183,7 @@
     .header-text {
       font-size: 5rem;
       font-weight: bold;
-      margin-bottom: 2rem;
+      margin-bottom: 0.1rem;
       margin-top: 1rem;
       font-family: 'Gidugu', cursive; /* Gidugu font for title */
     }
@@ -332,6 +332,8 @@
       font-family: 'Yantramanav', sans-serif;
     }
 
+    
+
     .btn-primary {
       background-color: #F9BCC4;
       color: black;
@@ -339,6 +341,14 @@
 
     .btn-primary:hover {
       background-color: #f5a8c1;
+    }
+
+    .btn-primary:active,
+    .btn-primary:focus {
+        background-color: #F9BCC4 !important;
+        color: black !important;
+        outline: none;
+        box-shadow: none;
     }
 
     .btn-secondary {
@@ -473,10 +483,104 @@
     .btn-cancel:hover {
         background-color: #5a6268;
     }
+    
+    /* Filter dropdown styles */
+    .filter-container {
+        margin-bottom: 2rem;
+        margin-left: 3rem;
+        /* margin-right: 3rem; */
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+    
+    .filter-label {
+        font-family: 'Yantramanav', sans-serif;
+        font-weight: 500;
+        color: #333;
+        font-size: 1.1rem;
+    }
+    
+    .filter-dropdown {
+        padding: 0.75rem 1.5rem;
+        border: 2px solid #f8bbd0;
+        border-radius: 50px;
+        background-color: white;
+        color: #333;
+        font-family: 'Yantramanav', sans-serif;
+        font-size: 1rem;
+        font-weight: 500;
+        cursor: pointer;
+        min-width: 180px;
+        transition: all 0.3s ease;
+        outline: none;
+        appearance: none;
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23f8bbd0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+        background-repeat: no-repeat;
+        background-position: right 1rem center;
+        background-size: 1rem;
+        padding-right: 3rem;
+    }
+    
+    .filter-dropdown:focus {
+        outline: none;
+        border-color: #f5a8c1;
+        box-shadow: 0 0 0 3px rgba(248, 187, 208, 0.2);
+    }
+    
+    .filter-dropdown:hover {
+        border-color: #f5a8c1;
+        transform: translateY(-1px);
+    }
+    
+    .search-input {
+        padding: 0.75rem 3rem 0.75rem 1.5rem;
+        border: 2px solid #ccc;
+        border-radius: 50px;
+        background-color: white;
+        color: #666;
+        font-family: 'Yantramanav', sans-serif;
+        font-size: 1rem;
+        font-weight: 400;
+        min-width: 300px;
+        transition: all 0.3s ease;
+        outline: none;
+        background-image: url('{{ asset('images/whisper/search.png') }}');
+        background-repeat: no-repeat;
+        background-position: right 1rem center;
+        background-size: 1.2rem;
+    }
+    
+    .search-input:focus {
+        border-color: #999;
+        box-shadow: 0 0 0 3px rgba(153, 153, 153, 0.1);
+    }
+    
+    .search-input:hover {
+        border-color: #999;
+    }
+    
+    .search-input::placeholder {
+        color: #999;
+        font-weight: normal;
+    }
 </style>
 
-<div class="container">
+<div class="container pb-4">
     <h1 class="header-text">THE WHISPERS</h1>
+    
+    <!-- Filter Section -->
+    <div class="filter-container">
+        {{-- <label class="filter-label" for="searchInput">Search:</label> --}}
+        <input type="text" id="searchInput" class="search-input" placeholder="Search by recipient...">
+        
+        <select id="colorFilter" class="filter-dropdown">
+            <option value="">All Colors</option>
+            <!-- Options will be populated dynamically -->
+        </select>
+    </div>
     
     <div class="masonry" id="whisper-wall">
         <!-- Cards will be populated here by JavaScript -->
@@ -559,6 +663,7 @@
     let colorData = [];
     let selectedColorId = null;
     let selectedColorHex = '#f8bbd0';
+    let filteredWhispers = [];
 
     // DOM elements
     const modal = document.getElementById('whisperModal');
@@ -568,6 +673,8 @@
     const submitBtn = document.getElementById('submitBtn');
     const loadingSpinner = document.getElementById('loadingSpinner');
     const alertContainer = document.getElementById('alertContainer');
+    const colorFilter = document.getElementById('colorFilter');
+    const searchInput = document.getElementById('searchInput');
     
     // Confirmation modal elements
     const confirmationModal = document.getElementById('confirmationModal');
@@ -663,6 +770,27 @@
             
             colorOptionsContainer.appendChild(colorDiv);
         });
+        
+        // Populate filter dropdown
+        populateFilterDropdown();
+    }
+
+    // Populate filter dropdown with colors
+    function populateFilterDropdown() {
+        // Clear existing options except "All Colors"
+        const allColorsOption = colorFilter.querySelector('option[value=""]');
+        colorFilter.innerHTML = '';
+        colorFilter.appendChild(allColorsOption);
+        
+        // Add color options
+        colorData.forEach(color => {
+            const option = document.createElement('option');
+            option.value = color.id;
+            option.textContent = color.name;
+            option.style.backgroundColor = color.hex_value;
+            option.style.color = color.font_color;
+            colorFilter.appendChild(option);
+        });
     }
 
     // Load whispers from server
@@ -676,6 +804,7 @@
             })
             .then(data => {
                 whisperData = data;
+                filteredWhispers = [...whisperData]; // Initialize filtered whispers
                 createWhisperCards();
             })
             .catch(error => {
@@ -689,10 +818,37 @@
         const whisperWall = document.getElementById('whisper-wall');
         whisperWall.innerHTML = ''; // Clear existing cards
         
-        whisperData.forEach(function(whisper) {
+        filteredWhispers.forEach(function(whisper) {
             addWhisperCard(whisper, false);
         });
     }
+
+    // Filter whispers by color and search term
+    function filterWhispers() {
+        const colorId = colorFilter.value;
+        const searchTerm = searchInput.value.toLowerCase().trim();
+        
+        let filtered = [...whisperData];
+        
+        // Filter by color if selected
+        if (colorId && colorId !== '') {
+            filtered = filtered.filter(whisper => whisper.color_id == colorId);
+        }
+        
+        // Filter by search term if provided
+        if (searchTerm !== '') {
+            filtered = filtered.filter(whisper => 
+                whisper.to.toLowerCase().includes(searchTerm)
+            );
+        }
+        
+        filteredWhispers = filtered;
+        createWhisperCards();
+    }
+
+    // Add event listeners for filters
+    colorFilter.addEventListener('change', filterWhispers);
+    searchInput.addEventListener('input', filterWhispers);
 
     function addWhisperCard(whisper, prepend = true) {
         const whisperWall = document.getElementById('whisper-wall');
@@ -863,8 +1019,8 @@
                 // Add new whisper to the beginning of the array
                 whisperData.unshift(data.whisper);
                 
-                // Add the new card to the wall
-                addWhisperCard(data.whisper, true);
+                // Apply current filters to determine if new whisper should be shown
+                filterWhispers();
                 
                 // Close modal and show success message
                 closeModal();
