@@ -80,6 +80,23 @@ Route::middleware('user')->group(function () {
     Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    
+    // Debug route to check profile data (remove in production)
+    Route::get('/debug/profile', function () {
+        $user = auth()->user();
+        return response()->json([
+            'user_id' => $user->id,
+            'name' => $user->name,
+            'email' => $user->email,
+            'phone' => $user->phone,
+            'gender' => $user->gender,
+            'profile_image' => $user->profile_image,
+            'profile_image_url' => $user->profile_image ? asset('storage/' . $user->profile_image) : null,
+            'profile_image_exists' => $user->profile_image ? \Storage::disk('public')->exists($user->profile_image) : false,
+            'updated_at' => $user->updated_at,
+            'created_at' => $user->created_at,
+        ]);
+    });
 });
 
 // Donate Hair Routes (User middleware - only users)
@@ -124,3 +141,21 @@ Route::middleware('user')->group(function () {
     Route::get('/request-wig', [RequestWigController::class, 'showRequestPage'])->name('request.wig');
     Route::post('/request-wig', [RequestWigController::class, 'storeRequest'])->name('request.wig.storeRequest');
 });
+
+// Debug route (hapus di production)
+Route::get('/debug/profile', function () {
+    if (auth()->check()) {
+        $user = auth()->user();
+        return response()->json([
+            'user_id' => $user->id,
+            'name' => $user->name,
+            'email' => $user->email,
+            'phone' => $user->phone,
+            'gender' => $user->gender,
+            'profile_image' => $user->profile_image,
+            'profile_image_url' => $user->profile_image ? asset('storage/' . $user->profile_image) : null,
+            'updated_at' => $user->updated_at,
+        ]);
+    }
+    return response()->json(['error' => 'Not authenticated']);
+})->middleware('auth');

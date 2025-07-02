@@ -46,6 +46,11 @@
             margin-bottom: 20px;
         }
         
+        .form-control:focus {
+            border-color: #F9BCC4;
+            box-shadow: 0 0 0 0.2rem rgba(249, 188, 196, 0.25);
+        }
+        
         .btn-reset {
             background: #F9BCC4;
             border: none;

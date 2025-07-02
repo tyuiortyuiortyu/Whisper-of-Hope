@@ -73,9 +73,11 @@
                     </td>
                     <td>
                         @if($user->id !== auth()->id())
-                            <button class="btn-delete" onclick="deleteUser({{ $user->id }})">
-                                <img src="{{ asset('images/admin/user_admin/delete.png') }}" class="delete-icon" alt="Delete">
-                            </button>
+                            <div class="action-buttons">
+                                <button class="btn-delete" onclick="deleteUser({{ $user->id }})">
+                                    <img src="{{ asset('images/admin/user_admin/delete.png') }}" class="delete-icon" alt="Delete">
+                                </button>
+                            </div>
                         @else
                             <span class="text-muted" style="font-size: 0.8rem;">Current User</span>
                         @endif
@@ -235,6 +237,7 @@
 @push('styles')
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Yantramanav:wght@300;400;500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
     
     .users-management {
         padding: 0;
@@ -478,6 +481,47 @@
         border-radius: 50%;
     }
     
+    .action-buttons {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        justify-content: flex-start;
+    }
+    
+    .btn-edit,
+    .btn-delete {
+        padding: 8px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        background: transparent;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        transition: all 0.3s ease;
+    }
+    
+    .edit-icon,
+    .delete-icon {
+        width: 20px;
+        height: 20px;
+        object-fit: contain;
+    }
+    
+    .btn-edit:hover {
+        background: rgba(249, 188, 196, 0.1);
+        transform: scale(1.05);
+        border-radius: 50%;
+    }
+    
+    .btn-delete:hover {
+        background: rgba(255, 0, 0, 0.1);
+        transform: scale(1.05);
+        border-radius: 50%;
+    }
+    
     .no-data {
         text-align: center;
         color: #999;
@@ -500,13 +544,15 @@
     
     .modal-content {
         background-color: #FFFCF5;
-        margin: 3% auto;
+        margin: 2% auto;
         padding: 0;
         border-radius: 15px;
         width: 90%;
         max-width: 520px;
         box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         position: relative;
+        top: 45%;
+        transform: translateY(-50%);
     }
     
     .modal-header {
@@ -546,7 +592,7 @@
     }
     
     .modal-body {
-        padding: 25px 30px;
+        padding: 2px 30px;
     }
     
     .form-section {
@@ -575,17 +621,88 @@
         width: 100%;
         padding: 12px 15px;
         border: 1px solid #e0e0e0;
-        border-radius: 8px;
+        border-radius: 5px;
         font-size: 14px;
         font-family: 'Yantramanav';
         transition: border-color 0.3s ease;
         background: white;
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+        background-repeat: no-repeat;
+        background-position: right 12px center;
+        background-size: 16px;
+        padding-right: 40px;
     }
     
     .form-input:focus {
         outline: none;
         border-color: #F9BCC4;
         box-shadow: 0 0 0 3px rgba(249, 188, 196, 0.1);
+    }
+    
+    .form-input[type="text"],
+    .form-input[type="email"],
+    .form-input[type="password"] {
+        background-image: none;
+        padding-right: 15px;
+    }
+
+    /* Custom select dropdown styling */
+    select.form-input {
+        cursor: pointer;
+        color: #333 !important;
+    }
+
+    select.form-input option {
+        background: white !important;
+        color: #333 !important;
+        border: none !important;
+        padding: 10px !important;
+    }
+
+    select.form-input option:hover {
+        background: #F9BCC4 !important;
+        color: white !important;
+        background-color: #F9BCC4 !important;
+    }
+
+    select.form-input option:checked,
+    select.form-input option:selected {
+        background: #F9BCC4 !important;
+        color: white !important;
+        background-color: #F9BCC4 !important;
+    }
+
+    select.form-input:focus option:checked {
+        background: #F9BCC4 !important;
+        color: white !important;
+        background-color: #F9BCC4 !important;
+    }
+
+    select.form-input option:focus {
+        background: #F9BCC4 !important;
+        color: white !important;
+        outline: none !important;
+        background-color: #F9BCC4 !important;
+    }
+
+    /* Additional browser-specific overrides */
+    select.form-input option::-moz-focus-inner {
+        background: #F9BCC4 !important;
+        color: white !important;
+    }
+
+    select.form-input option::selection {
+        background: #F9BCC4 !important;
+        color: white !important;
+    }
+
+    /* Webkit specific */
+    select.form-input option:active {
+        background: #F9BCC4 !important;
+        color: white !important;
     }
     
     .radio-group {
@@ -690,7 +807,8 @@
     .delete-modal {
         max-width: 400px;
         text-align: center;
-        margin: 50vh auto;
+        margin: 0 auto;
+        top: 50%;
         transform: translateY(-50%);
     }
     
@@ -915,4 +1033,3 @@
 @endpush
 
 @endsection
-
