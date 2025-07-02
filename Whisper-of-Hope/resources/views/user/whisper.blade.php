@@ -230,15 +230,27 @@
       font-weight: 500;
     }
 
-    .add-modal-close {
+    .modal-close-btn {
       position: absolute;
       top: 1rem;
       right: 1rem;
+      width: 24px;
+      height: 24px;
+      object-fit: contain;
+      cursor: pointer;
       background: none;
       border: none;
-      font-size: 1.5rem;
-      cursor: pointer;
-      color: #666;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: all 0.3s ease;
+    }
+
+    .modal-close-btn:hover {
+      background: rgba(0, 0, 0, 0.1);
+      transform: scale(1.1);
     }
 
     .btn-close{
@@ -494,8 +506,7 @@
 <!-- Modal -->
 <div class="add-modal-overlay" id="whisperModal">
     <div class="add-modal-content">
-        {{-- <button class="modal-close" id="closeModal" style="top: 20px; right: 20px;">&times;</button> --}}
-        <button type="button" class="btn-close position-absolute" id="closeModal" data-bs-dismiss="modal" aria-label="Close" ></button>
+        <img src="{{ asset('images/admin/user_admin/close.png') }}" class="modal-close-btn" id="closeModal" alt="Close">
         <h3 style="margin-bottom: 1.5rem; margin-top: 0;">Create a Whisper of Hope</h3>
         
         <div id="alertContainer"></div>
