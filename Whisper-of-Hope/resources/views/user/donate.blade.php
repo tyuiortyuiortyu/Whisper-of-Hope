@@ -278,13 +278,14 @@
 
         <div id="donate-form-section" class="d-flex flex-column align-items-center justify-content-center">
             @guest
-                {{-- Section for guests: Prompt to request a wig --}}
-                <div class="z-0 container-guest">
-                    <h2>For Yourself or Someone You Care For</h2>
-                    <div class="hero-buttons">
-                        <a href="{{ route('user.request') }}" class="btn btn-primary">Request a Wig!</a>
-                    </div>
-                </div>
+                <div class="d-flex justify-content-center align-items-start" style="min-height: 200px; position: relative;">
+    <a href="{{ route('user.donate') }}"
+       class="btn"
+       style="background-color: #F9BCC4; color: #000; border-radius: 30px; font-size: 18px; font-weight: 500; margin-top: 0; padding: 10px 40px; min-width: 200px;">
+        Donate Hair!
+    </a>
+</div>
+
             @else
                 {{-- Section for authenticated users: Hair Donation Form --}}
                 <div class="rounded-20 p-5 my-2 w-100"
@@ -417,7 +418,7 @@
 
         function handleGuestLoginModal() {
             @guest
-                if (loginModal) { // Ensure loginModal exists before trying to show it
+                if (loginModal) { 
                     if (!openingAnotherModal) {
                         loginModal.show();
                     }
@@ -427,10 +428,8 @@
 
         if (loginModalElement && loginModal) {
             @guest
-                // This ensures the login modal shows up automatically when a guest visits the page initially.
                 handleGuestLoginModal();
 
-                // Event listener for a link/button that explicitly opens the login modal.
                 const openLoginModalLink = document.getElementById('openLoginModalLink');
                 if (openLoginModalLink) {
                     openLoginModalLink.addEventListener('click', function(event) {
@@ -441,14 +440,12 @@
                     });
                 }
 
-                // Event listener for when the login modal is shown
                 loginModalElement.addEventListener('show.bs.modal', function () {
                     if (pageContentWrapper) {
                         pageContentWrapper.classList.add('content-blurred');
                     }
                 });
 
-                // Event listener for when the login modal is hidden
                 loginModalElement.addEventListener('hidden.bs.modal', function () {
                     if (pageContentWrapper) {
                         pageContentWrapper.classList.remove('content-blurred');
@@ -474,11 +471,9 @@
                 if (pageContentWrapper) {
                     pageContentWrapper.classList.remove('content-blurred');
                 }
-                // No automatic re-showing of login modal here.
             });
         }
 
-        // --- Forgot Password Modal Logic ---
         if (forgotPasswordModalElement && forgotPasswordModal) {
             forgotPasswordModalElement.addEventListener('show.bs.modal', function () {
                 openingAnotherModal = true;
@@ -498,7 +493,6 @@
             });
         }
 
-        // --- Submit Form Modal Logic (unchanged) ---
         if (submitFormModalElement && submitFormModal) {
             @if(session('show_modal'))
                 submitFormModal.show();
