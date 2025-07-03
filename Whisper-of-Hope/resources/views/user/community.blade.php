@@ -24,15 +24,15 @@
 
     {{-- Kotak Filter Kategori --}}
     <div class="px-5 flex-column d-flex justify-content-center" style="height: 12rem; background-color: rgb(254,240,240); border-radius: 20px;">
-    <h5 class="mb-2 ms-2" style="font-family: 'Yantramanav'; font-size:30px">Filter by Category:</h5>
-    <div class="d-flex flex-wrap gap-2 pt-3">
-        <button class="btn text-dark rounded-pill px-4 py-2 filter-btn btn-light" data-category="all" style="font-family: 'Yantramanav'; font-size: 20px">All</button>
-        @foreach ($categories as $category)
-        <button class="btn text-dark rounded-pill px-4 py-2 filter-btn btn-light" data-category="{{ $category->id }}" style="font-family: 'Yantramanav'; font-size: 20px">
-            {{ $category->name }}
-        </button>
-        @endforeach
-    </div>
+        <h5 class="mb-2 ms-2" style="font-family: 'Yantramanav'; font-size:30px">Filter by Category:</h5>
+        <div class="d-flex flex-wrap gap-2 pt-3">
+            <button class="btn text-dark rounded-pill px-4 py-2 filter-btn btn-light" data-category="all" style="font-family: 'Yantramanav'; font-size: 20px">All</button>
+            @foreach ($categories as $category)
+            <button class="btn text-dark rounded-pill px-4 py-2 filter-btn btn-light" data-category="{{ $category->id }}" style="font-family: 'Yantramanav'; font-size: 20px">
+                {{ $category->name }}
+            </button>
+            @endforeach
+        </div>
     </div>
 
     {{-- Pilihan Story --}}

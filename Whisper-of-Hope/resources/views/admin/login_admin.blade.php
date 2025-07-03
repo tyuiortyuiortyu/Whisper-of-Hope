@@ -196,7 +196,7 @@
 </head>
 <body>
     <div class="login-container">
-        <div class="background-image"></div>
+        {{-- <div class="background-image"></div> --}}
         <div class="login-form-container">
             <div class="login-form">
                 <h1>Welcome!</h1>

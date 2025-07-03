@@ -19,6 +19,7 @@ use App\Http\Controllers\Admin\RequestAdminController;
 use App\Http\Controllers\Admin\DonateAdminController;
 use App\Http\Controllers\Admin\WhisperAdminController;
 use App\Http\Controllers\Admin\CommunityAdminController;
+use App\Http\Controllers\Admin\StoryController;
 
 // Main welcome page
 Route::get('/', function () {
@@ -93,7 +94,10 @@ Route::prefix('admin')->group(function () {
     // Admin Login Routes (No middleware - accessible to everyone)
     Route::get('/login', [AdminLoginController::class, 'showLoginForm'])->name('admin.login');
     Route::post('/login', [AdminLoginController::class, 'login'])->name('admin.login.submit');
-    
+
+    // AJAX Preview Route (outside admin middleware)
+    Route::post('/story/preview', [StoryController::class, 'preview'])->name('admin.story.preview');
+
     // Admin Protected Routes (Admin middleware - only admins)
     Route::middleware('admin')->group(function () {
         // Admin logout (only for admins)
@@ -116,6 +120,8 @@ Route::prefix('admin')->group(function () {
         
         // Community Stories Management
         Route::get('/community', [CommunityAdminController::class, 'index'])->name('admin.community_admin');
+        Route::get('/community/preview/{id}/edit', [CommunityAdminController::class, 'edit'])->name('admin.community_admin_edit');
+        Route::put('/community/preview/{id}', [CommunityAdminController::class, 'update'])->name('admin.community_admin_update');
     });
 });
 
