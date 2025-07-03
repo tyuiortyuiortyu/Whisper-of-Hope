@@ -54,6 +54,12 @@ class RequestAdminController extends Controller
         return view('admin.request_admin', compact('requests'));
     }
 
+    public function show(HairRequest $hairRequest)
+    {
+        $hairRequest->load('user');
+        return view('admin.request_show_admin', compact('hairRequest'));
+    }
+
     // status management
     public function accept(HairRequest $hairRequest)
     {

@@ -113,6 +113,7 @@ Route::prefix('admin')->group(function () {
         Route::delete('/users/{user}', [UserAdminController::class, 'destroy'])->name('admin.users.destroy');
         
         Route::get('/requests', [RequestAdminController::class, 'index'])->name('admin.request_admin');
+        Route::get('/requests/{hairRequest}', [RequestAdminController::class, 'show'])->name('admin.request.show');
         Route::patch('/requests/{hairRequest}/accept', [RequestAdminController::class, 'accept'])->name('admin.requests.accept');
         Route::patch('/requests/{hairRequest}/reject', [RequestAdminController::class, 'reject'])->name('admin.requests.reject');
         Route::delete('/requests/{hairRequest}', [RequestAdminController::class, 'destroy'])->name('admin.requests.destroy');
