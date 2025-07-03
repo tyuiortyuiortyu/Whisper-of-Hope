@@ -182,7 +182,7 @@
 
     .header-text {
       font-size: 5rem;
-      font-weight: bold;
+      font-weight: 400;
       margin-bottom: 0.1rem;
       margin-top: 1rem;
       font-family: 'Gidugu', cursive; /* Gidugu font for title */

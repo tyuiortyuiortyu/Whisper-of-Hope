@@ -610,7 +610,6 @@
 </style>
 
 <div class="container">
-    <h1 class="header-text">THE WHISPERS</h1>
     
     <!-- Filter Section -->
     <div class="filter-container">
