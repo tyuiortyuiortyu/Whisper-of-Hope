@@ -62,10 +62,10 @@
         background-color: #FEF0F0;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         border-radius: 10px;
-        padding: 2rem;
+        padding: 2rem 3rem;
         text-align: center;
         width: 28%;
-        min-width: 400px;
+        min-width: 420px;
         height: auto;
         z-index: 1000;
         display: flex;
@@ -276,18 +276,17 @@
             </div>
         </div>
 
-        <div id="donate-form-section" class="d-flex flex-column align-items-center justify-content-center">
+        <div id="donate-form-section" class="d-flex flex-column align-items-center justify-content-center mb-5">
             @guest
                 <div class="d-flex justify-content-center align-items-start" style="min-height: 200px; position: relative;">
-    <a href="{{ route('user.donate') }}"
-       class="btn"
-       style="background-color: #F9BCC4; color: #000; border-radius: 30px; font-size: 18px; font-weight: 500; margin-top: 0; padding: 10px 40px; min-width: 200px;">
-        Donate Hair!
-    </a>
-</div>
+                    <a href="{{ route('user.donate') }}"
+                        class="btn"
+                        style="background-color: #F9BCC4; color: #000; border-radius: 30px; font-size: 18px; font-weight: 500; margin-top: 0; padding: 10px 40px; min-width: 200px;">
+                        Donate Hair!
+                    </a>
+                </div>
 
             @else
-                {{-- Section for authenticated users: Hair Donation Form --}}
                 <div class="rounded-20 p-5 my-2 w-100"
                     style="background-color: #FFF9EA; border-radius: 20px; padding: 40px 64px; margin: 8px 0px; max-width: 1200px; display: flex; flex-direction: column;
                     box-shadow: 4px 4px 12px 0 rgba(0,0,0,0.3);">
@@ -378,12 +377,12 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modalContent">
             <div class="modalHeader">
-                <h2 style="margin-bottom: 18px;">Your request has been received!</h2>
+                <h2 style="margin-bottom: 18px;">Thank you for your beautiful gift!</h2>
             </div>
             <div class="modalBody">
-                <p>Please know you’re not alone in this journey,
-                    we’re honoured to walk this path with you.
-                    Kindly check your email for further details.</p>
+                <p>Please mail your hair within 7 days to 
+                    Jl. Pakuan No.3, Sumur Batu, Kec. Babakan Madang, 
+                    Kabupaten Bogor, Jawa Barat 16810.</p>
             </div>
             <div class="modalFooter">
                 <button type="button" class="btn btn-submit px-5 py-2 rounded-pill" style="min-width: 180px; border-radius: 30px; font-weight: 500;" data-bs-dismiss="modal">OK</button>
@@ -451,7 +450,8 @@
                         pageContentWrapper.classList.remove('content-blurred');
                     }
                 });
-            @endguest {{-- THIS WAS THE MISSING @endguest --}}
+            @endguest 
+            
         }
 
         // --- Register Modal Logic ---
