@@ -55,13 +55,21 @@ Route::prefix('user')->group(function () {
 Route::prefix('api/whispers')->group(function () {
     Route::get('/', [WhisperController::class, 'getWhispers'])->name('api.whispers.index');
     Route::post('/', [WhisperController::class, 'store'])->name('api.whispers.store');
+    Route::delete('/{id}', [WhisperAdminController::class, 'destroy'])->name('api.whispers.destroy')->middleware('admin');
 });
 
 // API routes for colors
 Route::get('api/colors', [WhisperController::class, 'getColors'])->name('api.colors.index');
 
-// Guest-only routes (login, register - only for non-authenticated users)
-Route::middleware(['guest'])->group(function () {
+// Admin API routes for whispers
+Route::prefix('admin/api')->middleware('admin')->group(function () {
+    Route::get('/whispers', [WhisperAdminController::class, 'getWhispers'])->name('admin.api.whispers.index');
+    Route::get('/colors', [WhisperAdminController::class, 'getColors'])->name('admin.api.colors.index');
+    Route::post('/whispers', [WhisperAdminController::class, 'store'])->name('admin.api.whispers.store');
+});
+
+// User Authentication Routes (Guest only)
+Route::middleware('guest')->group(function () {
     Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
     Route::post('/login', [LoginController::class, 'login']);
     Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');

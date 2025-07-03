@@ -21,6 +21,19 @@
         overflow-x: hidden;
         scrollbar-width: none; /* Firefox */
         -ms-overflow-style: none; /* Internet Explorer 10+ */
+        padding-top: 80px; /* Add padding for fixed navbar */
+    }
+
+    /* Navbar Sticky Styles */
+    .navbar, nav {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        z-index: 1000 !important;
+        backdrop-filter: blur(10px);
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     }
     
     body::-webkit-scrollbar {
@@ -111,6 +124,15 @@
         transform: translateY(-2px);
     }
 
+    .btn-primary:active,
+    .btn-primary:focus {
+        background-color: #F9BCC4 !important;
+        color: #333 !important;
+        outline: none;
+        box-shadow: none;
+        transform: translateY(0);
+    }
+
     .btn-secondary {
         background-color: #F9BCC4;
         color: #333;
@@ -120,6 +142,15 @@
     .btn-secondary:hover {
         background-color: #f5a8c1;
         transform: translateY(-2px);
+    }
+
+    .btn-secondary:active,
+    .btn-secondary:focus {
+        background-color: #F9BCC4 !important;
+        color: #333 !important;
+        outline: none;
+        box-shadow: none;
+        transform: translateY(0);
     }
 
     .hero-image {
@@ -174,14 +205,14 @@
         z-index: 10;
     }
 
-    .    h3 {
+    .feature-header h3 {
         font-family: 'Gidugu', cursive; 
-        font-weight: 700;
+        font-weight: 100;
         color: #000;
-        font-size: 4rem;
+        font-size: 3.5rem;
         margin: 0;
         padding: 1rem 1.5rem;
-        border-radius: 2rem 2rem 0 0;
+        border-radius: 0 0 2rem 2rem;
         white-space: normal;
         width: 100%;
         line-height: 0.8;
@@ -282,7 +313,7 @@
 
     .feature-card li::before {
         content: "";
-        background-image: url('{{ asset('images/landing/hairlist_img.png') }}');
+        background-image: url('{{ asset('images/landing/hairlist.png') }}');
         background-size: contain;
         background-repeat: no-repeat;
         background-position: center;
@@ -429,11 +460,23 @@
 
     .carousel-track {
         display: flex;
-        justify-content: flex-start;
         gap: 1rem;
-        width: calc(180px * 14 + 1rem * 13); /* Double the images for infinite effect */
-        transition: transform 0.5s ease;
+        width: calc(180px * 24 + 1rem * 23); /* 12 original + 12 duplicates */
+        animation: infiniteScroll 48s linear infinite;
         padding: 0 calc((1000px - (180px * 5 + 1rem * 4)) / 2);
+    }
+
+    .carousel-track:hover {
+        animation-play-state: paused;
+    }
+
+    @keyframes infiniteScroll {
+        0% {
+            transform: translateX(0);
+        }
+        100% {
+            transform: translateX(calc(-180px * 12 - 1rem * 12)); /* Move exactly 12 slides */
+        }
     }
 
     .carousel-slide {
@@ -744,6 +787,15 @@
         transform: translateY(-2px);
     }
 
+    .send-btn:active,
+    .send-btn:focus {
+        background: #F9BCC4 !important;
+        color: #333 !important;
+        outline: none;
+        box-shadow: none;
+        transform: translateY(0);
+    }
+
     /* Responsive Design */
     @media (max-width: 768px) {
         .hero-container,
@@ -812,7 +864,7 @@
             <!-- Second Feature Item (Special) -->
             <div class="feature-item">
                 <div class="feature-card special">
-                    <img src="{{ asset('images/landing/gift_image.png') }}" alt="Gift of Hair" class="gift-image" />
+                    <img src="{{ asset('images/landing/gift.png') }}" alt="Gift of Hair" class="gift-image" />
                     <p>Hair replacement systems, including wigs made from real hair, offer more than cosmetic solutions they provide emotional healing and confidence. Your hair donation helps us craft high-quality, natural-looking wigs for those in need. Together, we can give the gift of self-love and dignity.</p>
                 </div>
                 <div class="feature-footer">
@@ -831,7 +883,7 @@
                         <li>Medical treatments (chemotherapy, radiation)</li>
                         <li>Genetic conditions (alopecia areata)</li>
                         <li>Burns and trauma</li>
-                        <li>Genetic conditions</li>
+                        <li>Autoimmune disorders</li>
                     </ul>
                 </div>
             </div>
@@ -937,6 +989,21 @@
                 <div class="carousel-slide">
                     <img src="{{ asset('images/landing/carousel7.png') }}" alt="Happy recipient 7" />
                 </div>
+                <div class="carousel-slide">
+                    <img src="{{ asset('images/landing/carousel8.png') }}" alt="Happy recipient 8" />
+                </div>
+                <div class="carousel-slide">
+                    <img src="{{ asset('images/landing/carousel9.png') }}" alt="Happy recipient 9" />
+                </div>
+                <div class="carousel-slide">
+                    <img src="{{ asset('images/landing/carousel10.png') }}" alt="Happy recipient 10" />
+                </div>
+                <div class="carousel-slide">
+                    <img src="{{ asset('images/landing/carousel11.png') }}" alt="Happy recipient 11" />
+                </div>
+                <div class="carousel-slide">
+                    <img src="{{ asset('images/landing/carousel12.png') }}" alt="Happy recipient 12" />
+                </div>
                 <!-- Duplicate images for infinite scroll effect -->
                 <div class="carousel-slide">
                     <img src="{{ asset('images/landing/carousel1.png') }}" alt="Happy recipient 1" />
@@ -958,6 +1025,21 @@
                 </div>
                 <div class="carousel-slide">
                     <img src="{{ asset('images/landing/carousel7.png') }}" alt="Happy recipient 7" />
+                </div>
+                <div class="carousel-slide">
+                    <img src="{{ asset('images/landing/carousel8.png') }}" alt="Happy recipient 8" />
+                </div>
+                <div class="carousel-slide">
+                    <img src="{{ asset('images/landing/carousel9.png') }}" alt="Happy recipient 9" />
+                </div>
+                <div class="carousel-slide">
+                    <img src="{{ asset('images/landing/carousel10.png') }}" alt="Happy recipient 10" />
+                </div>
+                <div class="carousel-slide">
+                    <img src="{{ asset('images/landing/carousel11.png') }}" alt="Happy recipient 11" />
+                </div>
+                <div class="carousel-slide">
+                    <img src="{{ asset('images/landing/carousel12.png') }}" alt="Happy recipient 12" />
                 </div>
             </div>
         </div>
@@ -1066,73 +1148,8 @@
 </section>
 
 <script>
-// Carousel functionality
-let currentSlide = 0;
-const totalSlides = 7;
-const visibleSlides = 5;
-const maxSlidePosition = totalSlides; // Changed to totalSlides for infinite loop
-
-function updateCarousel() {
-    const track = document.getElementById('carouselTrack');
-    const slideWidth = 180; // Width of each slide
-    const gap = 16; // 1rem gap
-    const translateX = currentSlide * (slideWidth + gap);
-    
-    // Disable transition temporarily when resetting position
-    if (currentSlide === totalSlides) {
-        track.style.transition = 'none';
-        track.style.transform = `translateX(0px)`;
-        currentSlide = 0;
-        // Force a reflow
-        track.offsetHeight;
-        track.style.transition = 'transform 0.5s ease';
-    } else {
-        track.style.transform = `translateX(-${translateX}px)`;
-    }
-    
-    // Update indicators (optional, since we have infinite scroll)
-    const indicators = document.querySelectorAll('.carousel-indicator');
-    indicators.forEach((indicator, index) => {
-        indicator.classList.toggle('active', index === currentSlide % totalSlides);
-    });
-}
-
-function nextSlide() {
-    currentSlide++;
-    if (currentSlide > totalSlides) {
-        currentSlide = 1;
-    }
-    updateCarousel();
-}
-
-function previousSlide() {
-    if (currentSlide > 0) {
-        currentSlide--;
-    } else {
-        // Jump to the end of the duplicated sequence
-        currentSlide = totalSlides - 1;
-        const track = document.getElementById('carouselTrack');
-        track.style.transition = 'none';
-        const slideWidth = 180;
-        const gap = 16;
-        const translateX = totalSlides * (slideWidth + gap);
-        track.style.transform = `translateX(-${translateX}px)`;
-        // Force a reflow
-        track.offsetHeight;
-        track.style.transition = 'transform 0.5s ease';
-    }
-    updateCarousel();
-}
-
-function goToSlide(slideIndex) {
-    if (slideIndex >= 0 && slideIndex < totalSlides) {
-        currentSlide = slideIndex;
-        updateCarousel();
-    }
-}
-
-// Auto-play carousel
-setInterval(nextSlide, 4000);
+// Carousel functionality - now using pure CSS animation for infinite scroll
+// No JavaScript needed for the continuous scroll effect
 
 // FAQ functionality
 function toggleFAQ(element) {
