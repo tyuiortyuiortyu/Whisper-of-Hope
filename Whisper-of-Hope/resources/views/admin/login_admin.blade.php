@@ -155,19 +155,16 @@
         }
 
         .error-message {
-            color: #dc3545;
+            color: #dc3545 !important;
             font-size: 0.9rem;
             margin-top: 10px;
             text-align: center;
-            background: rgba(220, 53, 69, 0.1);
-            padding: 10px;
-            border-radius: 10px;
-            border-left: 4px solid #dc3545;
             font-family: 'Yantramanav';
         }
 
         .error-message p {
             margin: 0;
+            color: #dc3545 !important;
         }
 
         /* Loading state for button */

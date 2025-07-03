@@ -190,7 +190,7 @@
                         <a class="auth-link" href="#" id="profileDropdown">
                             <span class="user-name">{{ Auth::user()->name }}</span>
                             @if(Auth::user()->profile_image)
-                                <img src="{{ asset('storage/' . Auth::user()->profile_image) }}" class="profile-img ms-2" style="width:32px;height:32px;object-fit:cover;border-radius:50%;">
+                                <img src="{{ asset('storage/' . Auth::user()->profile_image) }}?v={{ time() }}" class="profile-img ms-2" style="width:32px;height:32px;object-fit:cover;border-radius:50%;">
                             @else
                                 <i class="bi bi-person-circle fs-5 ms-2"></i>
                             @endif
@@ -294,41 +294,7 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.style.paddingRight = '';
     }
 
-    function handleModal(btn, modal) {
-        if(btn && modal) {
-            modal.addEventListener('show.bs.modal', function() {
-                storeActiveMenuBtns();
-                btn.classList.add('active');
-            });
-            
-            modal.addEventListener('hide.bs.modal', function() {
-                btn.classList.remove('active');
-                restoreActiveMenuBtns();
-            });
-            
-            modal.addEventListener('hidden.bs.modal', function() {
-                setTimeout(function() {
-                    var anyOpen = modals.some(function(m) {
-                        return m && m.classList.contains('show');
-                    });
-                    if(!anyOpen) {
-                        activeMenuStack = [];
-                        [loginBtn, registerBtn, forgotBtn, profileBtn].forEach(function(btn){
-                            if(btn) btn.classList.remove('active');
-                        });
-                    }
-                }, 50);
-            });
-        }
-    }
-
-    handleModal(loginBtn, loginModal);
-    handleModal(registerBtn, registerModal);
-    handleModal(forgotBtn, forgotModal);
-    handleModal(profileBtn, profileModal);
-    handleModal(profileBtn, editProfileModal);
-
-    // Simplified modal switcher
+    // Enhanced modal switcher for profile/edit profile transitions
     document.addEventListener('click', function(e) {
         const target = e.target.closest('[data-bs-toggle="modal"][data-bs-target]');
         if (target) {
@@ -336,21 +302,42 @@ document.addEventListener('DOMContentLoaded', function() {
             if (targetModalId && targetModalId.startsWith('#')) {
                 e.preventDefault();
                 
-                // Force cleanup first
-                forceCleanup();
-                
-                // Wait a moment, then show new modal
-                setTimeout(function() {
-                    const targetModal = document.querySelector(targetModalId);
-                    if (targetModal) {
-                        // Create fresh modal instance
-                        const modalInstance = new bootstrap.Modal(targetModal, {
-                            backdrop: true,
-                            keyboard: true
-                        });
-                        modalInstance.show();
+                // Special handling for edit profile modal
+                if (targetModalId === '#editProfileModal') {
+                    // Don't force cleanup, just hide profile modal and show edit modal
+                    const profileModal = document.getElementById('profileModal');
+                    if (profileModal) {
+                        const profileInstance = bootstrap.Modal.getInstance(profileModal);
+                        if (profileInstance) {
+                            profileInstance.hide();
+                        }
                     }
-                }, 100); // Short delay for cleanup
+                    
+                    setTimeout(() => {
+                        const editModal = document.querySelector(targetModalId);
+                        if (editModal) {
+                            const editInstance = new bootstrap.Modal(editModal, {
+                                backdrop: true,
+                                keyboard: true
+                            });
+                            editInstance.show();
+                        }
+                    }, 150);
+                } else {
+                    // For other modals, use force cleanup
+                    forceCleanup();
+                    
+                    setTimeout(function() {
+                        const targetModal = document.querySelector(targetModalId);
+                        if (targetModal) {
+                            const modalInstance = new bootstrap.Modal(targetModal, {
+                                backdrop: true,
+                                keyboard: true
+                            });
+                            modalInstance.show();
+                        }
+                    }, 100);
+                }
             }
         }
     });
