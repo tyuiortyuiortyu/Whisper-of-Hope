@@ -341,7 +341,7 @@
     .users-table th,
     .users-table td {
         padding: 18px 25px;
-        text-align: left;
+        text-align: center;
         vertical-align: middle;
     }
     
@@ -362,6 +362,11 @@
         font-family: 'Yantramanav';
         background: white;
         border-bottom: 2px solid #e8e8e8;
+    }
+    
+    .users-table th:nth-child(2),
+    .users-table td:nth-child(2) {
+        text-align: left;
     }
     
     .users-table tbody tr {
@@ -386,6 +391,7 @@
         display: flex;
         align-items: center;
         gap: 15px;
+        justify-content: flex-start;
     }
     
     .profile-picture {
@@ -485,7 +491,7 @@
         display: flex;
         gap: 8px;
         align-items: center;
-        justify-content: flex-start;
+        justify-content: center;
     }
     
     .btn-edit,
