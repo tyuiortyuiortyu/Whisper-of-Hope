@@ -25,6 +25,7 @@ class HairRequest extends Model
         'relationship_to_recipient',
         'healthcare_location',
         'user_id',
+        'status',
     ];
 
     protected $casts = [

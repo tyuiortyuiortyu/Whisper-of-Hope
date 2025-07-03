@@ -111,11 +111,18 @@ Route::prefix('admin')->group(function () {
         Route::post('/users', [UserAdminController::class, 'create'])->name('admin.users.create');
         Route::put('/users/{user}', [UserAdminController::class, 'update'])->name('admin.users.update');
         Route::delete('/users/{user}', [UserAdminController::class, 'destroy'])->name('admin.users.destroy');
+        
         Route::get('/requests', [RequestAdminController::class, 'index'])->name('admin.request_admin');
+        Route::patch('/requests/{hairRequest}/accept', [RequestAdminController::class, 'accept'])->name('admin.requests.accept');
+        Route::patch('/requests/{hairRequest}/reject', [RequestAdminController::class, 'reject'])->name('admin.requests.reject');
+        Route::delete('/requests/{hairRequest}', [RequestAdminController::class, 'destroy'])->name('admin.requests.destroy');
+        
         Route::get('/donations', [DonateAdminController::class, 'index'])->name('admin.donate_admin');
         Route::get('/whisper', [WhisperAdminController::class, 'index'])->name('admin.whisper_admin');
         Route::get('/community', [CommunityAdminController::class, 'index'])->name('admin.community_admin');
 
+        
+        // Donation Management
         Route::get('/donations', [DonateAdminController::class, 'index'])->name('admin.donate_admin');
         
         // Whisper Management
