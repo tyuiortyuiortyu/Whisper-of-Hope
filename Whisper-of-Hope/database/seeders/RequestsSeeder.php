@@ -15,10 +15,10 @@ class RequestsSeeder extends Seeder
     public function run(): void
     {
         $user = User::firstOrCreate(
-            ['email' => 'johnd@gmail.com'], // The unique identifier to find the user
-            [ // Data to use if the user needs to be created
+            ['email' => 'johnd@gmail.com'],
+            [
                 'name' => 'John Doe',
-                'password' => bcrypt('password'), // Use a default password
+                'password' => bcrypt('password'), // default password
             ]
         );
 

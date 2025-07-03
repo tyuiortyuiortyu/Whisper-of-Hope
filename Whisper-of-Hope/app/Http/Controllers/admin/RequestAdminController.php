@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\HairRequest; // Pastikan model HairRequest sudah dibuat
+use App\Models\HairRequest;
 
 class RequestAdminController extends Controller
 {
@@ -12,7 +12,7 @@ class RequestAdminController extends Controller
     {
         $query = HairRequest::query();
         
-        // Search functionality
+        // search
         if ($request->has('search') && !empty($request->search)) {
             $search = $request->search;
             $query->where(function($q) use ($search) {
@@ -24,12 +24,12 @@ class RequestAdminController extends Controller
                   ->orWhere('requester_full_name', 'LIKE', "%{$search}%")
                   ->orWhere('requester_email', 'LIKE', "%{$search}%")
                   ->orWhere('requester_phone', 'LIKE', "%{$search}%")
-                  ->orWhere('relationship_to_recipient', 'LIKE', "%{$search}%") // Perbaikan typo 'realtionship'
+                  ->orWhere('relationship_to_recipient', 'LIKE', "%{$search}%")
                   ->orWhere('healthcare_location', 'LIKE', "%{$search}%");
             });
         }
         
-        // Filter berdasarkan tab yang aktif
+        // filter
         if ($request->has('type')) {
             switch ($request->type) {
                 case 'myself':
@@ -41,11 +41,11 @@ class RequestAdminController extends Controller
                 case 'health_professional':
                     $query->where('who_for', 'health_professional');
                     break;
-                // Default: all requests (tidak perlu filter tambahan)
+                // Default: all requests
             }
         }
         
-        // Order by created_at descending (terbaru pertama)
+        // Order by created_at descending
         $query->orderBy('created_at', 'desc');
         
         // Paginate results (10 per page)
