@@ -6,10 +6,10 @@ use App\Http\Controllers\User\Auth\LoginController;
 use App\Http\Controllers\User\Auth\RegisterController;
 use App\Http\Controllers\User\Auth\ForgotPasswordController;
 use App\Http\Controllers\User\Auth\ResetPasswordController;
+
 use App\Http\Controllers\User\WhisperController;
 use App\Http\Controllers\User\ProfileController;
 use App\Http\Controllers\User\ComStoryController;
-
 use App\Http\Controllers\User\DonateHairController;
 use App\Http\Controllers\User\RequestWigController;
 
@@ -20,7 +20,7 @@ use App\Http\Controllers\Admin\DonateAdminController;
 use App\Http\Controllers\Admin\WhisperAdminController;
 use App\Http\Controllers\Admin\CommunityAdminController;
 
-// Main welcome page
+// Main welcome page (accessible to everyone - no middleware)
 Route::get('/', function () {
     return view('welcome');
 })->name('home');
@@ -29,7 +29,7 @@ Route::get('/welcome', function () {
     return view('welcome');
 })->name('welcome');
 
-// User routes
+// User routes (accessible to everyone - no middleware needed for public pages)
 Route::prefix('user')->group(function () {
     Route::get('/about', function () {
         return view('user.about');
@@ -51,7 +51,7 @@ Route::prefix('user')->group(function () {
     Route::get('/whisper', [WhisperController::class, 'index'])->name('user.whisper');
 });
 
-// API routes for whispers
+// API routes for whispers (accessible to everyone)
 Route::prefix('api/whispers')->group(function () {
     Route::get('/', [WhisperController::class, 'getWhispers'])->name('api.whispers.index');
     Route::post('/', [WhisperController::class, 'store'])->name('api.whispers.store');
@@ -80,41 +80,47 @@ Route::middleware('guest')->group(function () {
     Route::post('/reset-password', [ResetPasswordController::class, 'reset'])->name('password.update');
 });
 
-// User logout (accessible to all authenticated users)
-Route::post('/logout', [LoginController::class, 'logout'])->name('logout')->middleware('auth');
+// Authenticated user routes (any logged in user)
+Route::middleware(['auth'])->group(function () {
+    Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+});
 
-// Profile Routes (User middleware - only users)
-Route::middleware('user')->group(function () {
+// User-specific routes (only users with 'user' role)
+Route::middleware(['user'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
-});
-
-// Donate Hair Routes (User middleware - only users)
-Route::middleware('user')->group(function () {
     Route::post('/donate-hair', [DonateHairController::class, 'store'])->name('donate.hair.store');
     Route::get('/donate-hair', [DonateHairController::class, 'showDonatePage'])->name('donate.hair');
+    Route::get('/request-wig', [RequestWigController::class, 'showRequestPage'])->name('request.wig');
+    Route::post('/request-wig', [RequestWigController::class, 'storeRequest'])->name('request.wig.storeRequest');
 });
 
 // Admin Routes
 Route::prefix('admin')->group(function () {
-    // Admin Login Routes (No middleware - accessible to everyone)
-    Route::get('/login', [AdminLoginController::class, 'showLoginForm'])->name('admin.login');
-    Route::post('/login', [AdminLoginController::class, 'login'])->name('admin.login.submit');
+    // Admin Login Routes (Guest middleware - only for non-authenticated)
+    Route::middleware(['guest'])->group(function () {
+        Route::get('/login', [AdminLoginController::class, 'showLoginForm'])->name('admin.login');
+        Route::post('/login', [AdminLoginController::class, 'login'])->name('admin.login.submit');
+    });
     
     // Admin Protected Routes (Admin middleware - only admins)
-    Route::middleware('admin')->group(function () {
-        // Admin logout (only for admins)
+    Route::middleware(['admin'])->group(function () {
         Route::post('/logout', [AdminLoginController::class, 'logout'])->name('admin.logout');
-        
-        // User Management
         Route::get('/users', [UserAdminController::class, 'index'])->name('admin.user_admin');
         Route::post('/users', [UserAdminController::class, 'create'])->name('admin.users.create');
         Route::put('/users/{user}', [UserAdminController::class, 'update'])->name('admin.users.update');
         Route::delete('/users/{user}', [UserAdminController::class, 'destroy'])->name('admin.users.destroy');
         
-        // Request Management
         Route::get('/requests', [RequestAdminController::class, 'index'])->name('admin.request_admin');
+        Route::patch('/requests/{hairRequest}/accept', [RequestAdminController::class, 'accept'])->name('admin.requests.accept');
+        Route::patch('/requests/{hairRequest}/reject', [RequestAdminController::class, 'reject'])->name('admin.requests.reject');
+        Route::delete('/requests/{hairRequest}', [RequestAdminController::class, 'destroy'])->name('admin.requests.destroy');
+        
+        Route::get('/donations', [DonateAdminController::class, 'index'])->name('admin.donate_admin');
+        Route::get('/whisper', [WhisperAdminController::class, 'index'])->name('admin.whisper_admin');
+        Route::get('/community', [CommunityAdminController::class, 'index'])->name('admin.community_admin');
+
         
        // Donation Management
     Route::get('/donations', [DonateAdminController::class, 'index'])->name('admin.donate_admin');

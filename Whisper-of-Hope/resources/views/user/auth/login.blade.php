@@ -4,11 +4,11 @@
         <div class="modal-content" style="border-radius: 20px; overflow: hidden; border: none; box-shadow: 0 4px 20px rgba(0,0,0,0.15); width: 400px; margin: 0 auto;">
             <div class="modal-body p-0">
                 <div style="background-color: #F9BCC4; padding: 40px; position: relative;">
-                    <button type="button" class="btn-close position-absolute" data-bs-dismiss="modal" aria-label="Close" style="top: 20px; right: 20px;"></button>
+                    <img src="{{ asset('images/admin/user_admin/close.png') }}" class="modal-close-btn" data-bs-dismiss="modal" aria-label="Close" alt="Close">
                     <div class="text-center mb-5">
                         <h2 class="fw-bold" style="color: #000;">LOGIN</h2>
                     </div>
-                    <form method="POST" action="{{ route('login') }}">
+                    <form method="POST" action="{{ route('login') }}" id="userLoginForm">
                         @csrf
                         <div class="mb-4">
                             <div class="input-group">
@@ -51,8 +51,8 @@
                             </div>
                         </div>
                         <div class="d-grid mb-4">
-                            <button type="submit" class="btn fw-bold"
-                                    style="background-color: #FFF9EA; color: #333; border-radius: 10px;">
+                            <button type="submit" class="btn fw-bold" id="userLoginBtn"
+                                    style="background-color: #FFF9EA; color: #333; border-radius: 10px; transition: all 0.3s ease;">
                                 LOGIN
                             </button>
                         </div>
@@ -88,6 +88,19 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+
+    // Add form submission animation for user login
+    const userLoginForm = document.querySelector('#loginModal form');
+    const userLoginBtn = document.getElementById('userLoginBtn');
+    
+    if (userLoginForm && userLoginBtn) {
+        userLoginForm.addEventListener('submit', function(e) {
+            // Don't prevent default submission, just add loading state
+            userLoginBtn.classList.add('loading');
+            userLoginBtn.disabled = true;
+            userLoginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Logging in...';
+        });
+    }
 });
 </script>
 
@@ -110,5 +123,55 @@ document.addEventListener('DOMContentLoaded', function() {
 
 .input-group:focus-within {
     box-shadow: 0 0 0 2px rgba(221, 221, 221, 0.2);
+}
+
+.modal-close-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.modal-close-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
+}
+
+/* Login button animations */
+#userLoginBtn {
+    transition: all 0.3s ease;
+}
+
+#userLoginBtn:hover {
+    background-color: #F791A9 !important;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(249, 188, 196, 0.3);
+}
+
+#userLoginBtn:active {
+    transform: translateY(0);
+}
+
+/* Loading state for button */
+#userLoginBtn.loading {
+    background-color: #F791A9 !important;
+    cursor: not-allowed;    
+    pointer-events: none;
+    transform: none;
+}
+
+#userLoginBtn.loading:hover {
+    transform: none;
 }
 </style>

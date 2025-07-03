@@ -1,10 +1,10 @@
 <div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
-        <div class="modal-content" style="background: #FFFFFF; border-radius: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.10); border: none;">
+        <div class="modal-content" style="background: #FFFFFF; border-radius: 25px; box-shadow: 0 4px 20px rgba(0,0,0,0.10); border: none;">
             <!-- White Header -->
-            <div class="modal-header" style="border: none; background: #FFFFFF; padding: 20px 30px 15px; border-bottom: 1px solid #f0f0f0;">
-                <h5 class="modal-title fw-bold" id="editProfileModalLabel" style="font-size: 1.4rem; color: #333; margin: 0;">Edit Profile</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="font-size: 1.2rem;"></button>
+            <div class="modal-header" style="border: none; background: #FFFFFF; padding: 10px 20px 8px; border-bottom: 1px solid #f0f0f0; border-radius: 25px 25px 0 0;">
+                <h5 class="modal-title" id="editProfileModalLabel" style="font-size: 2.5rem; letter-spacing: 2px; color: #333; margin: 0; font-weight: 300;">Edit Profile</h5>
+                <img src="{{ asset('images/admin/user_admin/close.png') }}" class="modal-close-btn" data-bs-dismiss="modal" aria-label="Close" alt="Close">
             </div>
             <form method="POST" action="{{ route('profile.update') }}" enctype="multipart/form-data" id="editProfileForm">
                 @csrf
@@ -37,11 +37,12 @@
                     <!-- Upload/Remove Buttons -->
                     <div class="d-flex justify-content-center gap-2 mb-4">
                         <button type="button" class="btn" onclick="document.getElementById('profileImage').click()" 
-                            style="background: #F791A9; color: #fff; border: none; border-radius: 15px; padding: 6px 16px; font-weight: 500; font-size: 0.9rem;">
+                            style="background: #F9BCC4; color: black; border: none; border-radius: 15px; padding: 6px 16px; font-weight: 500; font-size: 0.9rem;">
                             Upload
                         </button>
+                        
                         <button type="button" class="btn" id="removeImageBtn"
-                            style="background: #D6D6D6; color: #fff; border: none; border-radius: 15px; padding: 6px 16px; font-weight: 500; font-size: 0.9rem;">
+                            style="background: #D6D6D6; color: black; border: none; border-radius: 15px; padding: 6px 16px; font-weight: 500; font-size: 0.9rem;">
                             Remove
                         </button>
                     </div>
@@ -52,7 +53,7 @@
                             <label for="editName" class="form-label fw-bold mb-2" style="color: #333; font-size: 0.9rem;">Name</label>
                             <input type="text" class="form-control @error('name') is-invalid @enderror"
                                    id="editName" name="name" value="{{ old('name', auth()->user()->name) }}" required
-                                   style="background: #FFF9EA; border: none; border-radius: 20px; padding: 12px 16px; min-height: 45px;">
+                                   style="background: #FFF9EA; border: none; border-radius: 10px; padding: 12px 16px; min-height: 45px;">
                             @error('name')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -61,7 +62,7 @@
                             <label for="editEmail" class="form-label fw-bold mb-2" style="color: #333; font-size: 0.9rem;">Email</label>
                             <input type="email" class="form-control @error('email') is-invalid @enderror"
                                    id="editEmail" name="email" value="{{ old('email', auth()->user()->email) }}" required
-                                   style="background: #FFF9EA; border: none; border-radius: 20px; padding: 12px 16px; min-height: 45px;">
+                                   style="background: #FFF9EA; border: none; border-radius: 10px; padding: 12px 16px; min-height: 45px;">
                             @error('email')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -70,7 +71,7 @@
                             <label for="editPhone" class="form-label fw-bold mb-2" style="color: #333; font-size: 0.9rem;">Phone Number</label>
                             <input type="tel" class="form-control @error('phone') is-invalid @enderror"
                                    id="editPhone" name="phone" value="{{ old('phone', auth()->user()->phone) }}"
-                                   style="background: #FFF9EA; border: none; border-radius: 20px; padding: 12px 16px; min-height: 45px;">
+                                   style="background: #FFF9EA; border: none; border-radius: 10px; padding: 12px 16px; min-height: 45px;">
                             @error('phone')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -79,7 +80,7 @@
                             <label class="form-label fw-bold mb-2" style="color: #333; font-size: 0.9rem;">Gender</label>
                             <div class="position-relative">
                                 <select class="form-select @error('gender') is-invalid @enderror" name="gender"
-                                    style="background: #FFF9EA; border: none; border-radius: 20px; padding: 12px 16px; min-height: 45px; appearance: none;">
+                                    style="background: #FFF9EA; border: none; border-radius: 10px; padding: 12px 16px; min-height: 45px; appearance: none;">
                                     <option value="">Select Gender</option>
                                     <option value="male" {{ old('gender', auth()->user()->gender) == 'male' ? 'selected' : '' }}>Male</option>
                                     <option value="female" {{ old('gender', auth()->user()->gender) == 'female' ? 'selected' : '' }}>Female</option>
@@ -96,13 +97,13 @@
                 </div>
                 
                 <!-- Pink Footer with Buttons -->
-                <div class="modal-footer d-flex justify-content-end gap-2" style="border: none; background: #FFDBDF; padding: 0 30px 30px;">
+                <div class="modal-footer d-flex justify-content-end gap-2" style="border: none; background: #FFDBDF; padding: 0 30px 30px; border-radius: 0 0 25px 25px;">
                     <button type="submit" class="btn" 
-                        style="background: #F791A9; color: #fff; border: none; border-radius: 15px; padding: 8px 20px; font-weight: 500; font-size: 0.9rem;">
+                        style="background: #F9BCC4; color: black; border: none; border-radius: 15px; padding: 8px 20px; font-weight: 500; font-size: 0.9rem;">
                         Save changes
                     </button>
                     <button type="button" class="btn" data-bs-dismiss="modal"
-                        style="background: #D6D6D6; color: #fff; border: none; border-radius: 15px; padding: 8px 20px; font-weight: 500; font-size: 0.9rem;">
+                        style="background: #D6D6D6; color: black; border: none; border-radius: 15px; padding: 8px 20px; font-weight: 500; font-size: 0.9rem;">
                         Cancel
                     </button>
                 </div>
@@ -110,6 +111,43 @@
         </div>
     </div>
 </div>
+
+<style>
+.modal-close-btn {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.modal-close-btn:hover {
+    background: #f5f5f5;
+    transform: scale(1.1);
+}
+
+/* Pink focus animations for form inputs */
+.form-control:focus {
+    background: #FFF9EA !important;
+    border: none !important;
+    box-shadow: 0 0 0 0.2rem rgba(249, 188, 196, 0.25) !important;
+    outline: none !important;
+}
+
+.form-select:focus {
+    background: #FFF9EA !important;
+    border: none !important;
+    box-shadow: 0 0 0 0.2rem rgba(249, 188, 196, 0.25) !important;
+    outline: none !important;
+}
+</style>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -120,7 +158,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Wait for modal to be fully loaded
     const editProfileModal = document.getElementById('editProfileModal');
     
     editProfileModal.addEventListener('shown.bs.modal', function() {
@@ -134,7 +171,6 @@ document.addEventListener('DOMContentLoaded', function() {
         const profileImageInput = document.getElementById('profileImage');
         const removeImageBtn = document.getElementById('removeImageBtn');
         const removeImageFlag = document.getElementById('removeImage');
-        let profileImagePreview = document.getElementById('profileImagePreview');
 
         // Remove existing event listeners to prevent duplicates
         profileImageInput.replaceWith(profileImageInput.cloneNode(true));
@@ -147,12 +183,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Validate file type
                 if (!file.type.startsWith('image/')) {
                     alert('Please select an image file.');
+                    newProfileImageInput.value = '';
                     return;
                 }
                 
                 // Validate file size (max 2MB)
                 if (file.size > 2 * 1024 * 1024) {
                     alert('File size must be less than 2MB.');
+                    newProfileImageInput.value = '';
                     return;
                 }
 
@@ -188,55 +226,184 @@ document.addEventListener('DOMContentLoaded', function() {
             
             const currentPreview = document.getElementById('profileImagePreview');
             
-            if (currentPreview.tagName === 'IMG') {
-                // Replace image with placeholder
-                const placeholder = document.createElement('div');
-                placeholder.id = 'profileImagePreview';
-                placeholder.style.cssText = 'width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: repeating-linear-gradient(45deg, #eee 0 8px, #fff 8px 16px); border-radius: 50%;';
-                placeholder.innerHTML = '<i class="bi bi-person-fill" style="font-size: 2rem; color: #999;"></i>';
-                currentPreview.replaceWith(placeholder);
-            }
+            // Replace with placeholder regardless of current state
+            const placeholder = document.createElement('div');
+            placeholder.id = 'profileImagePreview';
+            placeholder.style.cssText = 'width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: repeating-linear-gradient(45deg, #eee 0 8px, #fff 8px 16px); border-radius: 50%;';
+            placeholder.innerHTML = '<i class="bi bi-person-fill" style="font-size: 2rem; color: #999;"></i>';
+            currentPreview.replaceWith(placeholder);
         });
     });
 
-    // Handle Edit Profile modal close to show Profile modal
-    const editProfileModal = document.getElementById('editProfileModal');
+    // Handle form submission with AJAX
+    const editProfileForm = document.getElementById('editProfileForm');
+    if (editProfileForm) {
+        editProfileForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            
+            // Show loading state
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Saving...';
+            
+            fetch(this.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    // Update profile modal data
+                    updateProfileModal(data);
+                    
+                    // Close edit modal and show profile modal
+                    const modalInstance = bootstrap.Modal.getInstance(editProfileModal);
+                    if (modalInstance) {
+                        modalInstance.hide();
+                    }
+                    
+                    // Show success message
+                    showSuccessMessage(data.message);
+                    
+                } else {
+                    throw new Error(data.message || 'Update failed');
+                }
+            })
+            .catch(error => {
+                console.error('Error details:', error);
+                alert('Error updating profile: ' + error.message);
+            })
+            .finally(() => {
+                // Reset button state
+                submitBtn.disabled = false;
+                submitBtn.textContent = originalText;
+            });
+        });
+    }
+
+    // Function to update profile modal with new data
+    function updateProfileModal(data) {
+        // Update profile image in profile modal
+        const profileImageContainer = document.getElementById('profileImageContainer');
+        if (profileImageContainer) {
+            if (data.profile_image_url) {
+                profileImageContainer.innerHTML = `
+                    <img src="${data.profile_image_url}" 
+                         style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;" id="profileModalImage">
+                `;
+            } else {
+                profileImageContainer.innerHTML = `
+                    <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;
+                        background: repeating-linear-gradient(45deg, #eee 0 8px, #fff 8px 16px);
+                        border-radius: 50%;" id="profileModalPlaceholder">
+                        <i class="bi bi-person-fill" style="font-size: 2rem; color: #999;"></i>
+                    </div>
+                `;
+            }
+        }
+        
+        // Update navbar profile image
+        const navbarProfileImg = document.querySelector('.auth-container .profile-img');
+        const navbarProfileIcon = document.querySelector('.auth-container .bi-person-circle');
+        
+        if (data.profile_image_url) {
+            // If there's a new image
+            if (navbarProfileImg) {
+                // Update existing image
+                navbarProfileImg.src = data.profile_image_url;
+            } else if (navbarProfileIcon) {
+                // Replace icon with image
+                navbarProfileIcon.outerHTML = `<img src="${data.profile_image_url}" class="profile-img ms-2" style="width:32px;height:32px;object-fit:cover;border-radius:50%;">`;
+            }
+        } else {
+            // If image was removed
+            if (navbarProfileImg) {
+                // Replace image with icon
+                navbarProfileImg.outerHTML = `<i class="bi bi-person-circle fs-5 ms-2"></i>`;
+            }
+        }
+        
+        // Update profile data in modal
+        if (data.user) {
+            const nameEl = document.getElementById('profileModalName');
+            const emailEl = document.getElementById('profileModalEmail');
+            const phoneEl = document.getElementById('profileModalPhone');
+            const genderEl = document.getElementById('profileModalGender');
+            
+            if (nameEl) nameEl.textContent = data.user.name;
+            if (emailEl) emailEl.textContent = data.user.email;
+            if (phoneEl) phoneEl.textContent = data.user.phone || '';
+            if (genderEl) genderEl.textContent = data.user.gender ? data.user.gender.charAt(0).toUpperCase() + data.user.gender.slice(1) : '';
+        }
+        
+        // Update navbar user name
+        const navbarUserName = document.querySelector('.auth-container .user-name');
+        if (navbarUserName && data.user && data.user.name) {
+            navbarUserName.textContent = data.user.name;
+        }
+    }
+
+    // Function to show success message
+    function showSuccessMessage(message) {
+        // Create and show a temporary success alert
+        const alert = document.createElement('div');
+        alert.className = 'alert alert-success alert-dismissible fade show position-fixed';
+        alert.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+        alert.innerHTML = `
+            ${message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        `;
+        
+        document.body.appendChild(alert);
+        
+        // Auto remove after 3 seconds
+        setTimeout(() => {
+            if (alert.parentNode) {
+                alert.remove();
+            }
+        }, 3000);
+    }
+
+    // Clean modal backdrop handling
     if (editProfileModal) {
         editProfileModal.addEventListener('hidden.bs.modal', function() {
-            // Only return to profile modal if no other modal is being opened
-            setTimeout(function() {
-                const anyModalOpen = document.querySelector('.modal.show');
-                if (!anyModalOpen) {
-                    // Show profile modal with blank backdrop
-                    const profileModal = document.getElementById('profileModal');
-                    if (profileModal) {
-                        const modalInstance = new bootstrap.Modal(profileModal, {
-                            backdrop: true,
-                            keyboard: true
-                        });
-                        modalInstance.show();
-                    }
+            // Remove only extra backdrops, keep one if another modal needs to show
+            const backdrops = document.querySelectorAll('.modal-backdrop');
+            if (backdrops.length > 0) {
+                // Remove all backdrops and let Bootstrap handle it properly
+                backdrops.forEach(backdrop => backdrop.remove());
+                
+                // Check if any other modals are still open
+                const openModals = document.querySelectorAll('.modal.show');
+                if (openModals.length === 0) {
+                    // Only reset body if no modals are open
+                    document.body.classList.remove('modal-open');
+                    document.body.style.overflow = '';
+                    document.body.style.paddingRight = '';
                 }
-            }, 150);
+            }
         });
-
-        // Handle X button for edit profile
-        const editCloseBtn = editProfileModal.querySelector('.btn-close');
-        if (editCloseBtn) {
-            editCloseBtn.addEventListener('click', function(e) {
-                e.preventDefault();
-                const modalInstance = bootstrap.Modal.getInstance(editProfileModal);
-                if (modalInstance) {
-                    modalInstance.hide();
-                } else {
-                    editProfileModal.classList.remove('show');
-                    editProfileModal.style.display = 'none';
-                    // Clean backdrops
-                    const backdrops = document.querySelectorAll('.modal-backdrop');
-                    backdrops.forEach(backdrop => backdrop.remove());
-                }
-            });
-        }
+        
+        // Prevent multiple backdrop creation
+        editProfileModal.addEventListener('show.bs.modal', function() {
+            // Clean any existing backdrops before showing
+            const existingBackdrops = document.querySelectorAll('.modal-backdrop');
+            if (existingBackdrops.length > 0) {
+                existingBackdrops.forEach(backdrop => backdrop.remove());
+            }
+        });
     }
 });
 </script>

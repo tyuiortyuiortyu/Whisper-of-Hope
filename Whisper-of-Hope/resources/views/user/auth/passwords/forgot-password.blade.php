@@ -3,7 +3,7 @@
         <div class="modal-content" style="border-radius: 20px; overflow: hidden; border: none; box-shadow: 0 4px 20px rgba(0,0,0,0.15); width: 400px; margin: 0 auto;">
             <div class="modal-body p-0">
                 <div style="background-color: #F9BCC4; padding: 40px; position: relative;">
-                    <button type="button" class="btn-close position-absolute" data-bs-dismiss="modal" aria-label="Close" style="top: 20px; right: 20px;"></button>
+                    <img src="{{ asset('images/admin/user_admin/close.png') }}" class="modal-close-btn" data-bs-dismiss="modal" aria-label="Close" alt="Close">
                     <div class="text-center mb-5">
                         <h2 class="fw-bold" id="forgotPasswordModalLabel" style="color: #000;">FORGOT PASSWORD</h2>
                     </div>
@@ -72,5 +72,28 @@
 
 .input-group:focus-within {
     box-shadow: 0 0 0 2px rgba(233, 30, 99, 0.2);
+}
+
+.modal-close-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.modal-close-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
 }
 </style>
