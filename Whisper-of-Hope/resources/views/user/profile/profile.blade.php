@@ -37,25 +37,25 @@
                 <div class="row g-3">
                     <div class="col-md-6">
                         <label class="form-label fw-bold mb-2" style="color: #333; font-size: 0.9rem;">Name</label>
-                        <div style="background: #FFF9EA; border: none; border-radius: 20px; padding: 12px 16px; min-height: 45px; display: flex; align-items: center;" id="profileModalName">
+                        <div style="background: #FFF9EA; border: none; border-radius: 10px; padding: 12px 16px; min-height: 45px; display: flex; align-items: center;" id="profileModalName">
                             {{ auth()->user()->name }}
                         </div>
                     </div>
                     <div class="col-md-6">
                         <label class="form-label fw-bold mb-2" style="color: #333; font-size: 0.9rem;">Email</label>
-                        <div style="background: #FFF9EA; border: none; border-radius: 20px; padding: 12px 16px; min-height: 45px; display: flex; align-items: center;" id="profileModalEmail">
+                        <div style="background: #FFF9EA; border: none; border-radius: 10px; padding: 12px 16px; min-height: 45px; display: flex; align-items: center;" id="profileModalEmail">
                             {{ auth()->user()->email }}
                         </div>
                     </div>
                     <div class="col-md-6">
                         <label class="form-label fw-bold mb-2" style="color: #333; font-size: 0.9rem;">Phone Number</label>
-                        <div style="background: #FFF9EA; border: none; border-radius: 20px; padding: 12px 16px; min-height: 45px; display: flex; align-items: center;" id="profileModalPhone">
+                        <div style="background: #FFF9EA; border: none; border-radius: 10px; padding: 12px 16px; min-height: 45px; display: flex; align-items: center;" id="profileModalPhone">
                             {{ auth()->user()->phone ?? '' }}
                         </div>
                     </div>
                     <div class="col-md-6">
                         <label class="form-label fw-bold mb-2" style="color: #333; font-size: 0.9rem;">Gender</label>
-                        <div style="background: #FFF9EA; border: none; border-radius: 20px; padding: 12px 16px; min-height: 45px; display: flex; align-items: center; justify-content: space-between;">
+                        <div style="background: #FFF9EA; border: none; border-radius: 10px; padding: 12px 16px; min-height: 45px; display: flex; align-items: center; justify-content: space-between;">
                             <span id="profileModalGender">{{ auth()->user()->gender ? ucfirst(auth()->user()->gender) : '' }}</span>
                             <i class="bi bi-chevron-down" style="color: #666; font-size: 0.8rem;"></i>
                         </div>

@@ -18,7 +18,7 @@
         }
         
         .reset-container {
-            background: white;
+            background: #FFF9EA;
             border-radius: 20px;
             padding: 40px;
             width: 100%;
@@ -36,13 +36,13 @@
         .form-label {
             font-weight: 500;
             color: #333;
-            margin-bottom: 8px;
+            margin-bottom: 5px;
         }
         
         .form-control {
             border-radius: 10px;
             border: 1px solid #ddd;
-            padding: 12px 15px;
+            padding: 10px 15px;
             margin-bottom: 20px;
         }
         
@@ -56,21 +56,40 @@
             border: none;
             color: #333;
             font-weight: 600;
-            padding: 12px;
+            padding: 10px;
             border-radius: 10px;
             width: 100%;
             margin-top: 10px;
+            transition: all 0.3s ease;
         }
         
         .btn-reset:hover {
             background: #F791A9;
             color: #333;
+            transform: translateY(-2px);
         }
         
         .text-danger {
             font-size: 0.9rem;
             margin-top: -15px;
             margin-bottom: 15px;
+        }
+        
+        .back-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .back-link a {
+            color: black;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+        
+        .back-link a:hover {
+            color: #F791A9;
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -99,6 +118,10 @@
             </div>
             
             <button type="submit" class="btn btn-reset">Reset Password</button>
+            
+            <div class="back-link">
+                <a href="{{ route('login') }}">← Back to Login</a>
+            </div>
         </form>
     </div>
 </body>

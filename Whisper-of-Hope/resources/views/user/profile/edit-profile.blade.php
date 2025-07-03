@@ -40,6 +40,7 @@
                             style="background: #F9BCC4; color: black; border: none; border-radius: 15px; padding: 6px 16px; font-weight: 500; font-size: 0.9rem;">
                             Upload
                         </button>
+                        
                         <button type="button" class="btn" id="removeImageBtn"
                             style="background: #D6D6D6; color: black; border: none; border-radius: 15px; padding: 6px 16px; font-weight: 500; font-size: 0.9rem;">
                             Remove
@@ -52,7 +53,7 @@
                             <label for="editName" class="form-label fw-bold mb-2" style="color: #333; font-size: 0.9rem;">Name</label>
                             <input type="text" class="form-control @error('name') is-invalid @enderror"
                                    id="editName" name="name" value="{{ old('name', auth()->user()->name) }}" required
-                                   style="background: #FFF9EA; border: none; border-radius: 20px; padding: 12px 16px; min-height: 45px;">
+                                   style="background: #FFF9EA; border: none; border-radius: 10px; padding: 12px 16px; min-height: 45px;">
                             @error('name')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -61,7 +62,7 @@
                             <label for="editEmail" class="form-label fw-bold mb-2" style="color: #333; font-size: 0.9rem;">Email</label>
                             <input type="email" class="form-control @error('email') is-invalid @enderror"
                                    id="editEmail" name="email" value="{{ old('email', auth()->user()->email) }}" required
-                                   style="background: #FFF9EA; border: none; border-radius: 20px; padding: 12px 16px; min-height: 45px;">
+                                   style="background: #FFF9EA; border: none; border-radius: 10px; padding: 12px 16px; min-height: 45px;">
                             @error('email')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -70,7 +71,7 @@
                             <label for="editPhone" class="form-label fw-bold mb-2" style="color: #333; font-size: 0.9rem;">Phone Number</label>
                             <input type="tel" class="form-control @error('phone') is-invalid @enderror"
                                    id="editPhone" name="phone" value="{{ old('phone', auth()->user()->phone) }}"
-                                   style="background: #FFF9EA; border: none; border-radius: 20px; padding: 12px 16px; min-height: 45px;">
+                                   style="background: #FFF9EA; border: none; border-radius: 10px; padding: 12px 16px; min-height: 45px;">
                             @error('phone')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -79,7 +80,7 @@
                             <label class="form-label fw-bold mb-2" style="color: #333; font-size: 0.9rem;">Gender</label>
                             <div class="position-relative">
                                 <select class="form-select @error('gender') is-invalid @enderror" name="gender"
-                                    style="background: #FFF9EA; border: none; border-radius: 20px; padding: 12px 16px; min-height: 45px; appearance: none;">
+                                    style="background: #FFF9EA; border: none; border-radius: 10px; padding: 12px 16px; min-height: 45px; appearance: none;">
                                     <option value="">Select Gender</option>
                                     <option value="male" {{ old('gender', auth()->user()->gender) == 'male' ? 'selected' : '' }}>Male</option>
                                     <option value="female" {{ old('gender', auth()->user()->gender) == 'female' ? 'selected' : '' }}>Female</option>
@@ -130,6 +131,21 @@
 .modal-close-btn:hover {
     background: #f5f5f5;
     transform: scale(1.1);
+}
+
+/* Pink focus animations for form inputs */
+.form-control:focus {
+    background: #FFF9EA !important;
+    border: none !important;
+    box-shadow: 0 0 0 0.2rem rgba(249, 188, 196, 0.25) !important;
+    outline: none !important;
+}
+
+.form-select:focus {
+    background: #FFF9EA !important;
+    border: none !important;
+    box-shadow: 0 0 0 0.2rem rgba(249, 188, 196, 0.25) !important;
+    outline: none !important;
 }
 </style>
 

@@ -6,7 +6,7 @@
                 <div style="background-color: #F9BCC4; padding: 40px; position: relative;">
                     <img src="{{ asset('images/admin/user_admin/close.png') }}" class="modal-close-btn" data-bs-dismiss="modal" aria-label="Close" alt="Close">
                     <div class="text-center mb-5">
-                        <h2 class="fw-bold" id="userLoginBtn" style="color: #000;">LOGIN</h2>
+                        <h2 class="fw-bold" style="color: #000;">LOGIN</h2>
                     </div>
                     <form method="POST" action="{{ route('login') }}" id="userLoginForm">
                         @csrf
@@ -51,8 +51,8 @@
                             </div>
                         </div>
                         <div class="d-grid mb-4">
-                            <button type="submit" class="btn fw-bold"
-                                    style="background-color: #FFF9EA; color: #333; border-radius: 10px;">
+                            <button type="submit" class="btn fw-bold" id="userLoginBtn"
+                                    style="background-color: #FFF9EA; color: #333; border-radius: 10px; transition: all 0.3s ease;">
                                 LOGIN
                             </button>
                         </div>
@@ -154,7 +154,7 @@ document.addEventListener('DOMContentLoaded', function() {
 }
 
 #userLoginBtn:hover {
-    background-color: #F9BCC4 !important;
+    background-color: #F791A9 !important;
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(249, 188, 196, 0.3);
 }
@@ -165,7 +165,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 /* Loading state for button */
 #userLoginBtn.loading {
-    background-color: #F9BCC4 !important;
+    background-color: #F791A9 !important;
     cursor: not-allowed;    
     pointer-events: none;
     transform: none;
