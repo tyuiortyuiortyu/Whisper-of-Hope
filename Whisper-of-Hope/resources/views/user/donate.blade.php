@@ -62,10 +62,10 @@
         background-color: #FEF0F0;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         border-radius: 10px;
-        padding: 2rem;
+        padding: 2rem 3rem;
         text-align: center;
         width: 28%;
-        min-width: 400px;
+        min-width: 420px;
         height: auto;
         z-index: 1000;
         display: flex;
@@ -276,68 +276,89 @@
             </div>
         </div>
 
-        <div id="donate-form-section" class="d-flex flex-column align-items-center justify-content-center">
+        <div id="donate-form-section" class="d-flex flex-column align-items-center justify-content-center mb-5">
             @guest
-                <div class="text-center my-5 p-4 rounded" style="background-color: #fff9ea; max-width: 800px; margin: auto;">
-                    <p class="mb-3" style="font-size: 20px;">
-                        Untuk donasi rambut, mohon <a href="#" id="openLoginModalLink">login</a> atau <a href="{{ route('register') }}">daftar</a>.
-                    </p>
+                <div class="d-flex justify-content-center align-items-start" style="min-height: 200px; position: relative;">
+                    <a href="{{ route('user.donate') }}"
+                        class="btn"
+                        style="background-color: #F9BCC4; color: #000; border-radius: 30px; font-size: 18px; font-weight: 500; margin-top: 0; padding: 10px 40px; min-width: 200px;">
+                        Donate Hair!
+                    </a>
                 </div>
+
             @else
                 <div class="rounded-20 p-5 my-2 w-100"
                     style="background-color: #FFF9EA; border-radius: 20px; padding: 40px 64px; margin: 8px 0px; max-width: 1200px; display: flex; flex-direction: column;
                     box-shadow: 4px 4px 12px 0 rgba(0,0,0,0.3);">
+
                     <h2 class="mb-0" style="font-family: 'Yantramanav', sans-serif; font-size: 28px; margin-left: 20px; margin-bottom: 0;">Donate Hair</h2>
                     <hr style="border: none; border-top: 1px solid #000; margin-top: 0; margin-bottom: 28px;">
+
                     <form id="DonateHairForm" method="POST" action="{{ route('donate.hair.store') }}">
                         @csrf
+
+                        {{-- Hair Donor's Details Section --}}
                         <div class="row mb-3" style="display: flex; margin-left: 10px;">
                             <div class="form-label col-md-3 fw-bold d-flex align-items-start flex-column justify-content-start mb-2">
                                 Hair Donor's Detail
                             </div>
                             <div class="form-fields col-md-9">
+                                {{-- Full Name Field --}}
                                 <div class="mb-1">
-                                    <label>Full Name</label>
-                                    <input type="text" name="full_name" class="bg-transparent always-transparent" required value="{{ old('full_name', Auth::check() ? Auth::user()->name : '') }}">
+                                    <label for="full_name">Full Name</label>
+                                    <input type="text" id="full_name" name="full_name" class="bg-transparent always-transparent" required value="{{ old('full_name', Auth::check() ? Auth::user()->name : '') }}">
                                     @error('full_name')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
+
+                                {{-- Age Field --}}
                                 <div class="mb-1">
-                                    <label>Age</label>
-                                    <input type="number" name="age" class="bg-transparent always-transparent" required value="{{ old('age') }}">
+                                    <label for="age">Age</label>
+                                    <input type="number" id="age" name="age" class="bg-transparent always-transparent" required value="{{ old('age') }}">
                                     @error('age')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
+
+                                {{-- Email Field --}}
                                 <div class="mb-1">
-                                    <label>Email</label>
-                                    <input type="email" class="bg-transparent always-transparent" name="email" required value="{{ old('email', Auth::check() ? Auth::user()->email : '') }}">
+                                    <label for="email">Email</label>
+                                    <input type="email" id="email" class="bg-transparent always-transparent" name="email" required value="{{ old('email', Auth::check() ? Auth::user()->email : '') }}">
                                     @error('email')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
+
+                                {{-- Phone Number Field --}}
                                 <div class="mb-1">
-                                    <label>Phone Number</label>
-                                    <input type="tel" class="bg-transparent always-transparent" name="phone" required value="{{ old('phone', Auth::check() ? Auth::user()->phone : '') }}">
+                                    <label for="phone">Phone Number</label>
+                                    <input type="tel" id="phone" class="bg-transparent always-transparent" name="phone" required value="{{ old('phone', Auth::check() ? Auth::user()->phone : '') }}">
                                     @error('phone')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
+
+                                {{-- Hair Length Field --}}
                                 <div class="mb-1">
-                                    <label>The Length of Your Ponytails (cm)</label>
-                                    <input type="number" class="bg-transparent always-transparent" name="hair_length" required value="{{ old('hair_length') }}">
+                                    <label for="hair_length">The Length of Your Ponytails (cm)</label>
+                                    <input type="number" id="hair_length" class="bg-transparent always-transparent" name="hair_length" required value="{{ old('hair_length') }}">
                                     @error('hair_length')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
                             </div>
                         </div>
+
                         <hr style="border: none; border-top: 1px solid #000; margin: 16px 0;">
+
+                        {{-- Thank You Message --}}
                         <div class="text-center mb-4">
                             Terima kasih atas kemurahan hati Anda! Donasi Anda akan membantu seseorang merasa utuh kembali.<br>
                             Klik ‘Submit’ untuk menyelesaikan tindakan kebaikan Anda.
                         </div>
+
+                        {{-- Form Buttons --}}
                         <div class="form-button d-flex justify-content-center gap-3 mt-3">
                             <button type="reset" class="btn px-4 rounded-pill btn-clear" style="min-width: 150px; background-color: #E8E8E8; color: #000; border: none; font-weight: 500;">Clear</button>
                             <button type="submit" class="btn btn-pink px-4 rounded-pill btn-submit" style="min-width: 150px; background-color: #F9BCC4; color: #000; font-weight: 500;">Submit</button>
@@ -356,12 +377,12 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modalContent">
             <div class="modalHeader">
-                <h2 style="margin-bottom: 18px;">Your request has been received!</h2>
+                <h2 style="margin-bottom: 18px;">Thank you for your beautiful gift!</h2>
             </div>
             <div class="modalBody">
-                <p>Please know you’re not alone in this journey,
-                    we’re honoured to walk this path with you.
-                    Kindly check your email for further details.</p>
+                <p>Please mail your hair within 7 days to 
+                    Jl. Pakuan No.3, Sumur Batu, Kec. Babakan Madang, 
+                    Kabupaten Bogor, Jawa Barat 16810.</p>
             </div>
             <div class="modalFooter">
                 <button type="button" class="btn btn-submit px-5 py-2 rounded-pill" style="min-width: 180px; border-radius: 30px; font-weight: 500;" data-bs-dismiss="modal">OK</button>
@@ -376,8 +397,8 @@
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const loginModalElement = document.getElementById('loginModal');
-        const registerModalElement = document.getElementById('registerModal'); 
-        const forgotPasswordModalElement = document.getElementById('forgotPasswordModal'); 
+        const registerModalElement = document.getElementById('registerModal');
+        const forgotPasswordModalElement = document.getElementById('forgotPasswordModal');
         const pageContentWrapper = document.getElementById('page-content-wrapper');
         const submitFormModalElement = document.getElementById('submitFormModal');
 
@@ -396,16 +417,17 @@
 
         function handleGuestLoginModal() {
             @guest
-                if (!openingAnotherModal) {
-                    loginModal.show();
+                if (loginModal) { 
+                    if (!openingAnotherModal) {
+                        loginModal.show();
+                    }
                 }
             @endguest
         }
 
         if (loginModalElement && loginModal) {
             @guest
-                handleGuestLoginModal(); 
-
+                handleGuestLoginModal();
 
                 const openLoginModalLink = document.getElementById('openLoginModalLink');
                 if (openLoginModalLink) {
@@ -423,28 +445,21 @@
                     }
                 });
 
-                // When login modal is hidden
                 loginModalElement.addEventListener('hidden.bs.modal', function () {
                     if (pageContentWrapper) {
                         pageContentWrapper.classList.remove('content-blurred');
                     }
-                    @guest
-                        if (!openingAnotherModal) {
-                            setTimeout(() => {
-                                handleGuestLoginModal();
-                            }, 100); // Small delay to allow other modals to fully show if they triggered this hide
-                        }
-                    @endguest
                 });
-            @endguest
+            @endguest 
+            
         }
 
         // --- Register Modal Logic ---
         if (registerModalElement && registerModal) {
             registerModalElement.addEventListener('show.bs.modal', function () {
-                openingAnotherModal = true; // Set flag when opening register modal
-                hideModal(loginModal); // Explicitly hide login modal
-                hideModal(forgotPasswordModal); // Explicitly hide forgot password modal
+                openingAnotherModal = true;
+                hideModal(loginModal);
+                hideModal(forgotPasswordModal);
 
                 if (pageContentWrapper) {
                     pageContentWrapper.classList.add('content-blurred');
@@ -452,25 +467,18 @@
             });
 
             registerModalElement.addEventListener('hidden.bs.modal', function () {
-                openingAnotherModal = false; // Reset flag when register modal is hidden
+                openingAnotherModal = false;
                 if (pageContentWrapper) {
                     pageContentWrapper.classList.remove('content-blurred');
                 }
-                @guest
-                    // If user is still a guest after closing register, show login again
-                    setTimeout(() => {
-                        handleGuestLoginModal();
-                    }, 100);
-                @endguest
             });
         }
 
-        // --- Forgot Password Modal Logic ---
         if (forgotPasswordModalElement && forgotPasswordModal) {
             forgotPasswordModalElement.addEventListener('show.bs.modal', function () {
-                openingAnotherModal = true; // Set flag when opening forgot password modal
-                hideModal(loginModal); // Explicitly hide login modal
-                hideModal(registerModal); // Explicitly hide register modal
+                openingAnotherModal = true;
+                hideModal(loginModal);
+                hideModal(registerModal);
 
                 if (pageContentWrapper) {
                     pageContentWrapper.classList.add('content-blurred');
@@ -478,20 +486,13 @@
             });
 
             forgotPasswordModalElement.addEventListener('hidden.bs.modal', function () {
-                openingAnotherModal = false; // Reset flag when forgot password modal is hidden
+                openingAnotherModal = false;
                 if (pageContentWrapper) {
                     pageContentWrapper.classList.remove('content-blurred');
                 }
-                @guest
-                    // If user is still a guest after closing forgot password, show login again
-                    setTimeout(() => {
-                        handleGuestLoginModal();
-                    }, 100);
-                @endguest
             });
         }
 
-        // --- Submit Form Modal Logic (unchanged) ---
         if (submitFormModalElement && submitFormModal) {
             @if(session('show_modal'))
                 submitFormModal.show();
