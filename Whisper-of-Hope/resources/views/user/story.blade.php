@@ -26,7 +26,7 @@
 
     {{-- Related Stories --}}
     <h3 class="text-center mb-4" style="font-family: 'Gidugu'; font-size: 3.5rem;">You Might Also Like</h3>
-    <div class="row justify-content-center" id="story-container">
+    <div class="row justify-content-center pb-5" id="story-container">
         @forelse ($relatedStories as $related)
         <div class="col-md-4 px-4 story-card justify-content-center">
             <a href="{{ route('community.story', ['id' => $story->id]) }}" class="full-link text-decoration-none text-dark">

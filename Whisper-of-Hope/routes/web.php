@@ -19,6 +19,7 @@ use App\Http\Controllers\Admin\RequestAdminController;
 use App\Http\Controllers\Admin\DonateAdminController;
 use App\Http\Controllers\Admin\WhisperAdminController;
 use App\Http\Controllers\Admin\CommunityAdminController;
+use App\Http\Controllers\Admin\StoryController;
 
 // Main welcome page (accessible to everyone - no middleware)
 Route::get('/', function () {
@@ -134,6 +135,11 @@ Route::prefix('admin')->group(function () {
         
         // Community Stories Management
         Route::get('/community', [CommunityAdminController::class, 'index'])->name('admin.community_admin');
+        Route::get('community/preview/add-new-story', [CommunityAdminController::class, 'create'])->name('admin.community_admin_addPreview');
+        Route::post('community/add', [CommunityAdminController::class, 'store'])->name('admin.community_admin_add');
+        Route::get('/community/preview/{story}/edit', [CommunityAdminController::class, 'edit'])->name('admin.community_admin_edit');
+        Route::put('/community/update/{story}', [CommunityAdminController::class, 'update'])->name('admin.community_admin_update');
+        Route::delete('/community/delete/{story}', [CommunityAdminController::class, 'destroy'])->name('admin.community_admin_delete');
     });
 });
 
