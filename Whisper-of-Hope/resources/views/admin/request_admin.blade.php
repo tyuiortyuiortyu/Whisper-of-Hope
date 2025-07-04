@@ -61,7 +61,7 @@
             </thead>
             <tbody id="requestsTableBody">
                 @forelse($requests as $request)
-                <tr>
+                <tr class="clickable-row" onclick="window.location.href='{{ route('admin.request.show', $request) }}'">
                     <td>{{ $request->id }}</td>
                     <td>{{ $request->recipient_full_name }}</td>
                     <td>{{ $request->recipient_age ?? '-' }}</td>
@@ -339,6 +339,17 @@
         border-collapse: separate;
         border-spacing: 0;
         background: white;
+    }
+
+    .requests-table tbody tr.clickable-row {
+        cursor: pointer;
+    }
+
+    .requests-table tbody tr .action-cell {
+        cursor: default;
+    }
+    .requests-table tbody tr .action-cell * {
+        cursor: pointer;
     }
     
     .requests-table th,

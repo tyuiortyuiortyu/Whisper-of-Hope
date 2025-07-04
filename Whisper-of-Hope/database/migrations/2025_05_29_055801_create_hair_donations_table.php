@@ -12,12 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('hair_donations', function (Blueprint $table) {
-            $table->id();
+            $table->string('id')->primary();
             $table->string('full_name');
             $table->integer('age');
             $table->string('email');
-            $table->string('phone');
-            $table->integer('hair_length'); // in centimeters
+            $table->string('phone', 20);
+            $table->integer('hair_length'); 
+            $table->string('status')->default('waiting');
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });

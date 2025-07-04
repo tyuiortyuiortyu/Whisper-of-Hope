@@ -8,14 +8,21 @@ use Illuminate\Database\Eloquent\Model;
 class DonateHair extends Model
 {
     use HasFactory;
-    protected $table = 'hair_donations';
+
+    protected $table = 'hair_donations'; // Pastikan nama tabel sudah benar
+
+    protected $primaryKey = 'id'; 
+    public $incrementing = false; 
+    protected $keyType = 'string'; 
 
     protected $fillable = [
-    'user_id',
-    'full_name',
-    'age',
-    'email',
-    'phone',
-    'hair_length',
-];
+        'id',
+        'user_id',
+        'full_name',
+        'age',
+        'email',
+        'phone',
+        'hair_length',
+        'status',
+    ];
 }

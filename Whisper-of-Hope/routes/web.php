@@ -19,6 +19,7 @@ use App\Http\Controllers\Admin\RequestAdminController;
 use App\Http\Controllers\Admin\DonateAdminController;
 use App\Http\Controllers\Admin\WhisperAdminController;
 use App\Http\Controllers\Admin\CommunityAdminController;
+use App\Http\Controllers\Admin\StoryController;
 
 // Main welcome page (accessible to everyone - no middleware)
 Route::get('/', function () {
@@ -113,6 +114,7 @@ Route::prefix('admin')->group(function () {
         Route::delete('/users/{user}', [UserAdminController::class, 'destroy'])->name('admin.users.destroy');
         
         Route::get('/requests', [RequestAdminController::class, 'index'])->name('admin.request_admin');
+        Route::get('/requests/{hairRequest}', [RequestAdminController::class, 'show'])->name('admin.request.show');
         Route::patch('/requests/{hairRequest}/accept', [RequestAdminController::class, 'accept'])->name('admin.requests.accept');
         Route::patch('/requests/{hairRequest}/reject', [RequestAdminController::class, 'reject'])->name('admin.requests.reject');
         Route::delete('/requests/{hairRequest}', [RequestAdminController::class, 'destroy'])->name('admin.requests.destroy');
@@ -122,14 +124,22 @@ Route::prefix('admin')->group(function () {
         Route::get('/community', [CommunityAdminController::class, 'index'])->name('admin.community_admin');
 
         
-        // Donation Management
-        Route::get('/donations', [DonateAdminController::class, 'index'])->name('admin.donate_admin');
+       // Donation Management
+    Route::get('/donations', [DonateAdminController::class, 'index'])->name('admin.donate_admin');
+    Route::put('/donations/{hairDonation}/approve', [DonateAdminController::class, 'approve'])->name('admin.donations.approve');
+    Route::put('/donations/{hairDonation}/reject', [DonateAdminController::class, 'reject'])->name('admin.donations.reject');
+    Route::delete('/donations/{hairDonation}', [DonateAdminController::class, 'destroy'])->name('admin.donations.destroy');
         
         // Whisper Management
         Route::get('/whisper', [WhisperAdminController::class, 'index'])->name('admin.whisper_admin');
         
         // Community Stories Management
         Route::get('/community', [CommunityAdminController::class, 'index'])->name('admin.community_admin');
+        Route::get('community/preview/add-new-story', [CommunityAdminController::class, 'create'])->name('admin.community_admin_addPreview');
+        Route::post('community/add', [CommunityAdminController::class, 'store'])->name('admin.community_admin_add');
+        Route::get('/community/preview/{story}/edit', [CommunityAdminController::class, 'edit'])->name('admin.community_admin_edit');
+        Route::put('/community/update/{story}', [CommunityAdminController::class, 'update'])->name('admin.community_admin_update');
+        Route::delete('/community/delete/{story}', [CommunityAdminController::class, 'destroy'])->name('admin.community_admin_delete');
     });
 });
 
