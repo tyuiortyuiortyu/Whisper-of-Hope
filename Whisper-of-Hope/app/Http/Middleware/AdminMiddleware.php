@@ -16,11 +16,19 @@ class AdminMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
+        // Check if user is authenticated
         if (!Auth::check()) {
             return redirect()->route('admin.login');
         }
 
+        // Check if user has admin role
         if (Auth::user()->role !== 'admin') {
+            // If user role, redirect to user area
+            if (Auth::user()->role === 'user') {
+                return redirect()->route('welcome');
+            }
+            
+            // Otherwise, show access denied
             abort(403, 'Access denied. Admin privileges required.');
         }
 

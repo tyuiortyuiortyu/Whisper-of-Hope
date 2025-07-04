@@ -124,6 +124,15 @@
         transform: translateY(-2px);
     }
 
+    .btn-primary:active,
+    .btn-primary:focus {
+        background-color: #F9BCC4 !important;
+        color: #333 !important;
+        outline: none;
+        box-shadow: none;
+        transform: translateY(0);
+    }
+
     .btn-secondary {
         background-color: #F9BCC4;
         color: #333;
@@ -133,6 +142,15 @@
     .btn-secondary:hover {
         background-color: #f5a8c1;
         transform: translateY(-2px);
+    }
+
+    .btn-secondary:active,
+    .btn-secondary:focus {
+        background-color: #F9BCC4 !important;
+        color: #333 !important;
+        outline: none;
+        box-shadow: none;
+        transform: translateY(0);
     }
 
     .hero-image {
@@ -295,7 +313,7 @@
 
     .feature-card li::before {
         content: "";
-        background-image: url('{{ asset('images/landing/hairlist_img.png') }}');
+        background-image: url('{{ asset('images/landing/hairlist.png') }}');
         background-size: contain;
         background-repeat: no-repeat;
         background-position: center;
@@ -769,6 +787,15 @@
         transform: translateY(-2px);
     }
 
+    .send-btn:active,
+    .send-btn:focus {
+        background: #F9BCC4 !important;
+        color: #333 !important;
+        outline: none;
+        box-shadow: none;
+        transform: translateY(0);
+    }
+
     /* Responsive Design */
     @media (max-width: 768px) {
         .hero-container,
@@ -837,7 +864,7 @@
             <!-- Second Feature Item (Special) -->
             <div class="feature-item">
                 <div class="feature-card special">
-                    <img src="{{ asset('images/landing/gift_image.png') }}" alt="Gift of Hair" class="gift-image" />
+                    <img src="{{ asset('images/landing/gift.png') }}" alt="Gift of Hair" class="gift-image" />
                     <p>Hair replacement systems, including wigs made from real hair, offer more than cosmetic solutions they provide emotional healing and confidence. Your hair donation helps us craft high-quality, natural-looking wigs for those in need. Together, we can give the gift of self-love and dignity.</p>
                 </div>
                 <div class="feature-footer">
@@ -856,7 +883,7 @@
                         <li>Medical treatments (chemotherapy, radiation)</li>
                         <li>Genetic conditions (alopecia areata)</li>
                         <li>Burns and trauma</li>
-                        <li>Genetic conditions</li>
+                        <li>Autoimmune disorders</li>
                     </ul>
                 </div>
             </div>
