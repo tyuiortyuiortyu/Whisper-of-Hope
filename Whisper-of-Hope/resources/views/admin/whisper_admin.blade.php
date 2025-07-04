@@ -92,87 +92,98 @@
       font-family: 'Gidugu', cursive; /* Gidugu font for title */
     }
 
-    /* Confirmation Modal Styles */
-    .confirmation-overlay {
+    /* Delete Modal Styles */
+    .modal {
+        display: none;
         position: fixed;
-        top: 0;
+        z-index: 1000;
         left: 0;
+        top: 0;
         width: 100%;
         height: 100%;
-        background-color: rgba(0, 0, 0, 0.7);
-        display: none;
+        background-color: rgba(0,0,0,0.4);
+        display: flex;
         justify-content: center;
         align-items: center;
-        z-index: 3000;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
     }
 
-    .confirmation-overlay.show {
-        display: flex;
+    .modal.is-active {
+        opacity: 1;
+        visibility: visible;
     }
 
-    .confirmation-content {
-        background: #FFFCF5;
-        border-radius: 0.5rem;
-        padding: 2rem;
-        max-width: 400px;
+    .modal-content {
+        background-color: #FEF0F0;
+        border-radius: 14px;
+        border: none;
+        box-shadow: 0 5px 25px rgba(0,0,0,0.2);
         width: 90%;
+        max-width: 400px;
         text-align: center;
-        font-family: 'Yantramanav', sans-serif;
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        transform: scale(0.95);
+        transition: transform 0.3s ease;
     }
 
-    .confirmation-title {
+    .modal.is-active .modal-content {
+        transform: scale(1);
+    }
+
+    .modal-body {
+        padding: 30px 30px 20px 30px;
+    }
+
+    .modal-body h3 {
+        margin: 0;
+        color: black;
+        font-family: 'Yantramanav', sans-serif;
         font-size: 1.2rem;
-        font-weight: 600;
-        margin-bottom: 1rem;
-        color: #333;
+        font-weight: 500;
     }
 
-    .confirmation-message {
-        font-size: 1rem;
-        color: #666;
-        margin-bottom: 1.5rem;
-        line-height: 1.4;
-    }
-
-    .confirmation-buttons {
+    .modal-actions {
         display: flex;
-        gap: 1rem;
         justify-content: center;
+        padding: 0 30px 30px;
+        gap: 20px;
     }
 
-    .btn-confirm {
-        background-color: #F9BCC4;
-        color: black;
-        padding: 0.75rem 1.5rem;
-        border: none;
-        border-radius: 2rem;
+    .modal-actions button {
         cursor: pointer;
-        font-weight: 800;
-        font-size: 1rem;
         font-family: 'Yantramanav', sans-serif;
-        transition: background-color 0.2s ease;
-    }
-
-    .btn-confirm:hover {
-        background-color: #f5a8c1;
-    }
-
-    .btn-cancel {
-        background-color: #D6D6D6;
-        color: black;
-        padding: 0.75rem 1.5rem;
+        transition: background-color 0.2s ease, transform 0.1s ease;
+        padding: 8px 30px;
         border: none;
-        border-radius: 2rem;
-        cursor: pointer;
-        font-weight: 800;
+        border-radius: 50px;
         font-size: 1rem;
-        font-family: 'Yantramanav', sans-serif;
-        transition: background-color 0.2s ease;
+        font-weight: 600;
+        width: 120px;
     }
 
-    .btn-cancel:hover {
-        background-color: #5a6268;
+    .modal-actions button:active {
+        transform: scale(0.95);
+    }
+
+    .modal-actions .btn-cancel {
+        background-color: #E8E8E8;
+        font-weight: 500;
+    }
+
+    .modal-actions .btn-cancel:hover {
+        background-color: #CCC;
+        color: #FFFFFF;
+    }
+
+    .modal-actions .btn-delete-confirm {
+        background: #F9BCC4;
+        font-weight: 500;
+    }
+
+    .modal-actions .btn-delete-confirm:hover {
+        background: #F791A9;
+        color: #FFFFFF;
     }
     
     /* Delete button styles */
@@ -322,12 +333,15 @@
 </div>
 
 <!-- Delete Confirmation Modal -->
-<div class="confirmation-overlay" id="deleteConfirmationModal">
-    <div class="confirmation-content">
-        <div class="confirmation-title">Are you sure want to delete this Whisper?</div>
-        <div class="confirmation-buttons">
-            <button class="btn-cancel" id="deleteCancel">Cancel</button>
-            <button class="btn-confirm" id="deleteConfirm">OK</button>
+<div id="deleteConfirmationModal" class="modal">
+    <div class="modal-content delete-modal">
+        <div class="modal-body text-center">
+            <h3>Are you sure want to delete this Whisper?</h3>
+        </div>
+        
+        <div class="modal-actions">
+            <button type="button" class="btn-cancel" id="deleteCancel">Cancel</button>
+            <button type="button" class="btn-delete-confirm" id="deleteConfirm">OK</button>
         </div>
     </div>
 </div>
@@ -563,12 +577,12 @@
     
     // Function to show delete confirmation modal
     function showDeleteConfirmation() {
-        deleteConfirmationModal.classList.add('show');
+        deleteConfirmationModal.classList.add('is-active');
     }
 
     // Function to hide delete confirmation modal
     function hideDeleteConfirmation() {
-        deleteConfirmationModal.classList.remove('show');
+        deleteConfirmationModal.classList.remove('is-active');
         whisperToDelete = null;
         cardToDelete = null;
     }
