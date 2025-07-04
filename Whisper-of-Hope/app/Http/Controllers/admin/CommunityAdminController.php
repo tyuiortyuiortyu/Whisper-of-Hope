@@ -42,44 +42,68 @@ class CommunityAdminController extends Controller
         return view('admin.community_admin', compact('stories', 'categories'));
     }
 
-    public function edit($id){
-        $story = Story::with('category')->findOrFail($id);
+    public function create() {
         $categories = Category::all();
-        return view('admin.community_admin_preview', compact('story', 'categories'));
+        return view('admin.community_admin_addPreview', compact('categories'));
     }
 
-    public function update(Request $request, $id){
-        // Validasi input
-        $validated = $request->validate([
+    public function store(Request $request) {
+        $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required|string',
             'category_id' => 'required|exists:categories,id',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:20480'
         ]);
 
-        // Ambil story lama
-        $story = Story::findOrFail($id);
+        $data = $request->only(['title', 'content', 'category_id']);
 
-        // Update field dasar
-        $story->title = $validated['title'];
-        $story->content = $validated['content'];
-        $story->category_id = $validated['category_id'];
-
-        // Kalau user upload gambar baru
         if ($request->hasFile('image')) {
-            // Hapus gambar lama (optional, kalau mau)
-            if ($story->image && Storage::disk('public')->exists($story->image)) {
-                Storage::disk('public')->delete($story->image);
-                // Simpan file baru
-                $path = $request->file('image')->store('stories', 'public'); // simpan di storage/app/public/stories
-                $story->image = $path;
-            }
-
-            // Simpan perubahan ke DB
-            $story->save();
-
-            // Redirect kembali ke halaman edit atau index + pesan sukses
-            return redirect()->route('admin.community_edit', $story->id)->with('success', 'Story updated successfully!');
+            $image = $request->file('image');
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('images'), $imageName);
+            $data['image'] = $imageName;
         }
+
+        $whisper = Story::create([
+            'title' => $data['title'],
+            'image' => $data['image'],
+            'content' => $data['content'],
+            'category_id' => $data['category_id'],
+        ]);
+
+        return redirect()->route('admin.community_admin')->with('success', 'Story posted successfully');
+    }
+
+    public function edit(Story $story){
+        $categories = Category::all();
+        return view('admin.community_admin_editPreview', compact('story', 'categories'));
+    }
+
+    public function update(Request $request, Story $story){
+        // Validasi input
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'content' => 'required|string',
+            'category_id' => 'required|exists:categories,id',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:20480'
+        ]);
+
+        $data = $request->only(['title', 'content', 'category_id']);
+
+        if ($request->hasFile('image')) {
+            // Delete old image if exists
+            // if ($story->image && file_exists(public_path('images/' . $story->image))) {
+            //     unlink(public_path('images/' . $story->image));
+            // }
+
+            $image = $request->file('image');
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('images'), $imageName);
+            $data['image'] = $imageName;
+        }
+
+        $story->update($data);
+
+        return redirect()->route('admin.community_admin')->with('success', 'Story updated successfully');
     }
 }
