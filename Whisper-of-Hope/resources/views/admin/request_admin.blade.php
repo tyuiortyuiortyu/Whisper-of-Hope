@@ -36,13 +36,25 @@
                 <input type="text" 
                        id="searchInput" 
                        name="search" 
-                       placeholder="Search" 
+                       placeholder="Search requests..." 
                        value="{{ request('search') }}"
                        onkeyup="debounceSearch()">
                 <img src="{{ asset('images/admin/user_admin/search.png') }}" class="search-icon" alt="Search" onclick="submitSearch()">
             </form>
         </div>
     </div>
+    
+    @if(session('success'))
+        <div class="alert alert-success" id="successAlert">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    @if(session('error'))
+        <div class="alert alert-danger" id="errorAlert">
+            {{ session('error') }}
+        </div>
+    @endif
 
     <div class="requests-table-container">
         <table class="requests-table">
@@ -61,9 +73,12 @@
             </thead>
             <tbody id="requestsTableBody">
                 @forelse($requests as $request)
-                <tr class="clickable-row" onclick="window.location.href='{{ route('admin.request.show', $request) }}'">
+                <tr class="clickable-row" onclick="window.location.href='{{ route('admin.requests.show', $request) }}'">
                     <td>{{ $request->id }}</td>
-                    <td>{{ $request->recipient_full_name }}</td>
+                    <!-- <td>{{ $request->recipient_full_name }}</td> -->
+                     <td title="{{ $request->recipient_full_name ?? '-' }}">
+                        {{ Str::of($request->recipient_full_name ?? '-')->words(2, '...') }}
+                    </td>
                     <td>{{ $request->recipient_age ?? '-' }}</td>
                     <td>{{ $request->recipient_email ?? '-'}}</td>
                     <td>{{ $request->recipient_phone ?? '-' }}</td>
@@ -107,7 +122,7 @@
                             <span>{{ $statusText }}</span>
                         </span>
                     </td>
-                    <td class="action-cell">
+                    <td class="action-cell" onclick="event.stopPropagation();">
                         <!-- Accept -->
                         <form action="{{ route('admin.requests.accept', $request) }}" method="POST">
                             @csrf
@@ -136,7 +151,7 @@
                         <form action="{{ route('admin.requests.destroy', $request) }}" method="POST" id="deleteForm-{{ $request->id }}">
                             @csrf
                             @method('DELETE')
-                            <button type="button" class="action-btn" title="Delete" onclick="showDeleteModal({{ $request->id }})">
+                            <button type="button" class="action-btn" title="Delete" onclick="showDeleteModal(event, '{{ $request->id }}')">
                                 <img src="{{ asset('images/admin/user_admin/delete.png') }}" alt="Delete">
                             </button>
                         </form>
@@ -221,8 +236,8 @@
         </div>
         
         <div class="modal-actions">
-            <button type="button" class="btn-cancel">Cancel</button>
-            <button type="button" class="btn-delete-confirm">OK</button>
+            <button type="button" class="btn-cancel" onclick="closeModal('deleteUserModal')">Cancel</button>
+            <button type="button" class="btn-delete-confirm" onclick="confirmDelete()">OK</button>
         </div>
     </div>
 </div>
@@ -235,6 +250,28 @@
         padding: 0;
         background: white;
         font-family: 'Yantramanav';
+    }
+
+    .alert {
+        padding: 15px 20px;
+        margin: 25px auto;
+        border-radius: 8px;
+        font-size: 16px;
+        /* font-weight: 500; */
+        font-family: 'Yantramanav', sans-serif;
+        animation: fadeIn 0.5s ease;
+        width: 100%;
+    }
+
+    .alert-success {
+        color: #155724;
+        background-color: #d4edda;
+        border: 1px solid #c3e6cb;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-10px); }
+        to { opacity: 1; transform: translateY(0); }
     }
 
     .page-header {
@@ -547,7 +584,7 @@
 
     /* delete modal */
     .modal {
-        display: none;
+        /display: none;
         position: fixed;
         z-index: 1000;
         left: 0;
@@ -570,7 +607,7 @@
 
     .modal-content {
         background-color: #FEF0F0;
-        border-radius: 20px;
+        border-radius: 14px;
         border: none;
         box-shadow: 0 5px 25px rgba(0,0,0,0.2);
         width: 90%;
@@ -592,7 +629,7 @@
         margin: 0;
         color: black;
         font-family: 'Yantramanav', sans-serif;
-        font-size: 1.5rem;
+        font-size: 1.2rem;
         font-weight: 500;
         /* line-height: 1.4; */
     }
@@ -744,46 +781,117 @@
 <script>
     // search 
     let searchTimeout = null;
+    let requestData = [];
+    let filteredRequests = [];
+    function setupSearch() {
+        const searchInput = document.getElementById('searchInput');
+        
+        searchInput.addEventListener('input', function() {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(function() {
+                performSearch();
+            }, 300); // Faster response time like whisper
+        });
+        
+        // Handle enter key
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                performSearch();
+            }
+        });
+    }
+    
+    function performSearch() {
+        const searchValue = document.getElementById('searchInput').value.toLowerCase().trim();
+        const tbody = document.getElementById('requestsTableBody');
+        
+        if (searchValue === '') {
+            // Show all users
+            filteredRequests = [...requestData];
+        } else {
+            // Filter requests based on search term
+            filteredRequests = requestData.filter(request => 
+                request.recipient_full_name.toLowerCase().includes(searchValue) ||
+                request.recipient_email.toLowerCase().includes(searchValue) ||
+            );
+        }
+        
+        // // Update display
+        // updateUserDisplay();
+        
+        // // Update URL without refresh
+        // const url = new URL(window.location.href);
+        // if (searchValue) {
+        //     url.searchParams.set('search', searchValue);
+        // } else {
+        //     url.searchParams.delete('search');
+        // }
+        // window.history.replaceState({}, '', url.toString());
+    }
+    
+    // function updateUserDisplay() {
+    //     const tbody = document.getElementById('requestsTableBody');
+        
+    //     // Hide all rows first
+    //     userData.forEach(user => {
+    //         user.element.style.display = 'none';
+    //     });
+        
+    //     if (filteredUsers.length === 0) {
+    //         // Show no data message
+    //         const searchValue = document.getElementById('searchInput').value;
+    //         tbody.innerHTML = `
+    //             <tr>
+    //                 <td colspan="7" class="no-data">
+    //                     ${searchValue ? `No requests found for "${searchValue}"` : 'No requests found'}
+    //                 </td>
+    //             </tr>
+    //         `;
+    //     } else {
+    //         // Remove no-data row if exists
+    //         const noDataRow = tbody.querySelector('.no-data');
+    //         if (noDataRow) {
+    //             noDataRow.closest('tr').remove();
+    //         }
+            
+    //         // Show filtered rows
+    //         filteredUsers.forEach(user => {
+    //             user.element.style.display = '';
+    //         });
+    //     }
+    // }
+
+    // Legacy functions for backward compatibility
     function debounceSearch() {
-        clearTimeout(searchTimeout);
-        searchTimeout = setTimeout(function() {
-            submitSearch();
-        }, 500); // Wait 500ms after user stops typing
+        performSearch();
     }
     
     function submitSearch() {
-        document.getElementById('searchForm').submit();
+        performSearch();
     }
     
-    // Clear search functionality
     function clearSearch() {
         document.getElementById('searchInput').value = '';
-        submitSearch();
+        performSearch();
     }
-
-    // Handle enter key in search
-    document.getElementById('searchInput').addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-            e.preventDefault();
-            submitSearch();
-        }
-    });
 
     // delete modal
     const deleteModal = document.getElementById('deleteRequestModal');
-    let requestToDeleteId = null;
+    let requestToDelete = null;
 
-    function showDeleteModal(requestId) {
-        requestToDeleteId = requestId;
+    function showDeleteModal(event, requestId) {
+        event.stopPropagation();
+        requestToDelete = requestId;
         deleteModal.classList.add('is-active');
     }
     function closeModal() {
-        requestToDeleteId = null;
+        requestToDelete = null;
         deleteModal.classList.remove('is-active');
     }
     function confirmDelete() {
-        if (requestToDeleteId) {
-            const form = document.getElementById('deleteForm-' + requestToDeleteId);
+        if (requestToDelete) {
+            const form = document.getElementById('deleteForm-' + requestToDelete);
             if (form) {
                 form.submit();
             }
@@ -801,6 +909,26 @@
     window.addEventListener('click', function(event) {
         if (event.target == deleteModal) {
             closeModal();
+        }
+    });
+
+    // Auto-dismiss alerts
+    document.addEventListener('DOMContentLoaded', function() {
+        const successAlert = document.getElementById('successAlert');
+        const errorAlert = document.getElementById('errorAlert');
+
+        if (successAlert) {
+            setTimeout(() => {
+                successAlert.classList.add('fade-out');
+                setTimeout(() => successAlert.remove(), 500); // Remove after fade-out transition
+            }, 2000); // 10 seconds
+        }
+
+        if (errorAlert) {
+            setTimeout(() => {
+                errorAlert.classList.add('fade-out');
+                setTimeout(() => errorAlert.remove(), 500); // Remove after fade-out transition
+            }, 2000); // 10 seconds
         }
     });
 </script>
