@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Whisper;
 use App\Models\Color;
@@ -22,6 +23,7 @@ class WhisperController extends Controller
                 'message' => $whisper->content,
                 'color' => $whisper->color->hex_value,
                 'font_color' => $whisper->color->font_color,
+                'color_id' => $whisper->color_id,
                 'created_at' => $whisper->created_at->toISOString()
             ];
         });
@@ -67,7 +69,8 @@ class WhisperController extends Controller
                 'to' => $whisper->to,
                 'message' => $whisper->content,
                 'color' => $whisper->color->hex_value,
-                'font_color' => $whisper->color->font_color,  // Add this line
+                'font_color' => $whisper->color->font_color,
+                'color_id' => $whisper->color_id,
                 'created_at' => $whisper->created_at->toISOString()
             ]
         ]);

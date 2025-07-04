@@ -27,6 +27,7 @@ class DatabaseSeeder extends Seeder
             CategorySeeder::class,
             StorySeeder::class,
             AdminSeeder::class,
+            RequestsSeeder::class,
         ]);
     }
 }
