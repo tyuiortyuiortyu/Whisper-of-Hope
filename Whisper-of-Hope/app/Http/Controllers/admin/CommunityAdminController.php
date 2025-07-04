@@ -106,4 +106,16 @@ class CommunityAdminController extends Controller
 
         return redirect()->route('admin.community_admin')->with('success', 'Story updated successfully');
     }
+
+    public function destroy(Story $story)
+    {
+        // Delete image file if exists
+        if ($story->image && file_exists(public_path('images/' . $story->image))) {
+            @unlink(public_path('images/' . $story->image));
+        }
+
+        $story->delete();
+
+        return redirect()->route('admin.community_admin')->with('success', 'Story deleted successfully.');
+    }
 }

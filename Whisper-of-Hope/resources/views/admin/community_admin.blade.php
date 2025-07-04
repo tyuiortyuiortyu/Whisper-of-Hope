@@ -32,7 +32,7 @@
     </div>
 
     @if(session('success'))
-        <div class="alert alert-success">
+        <div class="alert alert-success mx-0">
             {{ session('success') }}
         </div>
     @endif
@@ -53,11 +53,10 @@
                     <p class="mb-0 text-muted">{{ Str::limit($story->content, 100) }}</p>
                 </div>
             </a>
-            <button type="button" class="btn-delete" style="height: 1.5rem; width: 1.5rem" onclick="deleteUser({{ $story->id }})">
+            <button class="btn-delete" style="height: 1.5rem; width: 1.5rem" type="button" data-story-id="{{ $story->id }}">
                 <img src="{{ asset('images/admin/user_admin/delete.png') }}" style="height: 100%; width: 100%" class="delete-icon" alt="Delete">
             </button>
         </div>
-
         @endforeach
 
 
@@ -118,17 +117,15 @@
         @endif
     </div>
 </div>
-
 {{-- Modal --}}
-<div class="confirmation-overlay" id="deleteConfirmationModal">
-    <div class="confirmation-content">
-        <div class="confirmation-title">Delete Story</div>
-        <div class="confirmationn-message">
-            Are your sure you want to delte this story? This action cannot be undone.
+<div id="deleteStoryModal" class="modal" tabindex="-1">
+    <div class="modal-content delete-modal">
+        <div class="modal-body text-center">
+            <h3>Are you sure you want to delete this story?</h3>
         </div>
-        <div class="confirmation-button">
-            <button class="btn-cancel" id="deleteCancel">Cancel</button>
-            <button class="btn-confirm" id="deleteConfirm">Delete</button>
+        <div class="modal-actions">
+            <button type="button" class="btn-cancel" id="deleteModalCancel">Cancel</button>
+            <button type="button" class="btn-delete-confirm" id="deleteModalConfirm">OK</button>
         </div>
     </div>
 </div>
@@ -315,6 +312,17 @@
         background-color: #f28ca6 !important;
     }
 
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.5);
+    }
+
     .modal-content {
         background-color: #FFFCF5;
         margin: 3% auto;
@@ -419,93 +427,102 @@
         transform: scale(1.05);
         border-radius: 50%;
     }
+
+    .btn-add-user {
+        padding: 12px 24px;
+        background-color: #ff9aa2;
+        color: white;
+        border: none;
+        border-radius: 25px;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        white-space: nowrap;
+    }
+
+    .btn-add-user:hover {
+        background-color: #ff8a94;
+        transform: translateY(-1px);
+    }
 </style>
 @endpush
 
 @push('scripts')
 <script>
+document.addEventListener('DOMContentLoaded', function() {
     let searchTimeout = null;
-    
-    function debounceSearch() {
+    let storyToDelete = null;
+
+    // Modal elements
+    const deleteModal = document.getElementById('deleteStoryModal');
+    const deleteModalCancel = document.getElementById('deleteModalCancel');
+    const deleteModalConfirm = document.getElementById('deleteModalConfirm');
+
+    // Open modal on delete button click (event delegation)
+    document.querySelector('.stories-container').addEventListener('click', function(e) {
+        const btn = e.target.closest('.btn-delete');
+        if (btn && btn.dataset.storyId) {
+            storyToDelete = btn.dataset.storyId;
+            deleteModal.style.display = 'block';
+        }
+    });
+
+    // Cancel button closes modal
+    deleteModalCancel.addEventListener('click', function() {
+        deleteModal.style.display = 'none';
+        storyToDelete = null;
+    });
+
+    // Confirm button submits delete form
+    deleteModalConfirm.addEventListener('click', function() {
+        if (storyToDelete) {
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = `/admin/community/delete/${storyToDelete}`;
+            const csrfInput = document.createElement('input');
+            csrfInput.type = 'hidden';
+            csrfInput.name = '_token';
+            csrfInput.value = '{{ csrf_token() }}';
+            const methodInput = document.createElement('input');
+            methodInput.type = 'hidden';
+            methodInput.name = '_method';
+            methodInput.value = 'DELETE';
+            form.appendChild(csrfInput);
+            form.appendChild(methodInput);
+            document.body.appendChild(form);
+            form.submit();
+        }
+    });
+
+    // Close modal when clicking outside modal-content
+    deleteModal.addEventListener('mousedown', function(e) {
+        if (e.target === deleteModal) {
+            deleteModal.style.display = 'none';
+            storyToDelete = null;
+        }
+    });
+
+    // Search debounce and enter key
+    const searchInput = document.getElementById('searchInput');
+    searchInput.addEventListener('input', function() {
         clearTimeout(searchTimeout);
         searchTimeout = setTimeout(function() {
-            submitSearch();
-        }, 500); // Wait 500ms after user stops typing
-    }
-    
-    function submitSearch() {
-        document.getElementById('searchForm').submit();
-    }
-    
-    // Clear search functionality
-    function clearSearch() {
-        document.getElementById('searchInput').value = '';
-        submitSearch();
-    }
-    
-    // Close modal when clicking outside
-    window.onclick = function(event) {
-        const modals = document.getElementsByClassName('modal');
-        for (let i = 0; i < modals.length; i++) {
-            if (event.target === modals[i]) {
-                modals[i].style.display = 'none';
-                if (modals[i].id === 'deleteUserModal') {
-                    userToDelete = null;
-                }
-            }
-        }
-    }
-    
-    // Handle enter key in search
-    document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            document.getElementById('searchForm').submit();
+        }, 500);
+    });
+    searchInput.addEventListener('keypress', function(e) {
         if (e.key === 'Enter') {
             e.preventDefault();
-            submitSearch();
+            document.getElementById('searchForm').submit();
         }
     });
 
-    document.addEventListener('DOMContentLoaded', function() {
-        let storyToDeleteId = null;
-
-        function confirmDelete(storyId) {
-            storyToDeleteId = storyId;
-            document.getElementById('deleteModal').style.display = 'flex';
-        }
-
-        document.getElementById('deleteCancel').addEventListener('click', function() {
-            document.getElementById('deleteModal').style.display = 'none';
-        });
-
-        document.getElementById('deleteOk').addEventListener('click', function() {
-            if (storyToDeleteId) {
-                // Buat dan submit form delete
-                const form = document.createElement('form');
-                form.method = 'POST';
-                form.action = '/community/delete/' + storyToDeleteId;
-
-                // Tambahkan csrf dan method spoofing _method=DELETE
-                const csrfInput = document.createElement('input');
-                csrfInput.type = 'hidden';
-                csrfInput.name = '_token';
-                csrfInput.value = '{{ csrf_token() }}';
-
-                const methodInput = document.createElement('input');
-                methodInput.type = 'hidden';
-                methodInput.name = '_method';
-                methodInput.value = 'DELETE';
-
-                form.appendChild(csrfInput);
-                form.appendChild(methodInput);
-
-                document.body.appendChild(form);
-                form.submit();
-            }
-        });
-    });
-
-    // Delete Constant
-    const deleteConfirmationModal = document.getElementById('deleteConfirmationModal');
-    const deleteCancel = document.getElementById('deleteCancel');
-    const deleteConfirm = document.getElementById('deleteConfirm');
+    // Clear search function (if needed elsewhere)
+    window.clearSearch = function() {
+        searchInput.value = '';
+        document.getElementById('searchForm').submit();
+    };
+});
 </script>
 @endpush
