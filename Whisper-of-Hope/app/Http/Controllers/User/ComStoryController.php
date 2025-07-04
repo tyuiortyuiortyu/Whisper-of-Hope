@@ -15,7 +15,6 @@
         public function index()
         {
             $categories = Category::all();
-            // $stories = Story::paginate(6);
             $stories = Story::all();
             return view('user/community', compact('categories', 'stories'));
         }

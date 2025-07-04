@@ -29,12 +29,12 @@
     <div class="row justify-content-center pb-5" id="story-container">
         @forelse ($relatedStories as $related)
         <div class="col-md-4 px-4 story-card justify-content-center">
-            <a href="{{ route('community.story', ['id' => $story->id]) }}" class="full-link text-decoration-none text-dark">
-                <div class="card h-100 shadow-sm story-hover mb-3" style=" width: 100%; border-radius: 1rem;">
-                    <img src="{{ asset('images/'.$related->image) }}" class="card-img-top" alt="{{ $related->title }}" style="border-top-left-radius: 1rem; border-top-right-radius: 1rem;">
-                    <div class="card-body text-black" style="background-color: #F791A9; border-bottom-left-radius: 1rem; border-bottom-right-radius: 1rem;">
+            <a href="{{ route('community.story', ['id' => $related->id]) }}" class="full-link text-decoration-none text-dark">
+                <div class="card h-100 shadow-sm story-hover mb-3" style="width: 380px; border-radius: 1rem;">
+                    <img src="{{ asset('images/'.$related->image) }}" class="card-img-top" alt="{{ $related->title }}" style="border-top-left-radius: 1rem; border-top-right-radius: 1rem; height: 240px">
+                    <div class="card-body text-black" style="background-color: #F791A9; border-bottom-left-radius: 1rem; border-bottom-right-radius: 1rem; height: 110px">
                         <h5 class="card-title" style="font-family: 'Yantramanav'; font-weight: 800;">
-                            {{ $related->title }}
+                            {{ Str::limit($related->title, 35) }}
                         </h5>
                         <p class="card-text" style="font-family: 'Yantramanav'">{{ Str::limit($related->content, 60) }}</p>
                     </div>
@@ -45,12 +45,19 @@
             <p class="text-center text-muted">No other stories in this category.</p>
         @endforelse
     </div>
-
 </div>
 @endsection
 
 @push('styles')
 <style>
+    html::-webkit-scrollbar {
+        display: none;
+    }
+
+    html {
+        scrollbar-width: none;
+    }
+
     .story-hover {
         transition: transform 0.3s ease;
     }
@@ -58,9 +65,4 @@
     .story-hover:hover {
         transform: scale(1.05);
     }
-/* 
-    .story-card {
-        width: 100%;
-        gap: 2rem;
-    } */
 </style>

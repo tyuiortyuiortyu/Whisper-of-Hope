@@ -18,6 +18,7 @@ class CategorySeeder extends Seeder
             ['name' => 'Blog'],
             ['name' => 'Children’s Hair Donation Stories'],
             ['name' => 'Hair Donation Stories'],
+            ['name' => 'Recipient Stories'],
         ]);
     }
 }
