@@ -308,6 +308,13 @@
         padding: 15px;
         margin: 0 0 20px 0;
         border-radius: 8px;
+        transition: opacity 0.5s ease, transform 0.5s ease;
+        position: relative;
+    }
+    
+    .alert.fade-out {
+        opacity: 0;
+        transform: translateY(-10px);
     }
     
     .alert-success {
@@ -798,7 +805,7 @@
         margin: 0;
         color: black;
         font-family: 'Yantramanav';
-        font-size: 1.5rem;
+        font-size: 1.2rem;
         font-weight: 500;
     }
     
@@ -963,7 +970,51 @@
         
         // Setup search functionality
         setupSearch();
+        
+        // Setup auto-closing alerts
+        setupAutoCloseAlerts();
     });
+    
+    function setupAutoCloseAlerts() {
+        const alerts = document.querySelectorAll('.alert');
+        
+        alerts.forEach(alert => {
+            // Auto close after 5 seconds
+            setTimeout(() => {
+                alert.classList.add('fade-out');
+                
+                // Remove from DOM after fade animation
+                setTimeout(() => {
+                    alert.remove();
+                }, 500);
+            }, 5000);
+        });
+    }
+    
+    function showAlert(message, type = 'success') {
+        // Remove existing alerts first
+        const existingAlerts = document.querySelectorAll('.alert');
+        existingAlerts.forEach(alert => alert.remove());
+        
+        // Create new alert
+        const alertDiv = document.createElement('div');
+        alertDiv.className = `alert alert-${type}`;
+        alertDiv.textContent = message;
+        
+        // Insert after page header
+        const pageHeader = document.querySelector('.page-header');
+        pageHeader.insertAdjacentElement('afterend', alertDiv);
+        
+        // Auto close after 5 seconds
+        setTimeout(() => {
+            alertDiv.classList.add('fade-out');
+            
+            // Remove from DOM after fade animation
+            setTimeout(() => {
+                alertDiv.remove();
+            }, 500);
+        }, 5000);
+    }
     
     function extractUserData() {
         const rows = document.querySelectorAll('#usersTableBody tr');
@@ -1154,6 +1205,10 @@
             form.appendChild(csrfInput);
             form.appendChild(methodInput);
             document.body.appendChild(form);
+            
+            // Show success message before form submission
+            showAlert('User deleted successfully!', 'success');
+            
             form.submit();
         }
     }
