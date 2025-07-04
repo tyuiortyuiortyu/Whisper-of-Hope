@@ -24,7 +24,7 @@ class RequestsSeeder extends Seeder
 
         $requestRecords = [
             [
-                'id' => 1,
+                'id' => 'WR001',
                 'user_id' => $user->id,
                 'who_for' => 'myself',
                 'recipient_full_name' => 'John Doe',
@@ -37,7 +37,7 @@ class RequestsSeeder extends Seeder
                 'updated_at' => now()->subDays(10)
             ],
             [
-                'id' => 2,
+                'id' => 'WR002',
                 'user_id' => $user->id,
                 'who_for' => 'parent_guardian',
                 'recipient_full_name' => 'Jane Doe',
@@ -52,7 +52,7 @@ class RequestsSeeder extends Seeder
                 'updated_at' => now()->subDays(5)
             ],
             [
-                'id' => 3,
+                'id' => 'WR003',
                 'user_id' => $user->id,
                 'who_for' => 'health_professional',
                 'recipient_full_name' => 'Joe',
@@ -69,7 +69,7 @@ class RequestsSeeder extends Seeder
                 'updated_at' => now()->subDays(21)
             ],
             [
-                'id' => 4,
+                'id' => 'WR004',
                 'user_id' => $user->id,
                 'who_for' => 'myself',
                 'recipient_full_name' => 'Alice',
@@ -82,7 +82,7 @@ class RequestsSeeder extends Seeder
                 'updated_at' => now()->subDays(3)
             ],
             [
-                'id' => 5,
+                'id' => 'WR005',
                 'user_id' => $user->id,
                 'who_for' => 'parent_guardian',
                 'recipient_full_name' => 'Ben',
@@ -97,7 +97,7 @@ class RequestsSeeder extends Seeder
                 'updated_at' => now()->subDays(7)
             ],
             [
-                'id' => 6,
+                'id' => 'WR006',
                 'user_id' => $user->id,
                 'who_for' => 'health_professional',
                 'recipient_full_name' => 'Judy',
@@ -114,7 +114,7 @@ class RequestsSeeder extends Seeder
                 'updated_at' => now()->subDays(21)
             ],
             [
-                'id' => 7,
+                'id' => 'WR007',
                 'user_id' => $user->id,
                 'who_for' => 'myself',
                 'recipient_full_name' => 'Nancy',
@@ -127,7 +127,7 @@ class RequestsSeeder extends Seeder
                 'updated_at' => now()->subDays(25)
             ],
             [
-                'id' => 8,
+                'id' => 'WR008',
                 'user_id' => $user->id,
                 'who_for' => 'parent_guardian',
                 'recipient_full_name' => 'Grace',
@@ -142,7 +142,7 @@ class RequestsSeeder extends Seeder
                 'updated_at' => now()->subDays(51)
             ],
             [
-                'id' => 9,
+                'id' => 'WR009',
                 'user_id' => $user->id,
                 'who_for' => 'health_professional',
                 'recipient_full_name' => 'Victor',
@@ -159,7 +159,7 @@ class RequestsSeeder extends Seeder
                 'updated_at' => now()->subDays(173)
             ],
             [
-                'id' => 10,
+                'id' => 'WR010',
                 'user_id' => $user->id,
                 'who_for' => 'myself',
                 'recipient_full_name' => 'Zoe',
@@ -172,7 +172,7 @@ class RequestsSeeder extends Seeder
                 'updated_at' => now()->subDays(78)
             ],
             [
-                'id' => 11,
+                'id' => 'WR011',
                 'user_id' => $user->id,
                 'who_for' => 'parent_guardian',
                 'recipient_full_name' => 'Hannah',
@@ -187,7 +187,7 @@ class RequestsSeeder extends Seeder
                 'updated_at' => now()->subDays(256)
             ],
             [
-                'id' => 12,
+                'id' => 'WR012',
                 'user_id' => $user->id,
                 'who_for' => 'health_professional',
                 'recipient_full_name' => 'Chris',
