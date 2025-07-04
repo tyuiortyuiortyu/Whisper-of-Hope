@@ -37,7 +37,7 @@ class CommunityAdminController extends Controller
         $query->orderBy('created_at', 'asc');
         
         // Paginate results (10 per page)
-        $stories = $query->paginate(5)->withQueryString();
+        $stories = $query->paginate(10)->withQueryString();
 
         return view('admin.community_admin', compact('stories', 'categories'));
     }
@@ -64,7 +64,7 @@ class CommunityAdminController extends Controller
             $data['image'] = $imageName;
         }
 
-        $whisper = Story::create([
+        Story::create([
             'title' => $data['title'],
             'image' => $data['image'],
             'content' => $data['content'],
@@ -91,13 +91,13 @@ class CommunityAdminController extends Controller
         $data = $request->only(['title', 'content', 'category_id']);
 
         if ($request->hasFile('image')) {
-            // Delete old image if exists
-            // if ($story->image && file_exists(public_path('images/' . $story->image))) {
-            //     unlink(public_path('images/' . $story->image));
-            // }
+            // Delete old image if exists and is not the same as the new one
+            if ($story->image && file_exists(public_path('images/' . $story->image))) {
+                @unlink(public_path('images/' . $story->image));
+            }
 
             $image = $request->file('image');
-            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
             $image->move(public_path('images'), $imageName);
             $data['image'] = $imageName;
         }
