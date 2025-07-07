@@ -30,6 +30,8 @@
     html::-webkit-scrollbar {
         display: none; /* Safari and Chrome */
     }
+    
+
 
     /* Simple Masonry with CSS Columns */
     .masonry {
@@ -45,6 +47,7 @@
 
     @media (min-width: 1024px) {
       .masonry {
+        padding-right: 2rem;
         column-count: 4;
       }
     }
@@ -230,102 +233,117 @@
     }
     
     /* Filter dropdown styles */
-    .filter-container {
-        margin-top: 2rem;
-        margin-bottom: 2rem;
-        margin-left: 3rem;
+    .page-header {
         display: flex;
-        justify-content: flex-end;
+        justify-content: space-between;
         align-items: center;
-        gap: 1rem;
-        flex-wrap: wrap;
+        margin-bottom: 30px;
+        gap: 20px;
+        padding: 0 30px;
+        padding-top: 20px;
+        margin-left: 650px;
     }
     
-    .filter-label {
+    .search-container {
+        position: relative;
+        flex: 1;
+        min-width: 200px;
+    }
+    
+    .search-container input {
+        width: 100%;
+        padding: 12px 40px 12px 15px;
+        border: 1px solid #ddd;
+        border-radius: 25px;
+        font-size: 14px;
+        background: white;
         font-family: 'Yantramanav', sans-serif;
-        font-weight: 500;
-        color: #333;
-        font-size: 1.1rem;
+    }
+    
+    .search-icon {
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 16px;
+        height: 16px;
+        object-fit: contain;
+        cursor: pointer;
     }
     
     .filter-dropdown {
-        padding: 0.75rem 1.5rem;
-        border: 2px solid #f8bbd0;
-        border-radius: 50px;
+        padding: 12px 20px;
+        border: 1px solid #ddd;
+        border-radius: 25px;
         background-color: white;
         color: #333;
         font-family: 'Yantramanav', sans-serif;
-        font-size: 1rem;
+        font-size: 14px;
         font-weight: 500;
         cursor: pointer;
         min-width: 180px;
         transition: all 0.3s ease;
         outline: none;
         appearance: none;
-        background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23f8bbd0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23333' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
         background-repeat: no-repeat;
-        background-position: right 1rem center;
-        background-size: 1rem;
-        padding-right: 3rem;
+        background-position: right 15px center;
+        background-size: 16px;
+        padding-right: 40px;
     }
     
     .filter-dropdown:focus {
         outline: none;
-        border-color: #f5a8c1;
-        box-shadow: 0 0 0 3px rgba(248, 187, 208, 0.2);
+        border-color: #F9BCC4;
+        box-shadow: 0 0 0 3px rgba(249, 188, 196, 0.1);
     }
     
     .filter-dropdown:hover {
-        border-color: #f5a8c1;
-        transform: translateY(-1px);
+        border-color: #F9BCC4;
     }
     
-    .search-input {
-        padding: 0.75rem 3rem 0.75rem 1.5rem;
-        border: 2px solid #ccc;
-        border-radius: 50px;
-        background-color: white;
-        color: #666;
-        font-family: 'Yantramanav', sans-serif;
-        font-size: 1rem;
-        font-weight: 400;
-        min-width: 300px;
-        transition: all 0.3s ease;
-        outline: none;
-        background-image: url('{{ asset('images/whisper/search.png') }}');
-        background-repeat: no-repeat;
-        background-position: right 1rem center;
-        background-size: 1.2rem;
+    /* Alert Styles */
+    .alert {
+        padding: 15px;
+        margin: 0 0 20px 0;
+        border-radius: 8px;
+        transition: opacity 0.5s ease, transform 0.5s ease;
+        position: relative;
     }
     
-    .search-input:focus {
-        border-color: #999;
-        box-shadow: 0 0 0 3px rgba(153, 153, 153, 0.1);
+    .alert.fade-out {
+        opacity: 0;
+        transform: translateY(-10px);
     }
     
-    .search-input:hover {
-        border-color: #999;
+    .alert-success {
+        background: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
     }
     
-    .search-input::placeholder {
-        color: #999;
-        font-weight: normal;
+    .alert-danger {
+        background: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
     }
 </style>
 
 <div class="container">
     
     <!-- Filter Section -->
-    <div class="filter-container">
-        {{-- <label class="filter-label" for="searchInput">Search:</label> --}}
-        <input type="text" id="searchInput" class="search-input" placeholder="Search by recipient...">
-        
-        {{-- <label class="filter-label" for="colorFilter">Filter by Color:</label> --}}
+    <div class="page-header">
+        <div class="search-container">
+            <input type="text" id="searchInput" class="search-input" placeholder="Search by recipient...">
+            <img src="{{ asset('images/admin/user_admin/search.png') }}" class="search-icon" alt="Search">
+        </div>
         <select id="colorFilter" class="filter-dropdown">
             <option value="">All Colors</option>
             <!-- Options will be populated dynamically -->
         </select>
     </div>
+    
+    <!-- Alert container will be inserted here by JavaScript -->
     
     <div class="masonry" id="whisper-wall">
         <!-- Cards will be populated here by JavaScript -->
@@ -353,6 +371,48 @@
     let whisperToDelete = null;
     let cardToDelete = null;
     let filteredWhispers = [];
+
+    // Alert functions
+    function showAlert(message, type = 'success') {
+        // Remove existing alerts first
+        const existingAlerts = document.querySelectorAll('.alert');
+        existingAlerts.forEach(alert => alert.remove());
+        
+        // Create new alert
+        const alertDiv = document.createElement('div');
+        alertDiv.className = `alert alert-${type}`;
+        alertDiv.textContent = message;
+        
+        // Insert after page header
+        const pageHeader = document.querySelector('.page-header');
+        pageHeader.insertAdjacentElement('afterend', alertDiv);
+        
+        // Auto close after 5 seconds
+        setTimeout(() => {
+            alertDiv.classList.add('fade-out');
+            
+            // Remove from DOM after fade animation
+            setTimeout(() => {
+                alertDiv.remove();
+            }, 500);
+        }, 5000);
+    }
+    
+    function setupAutoCloseAlerts() {
+        const alerts = document.querySelectorAll('.alert');
+        
+        alerts.forEach(alert => {
+            // Auto close after 5 seconds
+            setTimeout(() => {
+                alert.classList.add('fade-out');
+                
+                // Remove from DOM after fade animation
+                setTimeout(() => {
+                    alert.remove();
+                }, 500);
+            }, 5000);
+        });
+    }
 
     // DOM elements
     const colorFilter = document.getElementById('colorFilter');
@@ -607,6 +667,9 @@
         })
         .then(data => {
             if (data.success) {
+                // Show success alert
+                showAlert('Whisper deleted successfully!', 'success');
+                
                 // Remove from whisperData array
                 whisperData = whisperData.filter(whisper => whisper.id != whisperToDelete);
                 
@@ -631,6 +694,7 @@
         })
         .catch(error => {
             console.error('Error deleting whisper:', error);
+            showAlert('Failed to delete whisper. Please try again.', 'danger');
             hideDeleteConfirmation();
         });
     }
@@ -654,6 +718,7 @@
     // Initialize on page load
     document.addEventListener('DOMContentLoaded', function() {
         loadColors();
+        setupAutoCloseAlerts();
     });
 
 </script>
