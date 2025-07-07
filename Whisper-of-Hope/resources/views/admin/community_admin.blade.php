@@ -22,7 +22,8 @@
                        id="searchInput" 
                        name="search" 
                        placeholder="Search stories..." 
-                       value="{{ request('search') }}">
+                       value="{{ request('search') }}"
+                       onkeyup="debounceSearch()">
                 <img src="{{ asset('images/admin/user_admin/search.png') }}" class="search-icon" alt="Search" onclick="submitSearch()">
             </form>
         </div>
@@ -32,7 +33,7 @@
     </div>
 
     @if(session('success'))
-        <div class="alert alert-success">
+        <div class="alert alert-success mx-0">
             {{ session('success') }}
         </div>
     @endif
@@ -53,13 +54,21 @@
                     <p class="mb-0 text-muted">{{ Str::limit($story->content, 100) }}</p>
                 </div>
             </a>
-            <button type="button" class="btn-delete" style="height: 1.5rem; width: 1.5rem" onclick="deleteUser({{ $story->id }})">
+            <button class="btn-delete" style="height: 1.5rem; width: 1.5rem" type="button" data-story-id="{{ $story->id }}">
                 <img src="{{ asset('images/admin/user_admin/delete.png') }}" style="height: 100%; width: 100%" class="delete-icon" alt="Delete">
             </button>
         </div>
-
         @endforeach
 
+        @if($stories->isEmpty())
+            <div class="text-center py-5 text-muted" style="font-size: 1.2rem;">
+                @if(request('search'))
+                    <i> No stories found for "{{ request('search') }}".</i>
+                @else
+                    No stories yet.
+                @endif
+            </div>
+        @endif
 
         <!-- Pagination -->
         @if($stories->hasPages())
@@ -118,17 +127,15 @@
         @endif
     </div>
 </div>
-
 {{-- Modal --}}
-<div class="confirmation-overlay" id="deleteConfirmationModal">
-    <div class="confirmation-content">
-        <div class="confirmation-title">Delete Story</div>
-        <div class="confirmationn-message">
-            Are your sure you want to delte this story? This action cannot be undone.
+<div id="deleteStoryModal" class="modal" tabindex="-1">
+    <div class="modal-content delete-modal">
+        <div class="modal-body text-center">
+            <h3>Are you sure want to delete this story?</h3>
         </div>
-        <div class="confirmation-button">
-            <button class="btn-cancel" id="deleteCancel">Cancel</button>
-            <button class="btn-confirm" id="deleteConfirm">Delete</button>
+        <div class="modal-actions">
+            <button type="button" class="btn-cancel" id="deleteModalCancel">Cancel</button>
+            <button type="button" class="btn-delete-confirm" id="deleteModalConfirm">OK</button>
         </div>
     </div>
 </div>
@@ -164,12 +171,16 @@
     
     .search-container input {
         width: 100%;
-        padding: 5px 10px 5px 15px;
+        /* padding: 5px 10px 5px 15px; */
         border: 1px solid #ddd;
         border-radius: 25px;
-        font-size: 15px;
+        /* font-size: 15px; */
         background: white;
         font-family: 'Yantramanav', sans-serif;
+
+        /* PERUBAHAN */
+        padding: 12px 40px 12px 15px;
+        font-size: 14px;
     }
     
     .search-icon {
@@ -315,57 +326,110 @@
         background-color: #f28ca6 !important;
     }
 
+    .modal {
+        /* display: none; */
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.5);
+
+        /* PERUBAHAN */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        visibility: hidden;
+        /* transition: opacity 0.3s ease, visibility 0.3s ease; */
+    }
+
     .modal-content {
-        background-color: #FFFCF5;
+        /* background-color: #FFFCF5;
         margin: 3% auto;
         padding: 0;
         border-radius: 15px;
         width: 90%;
         max-width: 520px;
         box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        position: relative;
+        position: relative; */
+
+        /* PERUBAHAN */
+        background-color: #FEF0F0;
+        border-radius: 20px;
+        border: none;
+        box-shadow: 0 5px 25px rgba(0,0,0,0.2);
+        width: 90%;
+        max-width: 400px;
+        text-align: center;
+        transform: scale(0.95);
+        transition: transform 0.3s ease;
     }
 
-    .delete-modal {
+    /* PERUBAHAN */
+    .modal.is-active .modal-content {
+        transform: scale(1);
+    }
+
+    /* PERUBAHAN */
+    /* .delete-modal {
         max-width: 400px;
         text-align: center;
         margin: 50vh auto;
         transform: translateY(-50%);
+    } */
+    
+    /* PERUBAHAN */
+    /* .delete-modal .modal-body { */
+    .modal-body {
+        /* padding: 40px 30px 20px 30px; */
+
+        padding: 30px 30px 20px 30px;
     }
     
-    .delete-modal .modal-body {
-        padding: 40px 30px 20px 30px;
-    }
-    
-    .delete-modal .modal-body h3 {
+    /* PERUBAHAN */
+    /* .delete-modal .modal-body h3 { */
+    .modal-body h3 {
         margin: 0;
         color: black;
         font-family: 'Yantramanav';
-        font-size: 1.2rem;
+        /* font-size: 1.2rem; */
         font-weight: 500;
-        line-height: 1.4;
+        /* line-height: 1.4; */
+
+        font-size: 1.5rem;
     }
     
-    .delete-modal .modal-actions {
+    /* PERUBAHAN */
+    /* .delete-modal .modal-actions {
         padding: 15px 30px 20px;
         border-top: none;
         gap: 15px;
         justify-content: center;
-    }
+    } */
 
-    .modal-body {
+    /* PERUBAHAN */
+    /* .modal-body {
         padding: 25px 30px;
-    }
+    } */
 
     .modal-actions {
         display: flex;
         justify-content: center;
-        gap: 12px;
-        padding: 15px 30px 20px;
-        background: #FFFCF5;
-        border-radius: 0 0 15px 15px;
+        /* gap: 12px; */
+        /* padding: 15px 30px 20px; */
+        /* background: #FFFCF5; */
+        /* border-radius: 0 0 15px 15px; */
+
+        /* PERUBAHAN */
+        padding: 0 30px 30px;
+        gap: 20px;
     }
 
+    /* ==================================================================================== */
+    /* PERUBAHANNNNNN */
+/*     
     .btn-cancel,
     .btn-add {
         padding: 12px 28px;
@@ -402,6 +466,79 @@
     
     .btn-delete-confirm:hover {
         background: #F791A9;
+    } */
+
+
+
+    .modal-actions button {
+        cursor: pointer;
+        font-family: 'Yantramanav', sans-serif;
+        transition: background-color 0.2s ease, transform 0.1s ease;
+        padding: 8px 30px;
+        border: none;
+        border-radius: 50px;
+        font-size: 1rem;
+        font-weight: 600;
+        width: 120px;
+    }
+
+    .modal-actions button:active {
+        transform: scale(0.95);
+    }
+
+    .modal-actions .btn-cancel {
+        background-color: #E8E8E8;
+        font-weight: 500;
+        /* color: #333; */
+    }
+
+    .modal-actions .btn-cancel:hover {
+        background-color: #CCC;
+        color: #FFFFFF;
+    }
+
+    .modal-actions .btn-delete-confirm {
+        background: #F9BCC4;
+        font-weight: 500;
+        /* color: #333; */
+    }
+
+    .modal-actions .btn-delete-confirm:hover {
+        background: #F791A9;
+        color: #FFFFFF;
+    }
+     /* ============================================================================ */
+
+    .btn-add-user {
+        /* padding: 12px 24px;
+        background-color: #ff9aa2;
+        color: white;
+        border: none;
+        border-radius: 25px;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        white-space: nowrap; */
+
+        /* PERUBAHAN */
+        background: #F9BCC4;
+        color: black;
+        border: none;
+        padding: 10px 50px;
+        border-radius: 50px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 600;
+        font-family: 'Yantramanav';
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 4px rgba(249,188,196,0.2);
+        margin-left: 10px;
+    }
+
+    .btn-add-user:hover {
+        background-color: #ff8a94;
+        transform: translateY(-1px);
     }
 
     .btn-delete {
@@ -424,88 +561,87 @@
 
 @push('scripts')
 <script>
-    let searchTimeout = null;
-    
-    function debounceSearch() {
-        clearTimeout(searchTimeout);
-        searchTimeout = setTimeout(function() {
-            submitSearch();
-        }, 500); // Wait 500ms after user stops typing
-    }
-    
-    function submitSearch() {
-        document.getElementById('searchForm').submit();
-    }
-    
-    // Clear search functionality
-    function clearSearch() {
-        document.getElementById('searchInput').value = '';
+document.addEventListener('DOMContentLoaded', function() {
+    let storyToDelete = null;
+
+    // Modal elements
+    const deleteModal = document.getElementById('deleteStoryModal');
+    const deleteModalCancel = document.getElementById('deleteModalCancel');
+    const deleteModalConfirm = document.getElementById('deleteModalConfirm');
+
+    // Open modal on delete button click (event delegation)
+    document.querySelector('.stories-container').addEventListener('click', function(e) {
+        const btn = e.target.closest('.btn-delete');
+        if (btn && btn.dataset.storyId) {
+            storyToDelete = btn.dataset.storyId;
+            deleteModal.style.display = 'flex';
+            deleteModal.style.opacity = 100;
+            deleteModal.style.visibility = 'visible';
+        }
+    });
+
+    // Cancel button closes modal
+    deleteModalCancel.addEventListener('click', function() {
+        deleteModal.style.display = 'none';
+        storyToDelete = null;
+    });
+
+    // Confirm button submits delete form
+    deleteModalConfirm.addEventListener('click', function() {
+        if (storyToDelete) {
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = `/admin/community/delete/${storyToDelete}`;
+            const csrfInput = document.createElement('input');
+            csrfInput.type = 'hidden';
+            csrfInput.name = '_token';
+            csrfInput.value = '{{ csrf_token() }}';
+            const methodInput = document.createElement('input');
+            methodInput.type = 'hidden';
+            methodInput.name = '_method';
+            methodInput.value = 'DELETE';
+            form.appendChild(csrfInput);
+            form.appendChild(methodInput);
+            document.body.appendChild(form);
+            form.submit();
+        }
+    });
+
+    // Close modal when clicking outside modal-content
+    deleteModal.addEventListener('mousedown', function(e) {
+        if (e.target === deleteModal) {
+            deleteModal.style.display = 'none';
+            storyToDelete = null;
+        }
+    });
+});
+
+let searchTimeout = null;
+
+// Search debounce and enter key
+function debounceSearch() {
+    clearTimeout(searchTimeout);
+    searchTimeout = setTimeout(function() {
+        submitSearch();
+    }, 500); // Wait 500ms after user stops typing
+}
+
+function submitSearch() {
+    document.getElementById('searchForm').submit();
+}
+
+// Clear search functionality
+function clearSearch() {
+    document.getElementById('searchInput').value = '';
+    submitSearch();
+}
+
+// Handle enter key in search
+document.getElementById('searchInput').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+        e.preventDefault();
         submitSearch();
     }
-    
-    // Close modal when clicking outside
-    window.onclick = function(event) {
-        const modals = document.getElementsByClassName('modal');
-        for (let i = 0; i < modals.length; i++) {
-            if (event.target === modals[i]) {
-                modals[i].style.display = 'none';
-                if (modals[i].id === 'deleteUserModal') {
-                    userToDelete = null;
-                }
-            }
-        }
-    }
-    
-    // Handle enter key in search
-    document.getElementById('searchInput').addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-            e.preventDefault();
-            submitSearch();
-        }
-    });
-
-    document.addEventListener('DOMContentLoaded', function() {
-        let storyToDeleteId = null;
-
-        function confirmDelete(storyId) {
-            storyToDeleteId = storyId;
-            document.getElementById('deleteModal').style.display = 'flex';
-        }
-
-        document.getElementById('deleteCancel').addEventListener('click', function() {
-            document.getElementById('deleteModal').style.display = 'none';
-        });
-
-        document.getElementById('deleteOk').addEventListener('click', function() {
-            if (storyToDeleteId) {
-                // Buat dan submit form delete
-                const form = document.createElement('form');
-                form.method = 'POST';
-                form.action = '/community/delete/' + storyToDeleteId;
-
-                // Tambahkan csrf dan method spoofing _method=DELETE
-                const csrfInput = document.createElement('input');
-                csrfInput.type = 'hidden';
-                csrfInput.name = '_token';
-                csrfInput.value = '{{ csrf_token() }}';
-
-                const methodInput = document.createElement('input');
-                methodInput.type = 'hidden';
-                methodInput.name = '_method';
-                methodInput.value = 'DELETE';
-
-                form.appendChild(csrfInput);
-                form.appendChild(methodInput);
-
-                document.body.appendChild(form);
-                form.submit();
-            }
-        });
-    });
-
-    // Delete Constant
-    const deleteConfirmationModal = document.getElementById('deleteConfirmationModal');
-    const deleteCancel = document.getElementById('deleteCancel');
-    const deleteConfirm = document.getElementById('deleteConfirm');
+});
 </script>
 @endpush

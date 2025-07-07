@@ -534,7 +534,7 @@
                                 </div>
                                 
                                 <div class="title-container d-flex align-items-center justify-content-center py-4">
-                                    <h3 class="preview-title mb-0" id="previewTitle" style="font-family: 'Gidugu'; font-size: 3rem"></h3>
+                                    <h3 class="preview-title mb-0" id="previewTitle" style="font-family: 'Gidugu'; font-size: 3rem">Title</h3>
                                 </div>
 
                                 <div class="creator-container d-flex align-items-center ps-3">

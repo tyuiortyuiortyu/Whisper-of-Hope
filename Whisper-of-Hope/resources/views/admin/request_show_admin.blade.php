@@ -121,6 +121,8 @@
         padding: 20px;
         background-color: #fafafa;
         font-family: 'Yantramanav', sans-serif;
+        margin-top: 40px;
+        border-radius: 12px;
     }
 
     .page-header {

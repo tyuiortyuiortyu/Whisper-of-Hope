@@ -228,6 +228,16 @@
             font-family: 'Yantramanav', sans-serif; 
         }
 
+        body {
+        overflow: auto;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+        }
+        
+        body::-webkit-scrollbar, html::-webkit-scrollbar {
+            display: none;
+        }
+
         .content {
             background: linear-gradient(to bottom, #FFDBDF 0%,#FFDBDF 50%, #FFFDFE 85%,  #FFFDFE 100%);
             width: 100%;
