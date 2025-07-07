@@ -4,20 +4,20 @@
         <div class="modal-content" style="border-radius: 20px; overflow: hidden; border: none; box-shadow: 0 4px 20px rgba(0,0,0,0.15); width: 400px; margin: 0 auto;">
             <div class="modal-body p-0">
                 <div style="background-color: #F9BCC4; padding: 40px; position: relative;">
-                    <img src="{{ asset('images/admin/user_admin/close.png') }}" class="modal-close-btn" data-bs-dismiss="modal" aria-label="Close" alt="Close">
+                    <img src="{{ asset('images/admin/user_admin/close.png') }}" class="modal-close-btn" data-bs-dismiss="modal" aria-label="{{ __('general.close') }}" alt="Close">
                     <div class="text-center mb-5">
-                        <h2 class="fw-bold" style="color: #000;">REGISTER</h2>
+                        <h2 class="fw-bold" style="color: #000;">{{ __('auth.register') }}</h2>
                     </div>
                     <form method="POST" action="{{ route('register') }}">
                         @csrf
                         <div class="mb-4">
                             <div class="input-group">
                                 <span class="input-group-text" style="background-color: #FFF9EA;">
-                                    <img src="{{ asset('images/user/register/name.png') }}" alt="Name" style="width: 16px; height: 16px;">
+                                    <img src="{{ asset('images/user/register/name.png') }}" alt="{{ __('auth.name') }}" style="width: 16px; height: 16px;">
                                 </span>
                                 <input type="text" class="form-control @error('name') is-invalid @enderror"
                                        name="name" value="{{ old('name') }}" required autocomplete="name" autofocus
-                                       placeholder="Enter your name" style="background-color: #FFF9EA;">
+                                       placeholder="{{ __('auth.enter_your_name') }}" style="background-color: #FFF9EA;">
                             </div>
                             @error('name')
                                 <span class="invalid-feedback d-block"><strong>{{ $message }}</strong></span>
@@ -26,11 +26,11 @@
                         <div class="mb-4">
                             <div class="input-group">
                                 <span class="input-group-text" style="background-color: #FFF9EA;">
-                                    <img src="{{ asset('images/user/register/email.png') }}" alt="Email" style="width: 16px; height: 16px;">
+                                    <img src="{{ asset('images/user/register/email.png') }}" alt="{{ __('auth.email') }}" style="width: 16px; height: 16px;">
                                 </span>
                                 <input type="email" class="form-control @error('email') is-invalid @enderror"
                                        name="email" value="{{ old('email') }}" required autocomplete="email"
-                                       placeholder="Enter your email" style="background-color: #FFF9EA;">
+                                       placeholder="{{ __('auth.enter_your_email') }}" style="background-color: #FFF9EA;">
                             </div>
                             @error('email')
                                 <span class="invalid-feedback d-block"><strong>{{ $message }}</strong></span>
@@ -39,11 +39,11 @@
                         <div class="mb-4">
                             <div class="input-group">
                                 <span class="input-group-text" style="background-color: #FFF9EA;">
-                                    <img src="{{ asset('images/user/register/password.png') }}" alt="Password" style="width: 16px; height: 16px;">
+                                    <img src="{{ asset('images/user/register/password.png') }}" alt="{{ __('auth.password') }}" style="width: 16px; height: 16px;">
                                 </span>
                                 <input type="password" class="form-control @error('password') is-invalid @enderror"
                                        id="registerPassword" name="password" required autocomplete="new-password"
-                                       placeholder="Create password" style="background-color: #FFF9EA;">
+                                       placeholder="{{ __('auth.create_password') }}" style="background-color: #FFF9EA;">
                                 <span class="input-group-text toggle-password" style="background-color: #FFF9EA; cursor: pointer;">
                                     <img id="registerEyeIcon" src="{{ asset('images/user/register/eye_close.png') }}" alt="Toggle Password" style="width: 16px; height: 16px;">
                                 </span>
@@ -56,28 +56,28 @@
                                     <div class="criteria-item">
                                         <img src="{{ asset('images/user/register/check.png') }}" class="criteria-icon unchecked" alt="Check" style="width: 15px; height: 15px;">
                                         <img src="{{ asset('images/user/register/done.png') }}" class="criteria-icon checked" alt="Check Success" style="width: 15px; height: 15px; display: none;">
-                                        <span class="criteria-text">Min. 8 Characters</span>
+                                        <span class="criteria-text">{{ __('auth.min_8_characters') }}</span>
                                     </div>
                                 </div>
                                 <div class="col">
                                     <div class="criteria-item">
                                         <img src="{{ asset('images/user/register/check.png') }}" class="criteria-icon unchecked" alt="Check" style="width: 15px; height: 15px;">
                                         <img src="{{ asset('images/user/register/done.png') }}" class="criteria-icon checked" alt="Check Success" style="width: 15px; height: 15px; display: none;">
-                                        <span class="criteria-text">Lowercase Letter</span>
+                                        <span class="criteria-text">{{ __('auth.lowercase_letter') }}</span>
                                     </div>
                                 </div>
                                 <div class="col">
                                     <div class="criteria-item">
                                         <img src="{{ asset('images/user/register/check.png') }}" class="criteria-icon unchecked" alt="Check" style="width: 15px; height: 15px;">
                                         <img src="{{ asset('images/user/register/done.png') }}" class="criteria-icon checked" alt="Check Success" style="width: 15px; height: 15px; display: none;">
-                                        <span class="criteria-text">Uppercase Letter</span>
+                                        <span class="criteria-text">{{ __('auth.uppercase_letter') }}</span>
                                     </div>
                                 </div>
                                 <div class="col">
                                     <div class="criteria-item">
                                         <img src="{{ asset('images/user/register/check.png') }}" class="criteria-icon unchecked" alt="Check" style="width: 15px; height: 15px;">
                                         <img src="{{ asset('images/user/register/done.png') }}" class="criteria-icon checked" alt="Check Success" style="width: 15px; height: 15px; display: none;">
-                                        <span class="criteria-text">Number</span>
+                                        <span class="criteria-text">{{ __('auth.number') }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -85,11 +85,11 @@
                         <div class="mb-4">
                             <div class="input-group">
                                 <span class="input-group-text" style="background-color: #FFF9EA;">
-                                    <img src="{{ asset('images/user/register/password.png') }}" alt="Confirm Password" style="width: 16px; height: 16px;">
+                                    <img src="{{ asset('images/user/register/password.png') }}" alt="{{ __('auth.confirm_password') }}" style="width: 16px; height: 16px;">
                                 </span>
                                 <input type="password" class="form-control"
                                        id="registerPasswordConfirm" name="password_confirmation" required autocomplete="new-password"
-                                       placeholder="Confirm password" style="background-color: #FFF9EA;">
+                                       placeholder="{{ __('auth.confirm_password') }}" style="background-color: #FFF9EA;">
                                 <span class="input-group-text toggle-password-confirm" style="background-color: #FFF9EA; cursor: pointer;">
                                     <img id="registerConfirmEyeIcon" src="{{ asset('images/user/register/eye_close.png') }}" alt="Toggle Password" style="width: 16px; height: 16px;">
                                 </span>
@@ -98,13 +98,13 @@
                         <div class="d-grid mb-4">
                             <button type="submit" class="btn fw-bold"
                                     style="background-color: #FFF9EA; color: #333; border-radius: 10px;">
-                                REGISTER
+                                {{ __('auth.register') }}
                             </button>
                         </div>
                         <div class="text-center" style="font-size: 14px;">
-                            Already have an account?
+                            {{ __('auth.already_have_account') }}
                             <a href="#" data-bs-toggle="modal" data-bs-target="#loginModal" data-bs-dismiss="modal"
-                               style="color: #000; font-weight: 700;">Login</a>
+                               style="color: #000; font-weight: 700;">{{ __('auth.login') }}</a>
                         </div>
                     </form>
                 </div>

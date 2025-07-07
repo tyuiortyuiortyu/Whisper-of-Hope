@@ -1,0 +1,25 @@
+<?php
+
+return [
+    'english' => 'English',
+    'indonesian' => 'Indonesian',
+    'welcome' => 'Welcome',
+    'search' => 'Search',
+    'submit' => 'Submit',
+    'cancel' => 'Cancel',
+    'save' => 'Save',
+    'edit' => 'Edit',
+    'delete' => 'Delete',
+    'yes' => 'Yes',
+    'no' => 'No',
+    'close' => 'Close',
+    'back' => 'Back',
+    'ok' => 'OK',
+    'confirm' => 'Confirm',
+    'loading' => 'Loading...',
+    'please_wait' => 'Please wait...',
+    'success' => 'Success',
+    'error' => 'Error',
+    'warning' => 'Warning',
+    'info' => 'Information',
+];

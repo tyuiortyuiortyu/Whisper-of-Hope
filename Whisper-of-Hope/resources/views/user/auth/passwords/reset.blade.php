@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reset Password - Whisper of Hope</title>
+    <title>{{ __('auth.reset_password') }} - Whisper of Hope</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Yantramanav:wght@300;400;500;600;700&display=swap');
@@ -96,7 +96,7 @@
 <body>
     <div class="reset-container">
         <div class="reset-header">
-            <h2>Reset Password</h2>
+            <h2>{{ __('auth.reset_password') }}</h2>
         </div>
         
         <form method="POST" action="{{ route('password.update') }}">
@@ -105,7 +105,7 @@
             <input type="hidden" name="email" value="{{ $email }}">
             
             <div class="mb-3">
-                <label class="form-label">New Password</label>
+                <label class="form-label">{{ __('auth.new_password') }}</label>
                 <input type="password" name="password" class="form-control" required minlength="8">
                 @error('password')
                     <span class="text-danger">{{ $message }}</span>
@@ -113,14 +113,14 @@
             </div>
             
             <div class="mb-3">
-                <label class="form-label">Confirm Password</label>
+                <label class="form-label">{{ __('auth.confirm_new_password') }}</label>
                 <input type="password" name="password_confirmation" class="form-control" required>
             </div>
             
-            <button type="submit" class="btn btn-reset">Reset Password</button>
+            <button type="submit" class="btn btn-reset">{{ __('auth.reset_password') }}</button>
             
             <div class="back-link">
-                <a href="{{ route('login') }}">← Back to Login</a>
+                <a href="{{ route('login') }}">{{ __('auth.back_to_login') }}</a>
             </div>
         </form>
     </div>

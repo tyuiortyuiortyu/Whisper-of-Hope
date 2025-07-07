@@ -140,6 +140,77 @@
     .modal-backdrop.fade.show {
         opacity: 0.5;
     }
+
+    .language-switcher .btn {
+        background: rgba(255, 255, 255, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        color: #333;
+        font-size: 0.875rem;
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+    
+    .language-switcher .btn:hover {
+        background: rgba(255, 255, 255, 0.5);
+        border-color: rgba(255, 255, 255, 0.6);
+        color: #333;
+        transform: translateY(-1px);
+    }
+    
+    .language-switcher .dropdown-menu {
+        min-width: 160px;
+        border-radius: 10px;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+        padding: 8px 0;
+    }
+    
+    .language-switcher .dropdown-item {
+        font-size: 0.875rem;
+        padding: 10px 16px;
+        font-weight: 500;
+        transition: all 0.2s ease;
+    }
+    
+    .language-switcher .dropdown-item.active {
+        background-color: #F791A9;
+        color: white;
+        font-weight: 600;
+    }
+    
+    .language-switcher .dropdown-item:hover {
+        background-color: #f8f9fa;
+        color: #333;
+        transform: translateX(2px);
+    }
+    
+    .language-switcher .dropdown-item.active:hover {
+        background-color: #F791A9;
+        color: white;
+        transform: translateX(2px);
+    }
+
+    /* Mobile responsive styles */
+    @media (max-width: 991.98px) {
+        .navbar-nav {
+            margin-top: 10px;
+        }
+        
+        .navbar-nav .nav-item {
+            margin-bottom: 10px;
+        }
+        
+        .auth-container {
+            margin-left: 0;
+            margin-top: 10px;
+        }
+        
+        .language-switcher {
+            margin-top: 10px;
+        }
+    }
 </style>
 
 <nav class="navbar navbar-expand-lg sticky-top" style="background-color: #FFDBDF;">
@@ -160,25 +231,25 @@
                 <!-- Your existing menu items -->
                 <li class="nav-item">
                     <a href="{{ route('user.donate') }}" class="btn menubtn mx-2 {{ request()->routeIs('user.donate') ? 'active' : '' }}">
-                        Donate Hair
+                        {{ __('navbar.donate') }}
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('user.request') }}"
                         class="btn menubtn mx-2 {{ request()->routeIs('user.request') ? 'active' : '' }}">
-                        Request a Wig
+                        {{ __('navbar.request') }}
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('user.community') }}"
                         class="btn menubtn mx-2 {{ request()->routeIs('user.community') ? 'active' : '' }}">
-                        Community Stories
+                        {{ __('navbar.community') }}
                     </a>    
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('user.about') }}"
                         class="btn menubtn mx-2 {{ request()->routeIs('user.about') ? 'active' : '' }}">
-                        About Us
+                        {{ __('navbar.about') }}
                     </a>
                 </li>
             </ul>
@@ -197,18 +268,23 @@
                         </a>
                         <div class="profile-dropdown-content" id="profileOverlay">
                             <a href="#" data-bs-toggle="modal" data-bs-target="#profileModal">
-                                <i class="bi bi-person me-2"></i>Profile
+                                <i class="bi bi-person me-2"></i>{{ __('navbar.profile') }}
                             </a>
                             <a href="#" onclick="event.preventDefault(); logoutUser();">
-                                <i class="bi bi-box-arrow-right me-2"></i>Logout
+                                <i class="bi bi-box-arrow-right me-2"></i>{{ __('navbar.logout') }}
                             </a>
                         </div>
                     </div>
                 @else
                     <a class="auth-link" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">
-                        Login <i class="bi bi-person-circle ms-2"></i>
+                        {{ __('navbar.login') }} <i class="bi bi-person-circle ms-2"></i>
                     </a>
                 @endauth
+            </div>
+
+            <!-- Language Switcher -->
+            <div class="language-switcher me-3">
+                <x-language-switcher />
             </div>
         </div>
     </div>

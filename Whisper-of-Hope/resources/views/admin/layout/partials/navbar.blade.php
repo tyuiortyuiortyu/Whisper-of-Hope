@@ -3,53 +3,58 @@
         <div class="logo">
             <img src="{{ asset('images/logo.png') }}" alt="Whisper of Hope" class="logo-img">
             <div class="logo-text">
-                <h3>Admin</h3>
-                <span>Dashboard</span>
+                <h3>{{ __('navbar.admin') }}</h3>
+                <span>{{ __('admin.dashboard') }}</span>
             </div>
+        </div>
+        
+        <!-- Language Switcher -->
+        <div class="language-switcher mt-3">
+            <x-language-switcher />
         </div>
     </div>
     
     <ul class="sidebar-menu">
         <li class="menu-item {{ request()->routeIs('admin.user_admin') ? 'active' : '' }}">
             <a href="{{ route('admin.user_admin') }}">
-                <img src="/images/admin/users.png" class="menu-icon" alt="Users">
-                <span>Users</span>
+                <img src="/images/admin/users.png" class="menu-icon" alt="{{ __('admin.users') }}">
+                <span>{{ __('admin.users') }}</span>
             </a>
         </li>
         
         <li class="menu-item {{ request()->routeIs('admin.request_admin') ? 'active' : '' }}">
             <a href="{{ route('admin.request_admin') }}">
-                <img src="/images/admin/requested-wig.png" class="menu-icon" alt="Requested Wig">
-                <span>Requested Wig</span>
+                <img src="/images/admin/requested-wig.png" class="menu-icon" alt="{{ __('admin.requested_wig') }}">
+                <span>{{ __('admin.requested_wig') }}</span>
             </a>
         </li>
         
         <li class="menu-item {{ request()->routeIs('admin.donate_admin') ? 'active' : '' }}">
             <a href="{{ route('admin.donate_admin') }}">
-                <img src="/images/admin/donated-hair.png" class="menu-icon" alt="Donated Hair">
-                <span>Donated Hair</span>
+                <img src="/images/admin/donated-hair.png" class="menu-icon" alt="{{ __('admin.donated_hair') }}">
+                <span>{{ __('admin.donated_hair') }}</span>
             </a>
         </li>
         
         <li class="menu-item {{ request()->routeIs('admin.whisper_admin') ? 'active' : '' }}">
             <a href="{{ route('admin.whisper_admin') }}">
-                <img src="/images/admin/the-whispers.png" class="menu-icon" alt="The Whisper">
-                <span>The Whisper</span>
+                <img src="/images/admin/the-whispers.png" class="menu-icon" alt="{{ __('admin.the_whisper') }}">
+                <span>{{ __('admin.the_whisper') }}</span>
             </a>
         </li>
         
         <li class="menu-item {{ request()->routeIs('admin.community_admin') ? 'active' : '' }}">
             <a href="{{ route('admin.community_admin') }}">
-                <img src="/images/admin/community-stories.png" class="menu-icon" alt="Community Stories">
-                <span>Community Stories</span>
+                <img src="/images/admin/community-stories.png" class="menu-icon" alt="{{ __('admin.community_stories') }}">
+                <span>{{ __('admin.community_stories') }}</span>
             </a>
         </li>
     </ul>
     
     <div class="sidebar-footer">
         <a href="#" class="logout-btn" onclick="event.preventDefault(); logoutAdmin();">
-            <img src="/images/admin/logout.png" class="menu-icon" alt="Logout">
-            <span>Logout</span>
+            <img src="/images/admin/logout.png" class="menu-icon" alt="{{ __('admin.logout') }}">
+            <span>{{ __('navbar.logout') }}</span>
         </a>
     </div>
 </nav>
@@ -188,6 +193,57 @@ function logoutAdmin() {
         color: #000;
     }
 
+    .language-switcher .btn {
+        background: rgba(255, 255, 255, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        color: #333;
+        font-size: 0.875rem;
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+    
+    .language-switcher .btn:hover {
+        background: rgba(255, 255, 255, 0.5);
+        border-color: rgba(255, 255, 255, 0.6);
+        color: #333;
+        transform: translateY(-1px);
+    }
+    
+    .language-switcher .dropdown-menu {
+        min-width: 160px;
+        border-radius: 10px;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+        padding: 8px 0;
+    }
+    
+    .language-switcher .dropdown-item {
+        font-size: 0.875rem;
+        padding: 10px 16px;
+        font-weight: 500;
+        transition: all 0.2s ease;
+    }
+    
+    .language-switcher .dropdown-item.active {
+        background-color: #F791A9;
+        color: white;
+        font-weight: 600;
+    }
+    
+    .language-switcher .dropdown-item:hover {
+        background-color: #f8f9fa;
+        color: #333;
+        transform: translateX(2px);
+    }
+    
+    .language-switcher .dropdown-item.active:hover {
+        background-color: #F791A9;
+        color: white;
+        transform: translateX(2px);
+    }
+    
     /* Mobile Responsive */
     @media (max-width: 768px) {
         .sidebar {
