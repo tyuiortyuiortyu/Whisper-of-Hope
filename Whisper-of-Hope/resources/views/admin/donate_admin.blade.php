@@ -3,10 +3,10 @@
 @section('title', 'Hair Donations')
 
 @section('content')
-<div class="hair-donations-management">
-    <div class="page-header">
+<div class="hair-donations-management" style="display: flex; flex-direction: column; align-items: center;">
+    <div class="page-header" style="justify-content: center; margin-left: 0; width: 100%;">
         <div style="flex: 1;"></div>
-        <div class="search-container" style="justify-content: flex-end; display: flex; width: 100%; max-width: 300px;">
+        <div class="search-container" style="justify-content: center; display: flex; width: 100%; max-width: 300px;">
             <form method="GET" action="{{ route('admin.donate_admin') }}" id="searchForm" style="width: 100%;">
                 <input type="text"
                     id="searchInput"
@@ -21,65 +21,85 @@
     </div>
 
     @if(session('success'))
-        <div class="alert alert-success" id="successAlert">
+        <div class="alert alert-success" id="successAlert" style="text-align: center;">
             {{ session('success') }}
         </div>
     @endif
 
     @if(session('error'))
-        <div class="alert alert-danger" id="errorAlert">
+        <div class="alert alert-danger" id="errorAlert" style="text-align: center;">
             {{ session('error') }}
         </div>
     @endif
 
-    <div class="donations-table-container" style="margin: 0 10px;">
+    <div class="donations-table-container" >
         <table class="donations-table">
             <thead>
                 <tr>
-                    <th>Id</th>
-                    <th>Name</th>
-                    <th>Age</th>
-                    <th>Email</th>
-                    <th>Phone Number</th>
-                    <th>Hair Length</th>
-                    <th>Status</th>
-                    <th>Action</th> 
+                    <th style="width: 8%; text-align: center;">Id</th>
+                    <th style="width: 16%; text-align: center;">Name</th>
+                    <th style="width: 6%; text-align: center;">Age</th>
+                    <th style="width: 20%; text-align: center;">Email</th>
+                    <th style="width: 14%; text-align: center;">Phone Number</th>
+                    <th style="width: 12%; text-align: center;">Hair Length</th>
+                    <th style="width: 10%; text-align: center;">Status</th> 
+                    <th style="width: 20%; text-align: center;">Action</th> 
                 </tr>
             </thead>
             <tbody id="donationsTableBody">
                 @forelse($hairDonations as $donation)
                 <tr>
-                    <td>{{ $donation->id }}</td>
-                    <td>{{ $donation->full_name }}</td>
-                    <td>{{ $donation->age ?? 'N/A' }}</td>
-                    <td>{{ $donation->email }}</td>
-                    <td>{{ $donation->phone ?? 'N/A' }}</td>
-                    <td>{{ $donation->hair_length ?? 'N/A' }} cm</td>
-                    <td>
-                        <span class="status-badge status-{{ strtolower(str_replace(' ', '-', $donation->status)) }}">
-                            {{ ucfirst($donation->status) }}
-                        </span>
-                    </td>
-                    <td class="action-buttons-wrapper">
-                        <div class="action-buttons">
-                            @if(strtolower($donation->status) === 'waiting')
-                                <button class="action-btn approve-btn" onclick="confirmAction('{{ $donation->id }}', 'approve')">
-                                    <img src="{{ asset('images/Donate_hair/admin_received.svg') }}" alt="Approve">
-                                </button>
-
-                                <button class="action-btn reject-btn" onclick="confirmAction('{{ $donation->id }}', 'reject')">
-                                    <img src="{{ asset('images/Donate_hair/admin_missing.svg') }}" style="width: 38px; height: 38px;" alt="Reject">
-                                </button>
-                            @endif
+                    <td style="text-align: center;">{{ $donation->id }}</td>
+                    <td style="text-align: center;">{{ $donation->full_name }}</td>
+                    <td style="text-align: center;">{{ $donation->age ?? 'N/A' }}</td>
+                    <td style="text-align: center;">{{ $donation->email }}</td>
+                    <td style="text-align: center;">{{ $donation->phone ?? 'N/A' }}</td>
+                    <td style="text-align: center;">{{ $donation->hair_length ?? 'N/A' }} cm</td>
+                    <td style="text-align: center;">
+                        @php
+                            $status = strtolower($donation->status);
+                            $statusImages = [
+                                'waiting' => asset('images/Donate_hair/waiting.png'),
+                                'received' => asset('images/Donate_hair/accept-solid.png'),
+                                'missing' => asset('images/Donate_hair/reject-solid.png'),
+                            ];
+                            $statusImage = $statusImages[$status] ?? null;
+                        @endphp
+                        <div style="display: flex; align-items: center; gap: 3px; justify-content: center;">
+                            <span class="status-badge status-{{ str_replace(' ', '-', $status) }}">
+                                @if($statusImage)
+                                    @php
+                                        $imgSize = ($status === 'waiting') ? 15 : 16;
+                                    @endphp
+                                    <img src="{{ $statusImage }}" alt="{{ ucfirst($status) }}" style="width:{{ $imgSize }}px; height:{{ $imgSize }}px;">
+                                @endif
+                                {{ ucfirst($donation->status) }}
+                            </span>
                         </div>
-                        <button class="action-btn delete-btn" onclick="deleteHairDonation('{{ $donation->id }}')">
-                            <img src="{{ asset('images/Donate_hair/admin_hapus.svg') }}" alt="Delete">
-                        </button>
+                    </td>
+                    <td style="text-align: center;">
+                        <div class="action-buttons" style="justify-content: center;">
+                            {{-- Approve Button --}}
+                            <button class="action-btn approve-btn" onclick="confirmAction('{{ $donation->id }}', 'approve')"
+                                @if(strtolower($donation->status) === 'received') disabled @endif>
+                                <img src="{{ asset('images/Donate_hair/' . (strtolower($donation->status) === 'received' ? 'accept-solid.png' : 'admin_received.svg')) }}" alt="Approve">
+                            </button>
+
+                            {{-- Reject Button --}}
+                            <button class="action-btn reject-btn" onclick="confirmAction('{{ $donation->id }}', 'reject')"
+                                @if(strtolower($donation->status) === 'missing') disabled @endif>
+                                <img src="{{ asset('images/Donate_hair/' . (strtolower($donation->status) === 'missing' ? 'reject-solid.png' : 'reject-outline.png')) }}" style = "width: 18px;" alt="Reject">
+                            </button>
+                            <button class="action-btn delete-btn" onclick="deleteHairDonation('{{ $donation->id }}')">
+                                <img src="{{ asset('images/Donate_hair/admin_hapus.svg') }}" alt="Delete">
+                            </button>
+                        </div>
+                        
                     </td>
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="8" class="no-data">
+                    <td colspan="8" class="no-data" style="text-align: center; vertical-align: middle;">
                         @if(request('search'))
                             No hair donations found for "{{ request('search') }}"
                         @else
@@ -92,12 +112,12 @@
         </table>
 
         @if($hairDonations->hasPages())
-            <div class="pagination-container">
-                <div class="pagination-info">
+            <div class="pagination-container" style="justify-content: center;">
+                <div class="pagination-info" style="text-align: center; width: 20%;">
                     <span>Showing {{ $hairDonations->firstItem() }} to {{ $hairDonations->lastItem() }} of {{ $hairDonations->total() }} results</span>
                 </div>
-                <div class="pagination-wrapper">
-                    <div class="pagination-links">
+                <div class="pagination-wrapper" style="justify-content: center; width: 20%;">
+                    <div class="pagination-links" style="justify-content: center; width: 100%;">
                         {{-- Previous Page Link --}}
                         @if ($hairDonations->onFirstPage())
                             <span class="pagination-btn nav-btn disabled">‹</span>
@@ -169,6 +189,7 @@
         padding: 0;
         background: white;
         font-family: 'Yantramanav';
+        margin-left: -15px;
     }
 
     .page-header {
@@ -179,6 +200,7 @@
         gap: 20px;
         padding: 0 30px;
         padding-top: 20px;
+        margin-left: 650px;
     }
 
     .search-container {
@@ -234,10 +256,12 @@
 
     .donations-table-container {
         background: white;
-        border-radius: 14px;
+        border-radius: 12px;
+        box-shadow: 0 4px rgba(0, 0, 0, 0.08);
         overflow: hidden;
-        margin: 0 0px;
+        margin-right: -15px;
         border: 1px solid #e8e8e8;
+        width: calc(100% - 15px);
     }
 
     .donations-table {
@@ -248,8 +272,8 @@
     }
 
     .donations-table th {
-        padding: 18px 25px;
-        text-align: left; /* Default to left for headers */
+        padding: 18px 15px; 
+        text-align: left;
         vertical-align: middle;
         background: #fafafa;
         font-weight: 600;
@@ -261,13 +285,12 @@
         letter-spacing: 0.5px;
     }
 
-    /* Specific right alignment for the Action header */
     .donations-table th.text-right {
         text-align: right;
     }
 
     .donations-table td {
-        padding: 18px 25px;
+        padding: 15px 15px; 
         text-align: left;
         vertical-align: middle;
         font-size: 15px;
@@ -296,13 +319,18 @@
     }
 
     .status-badge {
-        padding: 6px 12px;
+        padding: 6px 10px;
         border-radius: 20px;
         font-size: 12px;
         font-weight: 500;
-        display: inline-block;
         font-family: 'Yantramanav';
         border: 1px solid transparent;
+        width: 90px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 3px;
+        text-align: center;
     }
 
     .status-missing {
@@ -323,18 +351,12 @@
         border-color: #fff3cd;
     }
 
-    .action-buttons-wrapper {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        width: 100%;
-    }
-
     .action-buttons {
         display: flex;
         gap: 5px;
         justify-content: flex-start;
         align-items: center;
+        flex-wrap: nowrap;
     }
 
     .action-btn {
@@ -349,11 +371,12 @@
         width: 36px;
         height: 36px;
         transition: all 0.3s ease;
+        margin-right: 8px;
     }
 
     .action-btn img {
-        width: 24px;
-        height: 24px;
+        width: 20px;
+        height: 20px;
         object-fit: contain;
     }
 
@@ -396,7 +419,7 @@
         background-color: #FFFCF5;
         margin: 3% auto;
         padding: 0;
-        border-radius: 15px;
+        border-radius: 14px;
         width: 90%;
         max-width: 520px;
         box-shadow: 0 10px 30px rgba(0,0,0,0.3);
@@ -415,7 +438,7 @@
         margin: 0;
         color: #333;
         font-family: 'Yantramanav';
-        font-size: 1.4rem;
+        font-size: 1.2rem;
         font-weight: 600;
     }
 
@@ -826,14 +849,14 @@
             setTimeout(() => {
                 successAlert.classList.add('fade-out');
                 setTimeout(() => successAlert.remove(), 500); // Remove after fade-out transition
-            }, 2000); // 10 seconds
+            }, 2000); // 2 seconds
         }
 
         if (errorAlert) {
             setTimeout(() => {
                 errorAlert.classList.add('fade-out');
                 setTimeout(() => errorAlert.remove(), 500); // Remove after fade-out transition
-            }, 2000); // 10 seconds
+            }, 2000); // 2 seconds
         }
     });
 </script>
