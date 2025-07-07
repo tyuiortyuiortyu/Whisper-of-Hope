@@ -129,7 +129,9 @@
         }
 
         .content-area {
-            padding: 30px;
+            padding-bottom: 30px;
+            padding-left: 30px;
+            padding-right: 30px;
             min-height: calc(100vh - 80px);
             background: white;
         }

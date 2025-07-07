@@ -12,6 +12,9 @@ class HairRequest extends Model
 
     protected $table = 'hair_requests';
 
+    protected $keyType = 'string';
+    public $incrementing = false;
+
     protected $fillable = [
         'who_for',
         'recipient_full_name',
@@ -32,6 +35,17 @@ class HairRequest extends Model
         'recipient_age' => 'integer',
     ];
 
+    protected static function booted()
+    {
+        static::creating(function ($hairRequest) {
+            if (empty($hairRequest->id)) {
+                $count = self::count();
+                $nextId = $count + 1;
+                $formattedId = str_pad($nextId, 3, '0', STR_PAD_LEFT);
+                $hairRequest->id = 'WR' . $formattedId;
+            }
+        });
+    }
 
     /**
      * Get the user who created this request

@@ -54,17 +54,23 @@ class RequestAdminController extends Controller
         return view('admin.request_admin', compact('requests'));
     }
 
+    public function show(HairRequest $hairRequest)
+    {
+        $hairRequest->load('user');
+        return view('admin.request_show_admin', compact('hairRequest'));
+    }
+
     // status management
     public function accept(HairRequest $hairRequest)
     {
         $hairRequest->update(['status' => 'accepted']);
-        return redirect()->route('admin.request_admin')->with('success', 'Request accepted!');
+        return redirect()->route('admin.request_admin');
     }
 
     public function reject(HairRequest $hairRequest)
     {
         $hairRequest->update(['status' => 'rejected']);
-        return redirect()->route('admin.request_admin')->with('success', 'Request rejected!');
+        return redirect()->route('admin.request_admin');
     }
 
     public function destroy(HairRequest $hairRequest)

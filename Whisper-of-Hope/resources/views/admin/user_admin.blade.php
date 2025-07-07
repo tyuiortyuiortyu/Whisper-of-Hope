@@ -228,8 +228,8 @@
         </div>
         
         <div class="modal-actions">
-            <button type="button" class="btn-cancel" onclick="closeModal('deleteUserModal')">Cancel</button>
-            <button type="button" class="btn-delete-confirm" onclick="confirmDelete()">OK</button>
+            <button type="button" class="btn-cancel">Cancel</button>
+            <button type="button" class="btn-delete-confirm">OK</button>
         </div>
     </div>
 </div>
@@ -306,8 +306,15 @@
     
     .alert {
         padding: 15px;
-        margin: 0 30px 20px 30px;
+        margin: 0 0 20px 0;
         border-radius: 8px;
+        transition: opacity 0.5s ease, transform 0.5s ease;
+        position: relative;
+    }
+    
+    .alert.fade-out {
+        opacity: 0;
+        transform: translateY(-10px);
     }
     
     .alert-success {
@@ -341,7 +348,7 @@
     .users-table th,
     .users-table td {
         padding: 18px 25px;
-        text-align: left;
+        text-align: center;
         vertical-align: middle;
     }
     
@@ -354,6 +361,7 @@
         border-bottom: 2px solid #f0f0f0;
         text-transform: uppercase;
         letter-spacing: 0.5px;
+        text-align: center;
     }
     
     .users-table td {
@@ -362,6 +370,12 @@
         font-family: 'Yantramanav';
         background: white;
         border-bottom: 2px solid #e8e8e8;
+        text-align: center;
+    }
+    
+    .users-table td:nth-child(2),
+    .users-table td:nth-child(3) {
+        text-align: left;
     }
     
     .users-table tbody tr {
@@ -386,6 +400,7 @@
         display: flex;
         align-items: center;
         gap: 15px;
+        justify-content: flex-start;
     }
     
     .profile-picture {
@@ -485,7 +500,7 @@
         display: flex;
         gap: 8px;
         align-items: center;
-        justify-content: flex-start;
+        justify-content: center;
     }
     
     .btn-edit,
@@ -539,20 +554,33 @@
         top: 0;
         width: 100%;
         height: 100%;
-        background-color: rgba(0,0,0,0.5);
+        background-color: rgba(0,0,0,0.4);
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .modal.is-active {
+        display: flex;
+        opacity: 1;
+        visibility: visible;
     }
     
     .modal-content {
-        background-color: #FFFCF5;
-        margin: 2% auto;
+        background-color: #FEF0F0;
         padding: 0;
         border-radius: 15px;
         width: 90%;
         max-width: 520px;
         box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        position: relative;
-        top: 45%;
-        transform: translateY(-50%);
+        transform: scale(0.95);
+        transition: transform 0.3s ease;
+    }
+
+    .modal.is-active .modal-content {
+        transform: scale(1);
     }
     
     .modal-header {
@@ -629,11 +657,11 @@
         appearance: none;
         -webkit-appearance: none;
         -moz-appearance: none;
-        background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+        -image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
         background-repeat: no-repeat;
-        background-position: right 12px center;
-        background-size: 16px;
-        padding-right: 40px;
+        background-position: right 25px center;
+        background-size: 14px;
+        padding-right: 55px;
     }
     
     .form-input:focus {
@@ -648,63 +676,19 @@
         background-image: none;
         padding-right: 15px;
     }
-
-    /* Custom select dropdown styling */
+    
+    /* Custom select dropdown styling - REMOVED */
     select.form-input {
         cursor: pointer;
         color: #333 !important;
+        background-image: none;
+        padding-right: 15px;
+        appearance: auto;
+        -webkit-appearance: auto;
+        -moz-appearance: auto;
     }
 
-    select.form-input option {
-        background: white !important;
-        color: #333 !important;
-        border: none !important;
-        padding: 10px !important;
-    }
-
-    select.form-input option:hover {
-        background: #F9BCC4 !important;
-        color: white !important;
-        background-color: #F9BCC4 !important;
-    }
-
-    select.form-input option:checked,
-    select.form-input option:selected {
-        background: #F9BCC4 !important;
-        color: white !important;
-        background-color: #F9BCC4 !important;
-    }
-
-    select.form-input:focus option:checked {
-        background: #F9BCC4 !important;
-        color: white !important;
-        background-color: #F9BCC4 !important;
-    }
-
-    select.form-input option:focus {
-        background: #F9BCC4 !important;
-        color: white !important;
-        outline: none !important;
-        background-color: #F9BCC4 !important;
-    }
-
-    /* Additional browser-specific overrides */
-    select.form-input option::-moz-focus-inner {
-        background: #F9BCC4 !important;
-        color: white !important;
-    }
-
-    select.form-input option::selection {
-        background: #F9BCC4 !important;
-        color: white !important;
-    }
-
-    /* Webkit specific */
-    select.form-input option:active {
-        background: #F9BCC4 !important;
-        color: white !important;
-    }
-    
+    /* Additional styles for radio buttons in modal */
     .radio-group {
         display: flex;
         gap: 25px;
@@ -715,7 +699,7 @@
         display: flex;
         align-items: center;
         cursor: pointer;
-        font-family: 'Yantramanav', sans-serif;
+        font-family: 'Yantramanav';
         font-size: 14px;
         color: #333;
         font-weight: 400;
@@ -757,7 +741,7 @@
         justify-content: center;
         gap: 12px;
         padding: 15px 30px 20px;
-        background: #FFFCF5;
+        background: #FEF0F0;
         border-radius: 0 0 15px 15px;
     }
     
@@ -805,15 +789,16 @@
     
     /* Delete Modal Styles */
     .delete-modal {
+        background-color: #FEF0F0;
         max-width: 400px;
         text-align: center;
-        margin: 0 auto;
-        top: 50%;
-        transform: translateY(-50%);
+        border-radius: 20px;
+        transform: scale(0.95);
+        transition: transform 0.3s ease;
     }
     
     .delete-modal .modal-body {
-        padding: 40px 30px 20px 30px;
+        padding: 30px 30px 20px 30px;
     }
     
     .delete-modal .modal-body h3 {
@@ -822,31 +807,51 @@
         font-family: 'Yantramanav';
         font-size: 1.2rem;
         font-weight: 500;
-        line-height: 1.4;
     }
     
     .delete-modal .modal-actions {
-        padding: 15px 30px 20px;
-        border-top: none;
-        gap: 15px;
+        display: flex;
         justify-content: center;
+        padding: 0 30px 30px;
+        gap: 20px;
+        border-top: none;
+        background: #FEF0F0;
+    }
+
+    .delete-modal .modal-actions button {
+        cursor: pointer;
+        font-family: 'Yantramanav', sans-serif;
+        transition: background-color 0.2s ease, transform 0.1s ease;
+        padding: 8px 30px;
+        border: none;
+        border-radius: 50px;
+        font-size: 1rem;
+        font-weight: 500;
+        width: 120px;
+    }
+
+    .delete-modal .modal-actions button:active {
+        transform: scale(0.95);
+    }
+
+    .delete-modal .modal-actions .btn-cancel {
+        background-color: #E8E8E8;
+        color: black;
+    }
+
+    .delete-modal .modal-actions .btn-cancel:hover {
+        background-color: #CCC;
+        color: black;
     }
     
     .btn-delete-confirm {
-        padding: 12px 28px;
-        border: none;
-        border-radius: 50px;
-        cursor: pointer;
-        font-size: 14px;
-        font-family: 'Yantramanav';
-        font-weight: 600;
-        min-width: 100px;
         background: #F9BCC4;
-        color: #333;
+        color: black;
     }
     
     .btn-delete-confirm:hover {
         background: #F791A9;
+        color: black;
     }
     
     .pagination-container {
@@ -952,21 +957,233 @@
 <script>
     let userToDelete = null;
     let searchTimeout = null;
+    let userData = [];
+    let filteredUsers = [];
+    
+    // Initialize user data on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        // Extract user data from current table
+        extractUserData();
+        
+        // Setup modal handlers
+        setupModalHandlers();
+        
+        // Setup search functionality
+        setupSearch();
+        
+        // Setup auto-closing alerts
+        setupAutoCloseAlerts();
+    });
+    
+    function setupAutoCloseAlerts() {
+        const alerts = document.querySelectorAll('.alert');
+        
+        alerts.forEach(alert => {
+            // Auto close after 5 seconds
+            setTimeout(() => {
+                alert.classList.add('fade-out');
+                
+                // Remove from DOM after fade animation
+                setTimeout(() => {
+                    alert.remove();
+                }, 500);
+            }, 5000);
+        });
+    }
+    
+    function showAlert(message, type = 'success') {
+        // Remove existing alerts first
+        const existingAlerts = document.querySelectorAll('.alert');
+        existingAlerts.forEach(alert => alert.remove());
+        
+        // Create new alert
+        const alertDiv = document.createElement('div');
+        alertDiv.className = `alert alert-${type}`;
+        alertDiv.textContent = message;
+        
+        // Insert after page header
+        const pageHeader = document.querySelector('.page-header');
+        pageHeader.insertAdjacentElement('afterend', alertDiv);
+        
+        // Auto close after 5 seconds
+        setTimeout(() => {
+            alertDiv.classList.add('fade-out');
+            
+            // Remove from DOM after fade animation
+            setTimeout(() => {
+                alertDiv.remove();
+            }, 500);
+        }, 5000);
+    }
+    
+    function extractUserData() {
+        const rows = document.querySelectorAll('#usersTableBody tr');
+        userData = [];
+        
+        rows.forEach(row => {
+            const cells = row.querySelectorAll('td');
+            if (cells.length > 1 && !row.querySelector('.no-data')) {
+                const nameCell = cells[1];
+                const nameText = nameCell.querySelector('span') ? nameCell.querySelector('span').textContent : '';
+                const emailText = cells[2].textContent;
+                
+                userData.push({
+                    id: cells[0].textContent,
+                    name: nameText,
+                    email: emailText,
+                    phone: cells[3].textContent,
+                    gender: cells[4].textContent,
+                    role: cells[5].textContent.trim(),
+                    element: row
+                });
+            }
+        });
+        
+        filteredUsers = [...userData];
+    }
+    
+    function setupSearch() {
+        const searchInput = document.getElementById('searchInput');
+        
+        searchInput.addEventListener('input', function() {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(function() {
+                performSearch();
+            }, 300); // Faster response time like whisper
+        });
+        
+        // Handle enter key
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                performSearch();
+            }
+        });
+    }
+    
+    function performSearch() {
+        const searchValue = document.getElementById('searchInput').value.toLowerCase().trim();
+        const tbody = document.getElementById('usersTableBody');
+        
+        if (searchValue === '') {
+            // Show all users
+            filteredUsers = [...userData];
+        } else {
+            // Filter users based on search term
+            filteredUsers = userData.filter(user => 
+                user.name.toLowerCase().includes(searchValue) ||
+                user.email.toLowerCase().includes(searchValue) ||
+                user.phone.toLowerCase().includes(searchValue) ||
+                user.gender.toLowerCase().includes(searchValue) ||
+                user.role.toLowerCase().includes(searchValue)
+            );
+        }
+        
+        // Update display
+        updateUserDisplay();
+        
+        // Update URL without refresh
+        const url = new URL(window.location.href);
+        if (searchValue) {
+            url.searchParams.set('search', searchValue);
+        } else {
+            url.searchParams.delete('search');
+        }
+        window.history.replaceState({}, '', url.toString());
+    }
+    
+    function updateUserDisplay() {
+        const tbody = document.getElementById('usersTableBody');
+        
+        // Hide all rows first
+        userData.forEach(user => {
+            user.element.style.display = 'none';
+        });
+        
+        if (filteredUsers.length === 0) {
+            // Show no data message
+            const searchValue = document.getElementById('searchInput').value;
+            tbody.innerHTML = `
+                <tr>
+                    <td colspan="7" class="no-data">
+                        ${searchValue ? `No users found for "${searchValue}"` : 'No users found'}
+                    </td>
+                </tr>
+            `;
+        } else {
+            // Remove no-data row if exists
+            const noDataRow = tbody.querySelector('.no-data');
+            if (noDataRow) {
+                noDataRow.closest('tr').remove();
+            }
+            
+            // Show filtered rows
+            filteredUsers.forEach(user => {
+                user.element.style.display = '';
+            });
+        }
+    }
+    
+    function setupModalHandlers() {
+        // Delete modal handlers
+        const deleteModal = document.getElementById('deleteUserModal');
+        const deleteCancelButton = deleteModal.querySelector('.btn-cancel');
+        const deleteConfirmButton = deleteModal.querySelector('.btn-delete-confirm');
+        
+        if (deleteCancelButton) {
+            deleteCancelButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                closeModal();
+            });
+        }
+        
+        if (deleteConfirmButton) {
+            deleteConfirmButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                confirmDelete();
+            });
+        }
+
+        // Add modal handlers
+        const addModal = document.getElementById('addUserModal');
+        const addCloseButton = addModal.querySelector('.close');
+        const addCancelButton = addModal.querySelector('.btn-cancel');
+        
+        if (addCloseButton) {
+            addCloseButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                closeModal('addUserModal');
+            });
+        }
+        
+        if (addCancelButton) {
+            addCancelButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                closeModal('addUserModal');
+            });
+        }
+    }
     
     function showAddUserModal() {
-        document.getElementById('addUserModal').style.display = 'block';
+        document.getElementById('addUserModal').classList.add('is-active');
     }
     
     function closeModal(modalId) {
-        document.getElementById(modalId).style.display = 'none';
-        if (modalId === 'deleteUserModal') {
-            userToDelete = null;
+        if (modalId) {
+            document.getElementById(modalId).classList.remove('is-active');
+        } else {
+            document.getElementById('deleteUserModal').classList.remove('is-active');
         }
+        userToDelete = null;
     }
     
     function deleteUser(userId) {
         userToDelete = userId;
-        document.getElementById('deleteUserModal').style.display = 'block';
+        document.getElementById('deleteUserModal').classList.add('is-active');
     }
     
     function confirmDelete() {
@@ -988,47 +1205,41 @@
             form.appendChild(csrfInput);
             form.appendChild(methodInput);
             document.body.appendChild(form);
+            
+            // Show success message before form submission
+            showAlert('User deleted successfully!', 'success');
+            
             form.submit();
         }
     }
     
+    // Legacy functions for backward compatibility
     function debounceSearch() {
-        clearTimeout(searchTimeout);
-        searchTimeout = setTimeout(function() {
-            submitSearch();
-        }, 500); // Wait 500ms after user stops typing
+        performSearch();
     }
     
     function submitSearch() {
-        document.getElementById('searchForm').submit();
+        performSearch();
     }
     
-    // Clear search functionality
     function clearSearch() {
         document.getElementById('searchInput').value = '';
-        submitSearch();
+        performSearch();
     }
     
-    // Close modal when clicking outside
+    // Modal click outside handlers
     window.onclick = function(event) {
-        const modals = document.getElementsByClassName('modal');
-        for (let i = 0; i < modals.length; i++) {
-            if (event.target === modals[i]) {
-                modals[i].style.display = 'none';
-                if (modals[i].id === 'deleteUserModal') {
-                    userToDelete = null;
-                }
-            }
+        const deleteModal = document.getElementById('deleteUserModal');
+        const addModal = document.getElementById('addUserModal');
+        
+        if (event.target === deleteModal) {
+            closeModal();
+        }
+        
+        if (event.target === addModal) {
+            closeModal('addUserModal');
         }
     }
-    
-    // Handle enter key in search
-    document.getElementById('searchInput').addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-            e.preventDefault();
-            submitSearch();
-        }
-    });
 </script>
 @endpush
 
