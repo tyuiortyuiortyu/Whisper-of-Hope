@@ -145,6 +145,23 @@
         background-color: #F791A9 !important;
         color: #fff !important;
     }
+
+    .donate-button {
+        background-color: #F9BCC4;
+        color: #000;
+        border-radius: 30px;
+        font-size: 18px;
+        font-weight: 500;
+        margin-top: -30px;
+        padding: 10px 40px;
+        min-width: 200px;
+        transition: background-color 0.3s ease, color 0.3s ease; /* Tambahkan transisi untuk efek halus */
+    }
+
+    .donate-button:hover {
+        background-color: #F791A9; /* Warna background saat hover */
+        color: #FFFFFF; /* Warna teks saat hover */
+    }
 </style>
 @endpush
 
@@ -278,14 +295,11 @@
 
         <div id="donate-form-section" class="d-flex flex-column align-items-center justify-content-center mb-5">
             @guest
-                <div class="d-flex justify-content-center align-items-start" style="min-height: 200px; position: relative;">
-                    <a href="{{ route('user.donate') }}"
-                        class="btn"
-                        style="background-color: #F9BCC4; color: #000; border-radius: 30px; font-size: 18px; font-weight: 500; margin-top: 0; padding: 10px 40px; min-width: 200px;">
+                <div class="d-flex justify-content-center align-items-start" style="min-height: 100px; position: relative;">
+                    <a href="{{ route('user.donate') }}" class="btn donate-button">
                         Donate Hair!
                     </a>
                 </div>
-
             @else
                 <div class="rounded-20 p-5 my-2 w-100"
                     style="background-color: #FFF9EA; border-radius: 20px; padding: 40px 64px; margin: 8px 0px; max-width: 1200px; display: flex; flex-direction: column;
