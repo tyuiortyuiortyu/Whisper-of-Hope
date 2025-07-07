@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LanguageController;
 
 use App\Http\Controllers\User\Auth\LoginController;
 use App\Http\Controllers\User\Auth\RegisterController;
@@ -29,6 +30,9 @@ Route::get('/', function () {
 Route::get('/welcome', function () {
     return view('welcome');
 })->name('welcome');
+
+// Language switching route
+Route::get('/language/{locale}', [LanguageController::class, 'switch'])->name('language.switch');
 
 // User routes (accessible to everyone - no middleware needed for public pages)
 Route::prefix('user')->group(function () {
@@ -147,4 +151,9 @@ Route::prefix('admin')->group(function () {
 Route::middleware('user')->group(function () {
     Route::get('/request-wig', [RequestWigController::class, 'showRequestPage'])->name('request.wig');
     Route::post('/request-wig', [RequestWigController::class, 'storeRequest'])->name('request.wig.storeRequest');
+});
+
+// Debug route (remove this in production)
+Route::get('/debug-locale', function() {
+    return view('debug-locale');
 });

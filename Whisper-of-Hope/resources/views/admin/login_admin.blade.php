@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Login</title>
+    <title>{{ __('auth.admin_login_subtitle') }}</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
     <style>
@@ -193,27 +193,26 @@
 </head>
 <body>
     <div class="login-container">
-        {{-- <div class="background-image"></div> --}}
         <div class="login-form-container">
             <div class="login-form">
-                <h1>Welcome!</h1>
-                <p>Please log in using admin account</p>
+                <h1>{{ __('auth.welcome') }}</h1>
+                <p>{{ __('auth.admin_login_subtitle') }}</p>
                 
                 <form method="POST" action="{{ route('admin.login.submit') }}" id="loginForm">
                     @csrf
                     
                     <div class="input-group">
                         <span class="input-group-text">
-                            <img src="{{ asset('images/admin/login/email.png') }}" alt="Email" style="width: 16px; height: 16px;">
+                            <img src="{{ asset('images/admin/login/email.png') }}" alt="{{ __('auth.email') }}" style="width: 16px; height: 16px;">
                         </span>
-                        <input type="email" class="form-control" name="email" placeholder="email" value="{{ old('email') }}" required autocomplete="email">
+                        <input type="email" class="form-control" name="email" placeholder="{{ __('auth.email') }}" value="{{ old('email') }}" required autocomplete="email">
                     </div>
                     
                     <div class="input-group">
                         <span class="input-group-text">
-                            <img src="{{ asset('images/admin/login/password.png') }}" alt="Password" style="width: 16px; height: 16px;">
+                            <img src="{{ asset('images/admin/login/password.png') }}" alt="{{ __('auth.password') }}" style="width: 16px; height: 16px;">
                         </span>
-                        <input type="password" class="form-control" name="password" placeholder="password" id="passwordField" required autocomplete="current-password">
+                        <input type="password" class="form-control" name="password" placeholder="{{ __('auth.password') }}" id="passwordField" required autocomplete="current-password">
                         <span class="toggle-password" id="togglePassword">
                             <img id="eyeIcon" src="{{ asset('images/admin/login/eye_close.png') }}" alt="Toggle Password" style="width: 16px; height: 16px;">
                         </span>
@@ -233,7 +232,7 @@
                         </div>
                     @endif
                     
-                    <button type="submit" class="login-btn" id="loginBtn">LOGIN</button>
+                    <button type="submit" class="login-btn" id="loginBtn">{{ __('auth.login') }}</button>
                 </form>
             </div>
         </div>

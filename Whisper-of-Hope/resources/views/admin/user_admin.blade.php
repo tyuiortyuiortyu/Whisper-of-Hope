@@ -1,6 +1,6 @@
 @extends('admin.layout.app')
 
-@section('title', 'Users')
+@section('title', __('admin.users'))
 
 @section('content')
 <div class="users-management">
@@ -10,14 +10,14 @@
                 <input type="text" 
                        id="searchInput" 
                        name="search" 
-                       placeholder="Search users..." 
+                       placeholder="{{ __('admin.search_users') }}" 
                        value="{{ request('search') }}"
                        onkeyup="debounceSearch()">
-                <img src="{{ asset('images/admin/user_admin/search.png') }}" class="search-icon" alt="Search" onclick="submitSearch()">
+                <img src="{{ asset('images/admin/user_admin/search.png') }}" class="search-icon" alt="{{ __('admin.search') }}" onclick="submitSearch()">
             </form>
         </div>
         <button class="btn-add-user" onclick="showAddUserModal()">
-            Add User
+            {{ __('admin.add_user') }}
         </button>
     </div>
 
@@ -37,13 +37,13 @@
         <table class="users-table">
             <thead>
                 <tr>
-                    <th>Id</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Phone Number</th>
-                    <th>Gender</th>
-                    <th>Role</th>
-                    <th>Action</th>
+                    <th>{{ __('admin.id') }}</th>
+                    <th>{{ __('admin.name') }}</th>
+                    <th>{{ __('admin.email') }}</th>
+                    <th>{{ __('admin.phone_number') }}</th>
+                    <th>{{ __('admin.gender') }}</th>
+                    <th>{{ __('admin.role') }}</th>
+                    <th>{{ __('admin.actions') }}</th>
                 </tr>
             </thead>
             <tbody id="usersTableBody">
@@ -64,22 +64,22 @@
                     </td>
                     <td>{{ $user->email }}</td>
                     <td>{{ $user->phone ?? '08xx xxxx xxxx' }}</td>
-                    <td>{{ ucfirst($user->gender ?? 'Not specified') }}</td>
+                    <td>{{ $user->gender ? __('admin.' . $user->gender) : __('admin.not_specified') }}</td>
                     <td>
                         <span class="role-badge role-{{ $user->role }}">
-                            <img src="{{ asset('images/admin/user_admin/role_' . $user->role . '.png') }}" class="role-icon" alt="{{ ucfirst($user->role) }}">
-                            {{ ucfirst($user->role) }}
+                            <img src="{{ asset('images/admin/user_admin/role_' . $user->role . '.png') }}" class="role-icon" alt="{{ __('admin.' . $user->role . '_role') }}">
+                            {{ __('admin.' . $user->role . '_role') }}
                         </span>
                     </td>
                     <td>
                         @if($user->id !== auth()->id())
                             <div class="action-buttons">
                                 <button class="btn-delete" onclick="deleteUser({{ $user->id }})">
-                                    <img src="{{ asset('images/admin/user_admin/delete.png') }}" class="delete-icon" alt="Delete">
+                                    <img src="{{ asset('images/admin/user_admin/delete.png') }}" class="delete-icon" alt="{{ __('admin.delete') }}">
                                 </button>
                             </div>
                         @else
-                            <span class="text-muted" style="font-size: 0.8rem;">Current User</span>
+                            <span class="text-muted" style="font-size: 0.8rem;">{{ __('admin.current_user') }}</span>
                         @endif
                     </td>
                 </tr>
@@ -87,9 +87,9 @@
                 <tr>
                     <td colspan="7" class="no-data">
                         @if(request('search'))
-                            No users found for "{{ request('search') }}"
+                            {{ __('admin.no_users_found_search', ['search' => request('search')]) }}
                         @else
-                            No users found
+                            {{ __('admin.no_data') }}
                         @endif
                     </td>
                 </tr>
@@ -101,7 +101,7 @@
         @if($users->hasPages())
             <div class="pagination-container">
                 <div class="pagination-info">
-                    <span>Showing {{ $users->firstItem() }} to {{ $users->lastItem() }} of {{ $users->total() }} results</span>
+                    <span>{{ __('admin.showing') }} {{ $users->firstItem() }} {{ __('admin.to') }} {{ $users->lastItem() }} {{ __('admin.of') }} {{ $users->total() }} {{ __('admin.results') }}</span>
                 </div>
                 <div class="pagination-wrapper">
                     <div class="pagination-links">
@@ -159,62 +159,62 @@
 <div id="addUserModal" class="modal">
     <div class="modal-content">
         <div class="modal-header">
-            <h3>Add New User</h3>
-            <img src="{{ asset('images/admin/user_admin/close.png') }}" class="close" onclick="closeModal('addUserModal')" alt="Close">
+            <h3>{{ __('admin.add_new_user') }}</h3>
+            <img src="{{ asset('images/admin/user_admin/close.png') }}" class="close" onclick="closeModal('addUserModal')" alt="{{ __('general.close') }}">
         </div>
         <form method="POST" action="{{ route('admin.users.create') }}">
             @csrf
             <div class="modal-body">
                 <div class="form-section">
-                    <label class="form-label">Role</label>
+                    <label class="form-label">{{ __('admin.role') }}</label>
                     <div class="radio-group">
                         <label class="radio-option">
                             <input type="radio" name="role" value="user" checked>
                             <span class="radio-custom"></span>
-                            User
+                            {{ __('admin.user_role') }}
                         </label>
                         <label class="radio-option">
                             <input type="radio" name="role" value="admin">
                             <span class="radio-custom"></span>
-                            Admin
+                            {{ __('admin.admin_role') }}
                         </label>
                     </div>
                 </div>
 
                 <div class="form-section">
-                    <label class="form-label">Name</label>
+                    <label class="form-label">{{ __('admin.name') }}</label>
                     <input type="text" name="name" class="form-input" required>
                 </div>
 
                 <div class="form-section">
-                    <label class="form-label">Email</label>
+                    <label class="form-label">{{ __('admin.email') }}</label>
                     <input type="email" name="email" class="form-input" required>
                 </div>
 
                 <div class="form-section">
-                    <label class="form-label">Password</label>
+                    <label class="form-label">{{ __('admin.password') }}</label>
                     <input type="password" name="password" class="form-input" required minlength="8">
                 </div>
 
                 <div class="form-row">
                     <div class="form-section half-width">
-                        <label class="form-label">Phone Number</label>
+                        <label class="form-label">{{ __('admin.phone_number') }}</label>
                         <input type="text" name="phone" class="form-input">
                     </div>
                     <div class="form-section half-width">
-                        <label class="form-label">Gender</label>
+                        <label class="form-label">{{ __('admin.gender') }}</label>
                         <select name="gender" class="form-input" required>
-                            <option value="">Select Gender</option>
-                            <option value="male">Male</option>
-                            <option value="female">Female</option>
+                            <option value="">{{ __('admin.select_gender') }}</option>
+                            <option value="male">{{ __('admin.male') }}</option>
+                            <option value="female">{{ __('admin.female') }}</option>
                         </select>
                     </div>
                 </div>
             </div>
             
             <div class="modal-actions">
-                <button type="button" class="btn-cancel" onclick="closeModal('addUserModal')">Cancel</button>
-                <button type="submit" class="btn-add">Add User</button>
+                <button type="button" class="btn-cancel" onclick="closeModal('addUserModal')">{{ __('admin.cancel') }}</button>
+                <button type="submit" class="btn-add">{{ __('admin.add_user') }}</button>
             </div>
         </form>
     </div>
@@ -224,12 +224,12 @@
 <div id="deleteUserModal" class="modal">
     <div class="modal-content delete-modal">
         <div class="modal-body text-center">
-            <h3>Are you sure want to delete this user?</h3>
+            <h3>{{ __('admin.confirm_delete_user') }}</h3>
         </div>
         
         <div class="modal-actions">
-            <button type="button" class="btn-cancel">Cancel</button>
-            <button type="button" class="btn-delete-confirm">OK</button>
+            <button type="button" class="btn-cancel">{{ __('admin.cancel') }}</button>
+            <button type="button" class="btn-delete-confirm">{{ __('general.ok') }}</button>
         </div>
     </div>
 </div>
@@ -958,7 +958,6 @@
     let userToDelete = null;
     let searchTimeout = null;
     let userData = [];
-    let filteredUsers = [];
     
     // Initialize user data on page load
     document.addEventListener('DOMContentLoaded', function() {
@@ -1024,22 +1023,23 @@
             const cells = row.querySelectorAll('td');
             if (cells.length > 1 && !row.querySelector('.no-data')) {
                 const nameCell = cells[1];
-                const nameText = nameCell.querySelector('span') ? nameCell.querySelector('span').textContent : '';
-                const emailText = cells[2].textContent;
+                const nameText = nameCell.querySelector('span') ? nameCell.querySelector('span').textContent.trim() : '';
+                const genderCell = cells[4];
+                const roleCell = cells[5];
+                const roleText = roleCell.querySelector('.role-badge span:last-of-type') ? 
+                    roleCell.querySelector('.role-badge span:last-of-type').textContent.trim() : '';
                 
                 userData.push({
-                    id: cells[0].textContent,
+                    id: cells[0].textContent.trim(),
                     name: nameText,
-                    email: emailText,
-                    phone: cells[3].textContent,
-                    gender: cells[4].textContent,
-                    role: cells[5].textContent.trim(),
+                    email: cells[2].textContent.trim(),
+                    phone: cells[3].textContent.trim(),
+                    gender: genderCell.textContent.trim(),
+                    role: roleText,
                     element: row
                 });
             }
         });
-        
-        filteredUsers = [...userData];
     }
     
     function setupSearch() {
@@ -1049,7 +1049,7 @@
             clearTimeout(searchTimeout);
             searchTimeout = setTimeout(function() {
                 performSearch();
-            }, 300); // Faster response time like whisper
+            }, 300);
         });
         
         // Handle enter key
@@ -1062,25 +1062,18 @@
     }
     
     function performSearch() {
-        const searchValue = document.getElementById('searchInput').value.toLowerCase().trim();
-        const tbody = document.getElementById('usersTableBody');
+        const searchInput = document.getElementById('searchInput');
+        const searchValue = searchInput.value.toLowerCase().trim();
         
-        if (searchValue === '') {
-            // Show all users
-            filteredUsers = [...userData];
-        } else {
-            // Filter users based on search term
-            filteredUsers = userData.filter(user => 
-                user.name.toLowerCase().includes(searchValue) ||
-                user.email.toLowerCase().includes(searchValue) ||
-                user.phone.toLowerCase().includes(searchValue) ||
-                user.gender.toLowerCase().includes(searchValue) ||
-                user.role.toLowerCase().includes(searchValue)
-            );
-        }
+        const filteredUsers = userData.filter(user => 
+            user.name.toLowerCase().includes(searchValue) ||
+            user.email.toLowerCase().includes(searchValue) ||
+            user.phone.toLowerCase().includes(searchValue) ||
+            user.gender.toLowerCase().includes(searchValue) ||
+            user.role.toLowerCase().includes(searchValue)
+        );
         
-        // Update display
-        updateUserDisplay();
+        updateUserDisplay(filteredUsers, searchValue);
         
         // Update URL without refresh
         const url = new URL(window.location.href);
@@ -1092,31 +1085,30 @@
         window.history.replaceState({}, '', url.toString());
     }
     
-    function updateUserDisplay() {
+    function updateUserDisplay(filteredUsers, searchValue) {
         const tbody = document.getElementById('usersTableBody');
         
+        // Remove any existing no-data row created by JavaScript
+        const noDataRow = tbody.querySelector('.no-data-js');
+        if (noDataRow) {
+            noDataRow.remove();
+        }
+
         // Hide all rows first
         userData.forEach(user => {
             user.element.style.display = 'none';
         });
         
-        if (filteredUsers.length === 0) {
-            // Show no data message
-            const searchValue = document.getElementById('searchInput').value;
-            tbody.innerHTML = `
-                <tr>
-                    <td colspan="7" class="no-data">
-                        ${searchValue ? `No users found for "${searchValue}"` : 'No users found'}
-                    </td>
-                </tr>
+        if (filteredUsers.length === 0 && searchValue !== '') {
+            // Show no data message for search
+            const newRow = tbody.insertRow();
+            newRow.className = 'no-data-js';
+            newRow.innerHTML = `
+                <td colspan="7" class="no-data">
+                    Tidak ada pengguna ditemukan untuk "${searchValue}"
+                </td>
             `;
         } else {
-            // Remove no-data row if exists
-            const noDataRow = tbody.querySelector('.no-data');
-            if (noDataRow) {
-                noDataRow.closest('tr').remove();
-            }
-            
             // Show filtered rows
             filteredUsers.forEach(user => {
                 user.element.style.display = '';
@@ -1207,7 +1199,7 @@
             document.body.appendChild(form);
             
             // Show success message before form submission
-            showAlert('User deleted successfully!', 'success');
+            showAlert('{{ __('admin.user_deleted') }}', 'success');
             
             form.submit();
         }
@@ -1215,7 +1207,8 @@
     
     // Legacy functions for backward compatibility
     function debounceSearch() {
-        performSearch();
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(() => performSearch(), 300);
     }
     
     function submitSearch() {
