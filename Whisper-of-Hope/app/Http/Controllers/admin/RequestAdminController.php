@@ -18,14 +18,7 @@ class RequestAdminController extends Controller
             $query->where(function($q) use ($search) {
                 $q->where('recipient_full_name', 'LIKE', "%{$search}%")
                   ->orWhere('recipient_email', 'LIKE', "%{$search}%")
-                  ->orWhere('recipient_phone', 'LIKE', "%{$search}%")
-                  ->orWhere('recipient_age', 'LIKE', "%{$search}%")
-                  ->orWhere('recipient_reason', 'LIKE', "%{$search}%")
-                  ->orWhere('requester_full_name', 'LIKE', "%{$search}%")
-                  ->orWhere('requester_email', 'LIKE', "%{$search}%")
-                  ->orWhere('requester_phone', 'LIKE', "%{$search}%")
-                  ->orWhere('relationship_to_recipient', 'LIKE', "%{$search}%")
-                  ->orWhere('healthcare_location', 'LIKE', "%{$search}%");
+                  ->orWhere('recipient_reason', 'LIKE', "%{$search}%");
             });
         }
         
