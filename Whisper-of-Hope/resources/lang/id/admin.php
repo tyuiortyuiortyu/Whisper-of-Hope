@@ -81,4 +81,37 @@ return [
     // Additional translations for user management
     'not_specified' => 'Tidak ditentukan',
     'no_users_found_search' => 'Tidak ada pengguna ditemukan untuk ":search"',
+
+
+    // REQUESTS
+    'header_request' => 'Permintaan Wig',
+
+    'all_requests' => 'Semua Permintaan',
+    'personal_requests' => 'Untuk Pribadi',
+    'parent_guardian_requests' => 'Untuk Anak',
+    'health_professional_requests' => 'Untuk Pasien',
+    'search_requests' => 'Cari permintaan...', 
+
+    // Request Table Headers
+    'id' => 'Id',
+    'name' => 'Nama',
+    'age' => 'Usia',
+    'email' => 'Email',
+    'phone' => 'Nomor Telepon',
+    'reason' => 'Alasan',
+    'type' => 'Tipe',
+    'status' => 'Status',
+    'action' => 'Aksi',
+
+     // Request Status
+    'request_waiting' => 'Menunggu',
+    'request_accepted' => 'Diterima',
+    'request_rejected' => 'Ditolak',
+    'request_accept' => 'Terima',
+    'request_reject' => 'Tolak',
+
+    // Delete Request Modal
+    'confirm_delete_request' => 'Apakah Anda yakin ingin menghapus permintaan ini?',
+
+    'no_requests_found_search' => 'Tidak ada permintaan ditemukan untuk ":search"',
 ];
