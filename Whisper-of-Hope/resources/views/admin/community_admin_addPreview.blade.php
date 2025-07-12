@@ -471,7 +471,7 @@
                                 <div class="d-flex justify-content-center">
                                     <div class="image-upload-box" style="width:100%; height: 250px; position: relative;"  id="imagePreview">
                                         <img id="previewImg" src="{{ asset('images/TemplateImage.png') }}" alt="Preview" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer; border-radius: 5px;">
-                                        <div class="overlay" style="background: rgba(0, 0, 0, 0.35)" onclick="document.getElementById('imageInput').click()">
+                                        <div class="overlay" style="background: rgba(0, 0, 0, 0.35); border-radius: 5px;" onclick="document.getElementById('imageInput').click()">
                                             <div class="circle">
                                                 <span>+</span>
                                             </div>

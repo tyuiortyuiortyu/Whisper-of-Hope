@@ -1,73 +1,83 @@
-@extends('admin.layout.app')
-
-@section('title', 'Community Stories')
-
-@section('content')
-<div class="stories-management">
-    <div class="d-flex flex-wrap gap-3 pt-5">
-        <a href="{{ route('admin.community_admin') }}" class="btn text-dark rounded-pill px-4 py-2 filter-btn btn-light {{ request('category') ? '' : 'btn-pink' }}" style="font-family: 'Yantramanav'; font-size: 20px">
-            All
+@foreach($stories as $story)
+    <div class="story-item d-flex align-items-start justify-content-between p-3 mb-3 border rounded" data-category="{{ $story->category_id }}">
+        <a href="{{ route('admin.community_admin_edit', $story) }}" class="d-flex flex-grow-1 text-decoration-none text-dark">
+            <img src="{{ asset('images/'.$story->image) }}" alt="Thumbnail" class="story-thumbnail me-2" style="height: 5rem; width: 5rem">
+            <div class="d-flex justify-content-center flex-column ps-3">
+                <h6 class="mb-1">{{ $story->title }}</h6>
+                <p class="mb-0 text-muted">{{ Str::limit($story->content, 100) }}</p>
+            </div>
         </a>
-        @foreach ($categories as $category)
-        <a href="{{ route('admin.community_admin', ['category' => $category->id]) }}" class="btn text-dark rounded-pill px-4 py-2 filter-btn btn-light {{ request('category') == $category->id ? 'btn-pink' : '' }}" style="font-family: 'Yantramanav'; font-size: 20px">
-            {{ $category->name }}
-        </a>
-        @endforeach
+        <button class="btn-delete" style="height: 1.5rem; width: 1.5rem" type="button" data-story-id="{{ $story->id }}">
+            <img src="{{ asset('images/admin/user_admin/delete.png') }}" style="height: 100%; width: 100%" class="delete-icon" alt="Delete">
+        </button>
     </div>
+    @endforeach
 
-    <div class="page-header mb-3">
-        <div class="search-container">
-            {{-- <form method="GET" action="{{ route('admin.community_admin') }}" id="searchForm">
-                <input type="text" 
-                       id="searchInput" 
-                       name="search" 
-                       placeholder="Search stories..." 
-                       value="{{ request('search') }}"
-                       onkeyup="debounceSearch()">
-                <img src="{{ asset('images/admin/user_admin/search.png') }}" class="search-icon" alt="Search" onclick="submitSearch()">
-            </form> --}}
-            <input type="text" 
-                id="searchInput" 
-                placeholder="Search stories..." 
-                value="{{ request('search') }}"
-                onkeyup="debounceSearch()">
-            <img src="{{ asset('images/admin/user_admin/search.png') }}" class="search-icon" alt="Search" onclick="performSearch()">
-        </div>
-        <div class="btn-add-user" onclick="window.location.href='{{ route('admin.community_admin_addPreview') }}'">
-            Add Story
-        </div>
-    </div>
-
-    @if(session('success'))
-        <div class="alert alert-success mx-0">
-            {{ session('success') }}
+    @if($stories->isEmpty())
+        <div class="text-center py-5 text-muted" style="font-size: 1.2rem;">
+            @if(request('search'))
+                <i> No stories found for "{{ request('search') }}".</i>
+            @else
+                No stories yet.
+            @endif
         </div>
     @endif
+    
+    <!-- Pagination -->
+    @if($stories->hasPages())
+        <div class="pagination-container">
+            <div class="pagination-info">
+                <span>Showing {{ $stories->firstItem() }} to {{ $stories->lastItem() }} of {{ $stories->total() }} results</span>
+            </div>
+            <div class="pagination-wrapper">
+                <div class="pagination-links">
+                    {{-- Previous Page Link --}}
+                    @if ($stories->onFirstPage())
+                        <span class="pagination-btn nav-btn disabled">‹</span>
+                    @else
+                        <a href="{{ $stories->previousPageUrl() }}" class="pagination-btn nav-btn">‹</a>
+                    @endif
 
-    @if(session('error'))
-        <div class="alert alert-danger">
-            {{ session('error') }}
+                    {{-- Page Numbers --}}
+                    @php
+                        $currentPage = $stories->currentPage();
+                        $lastPage = $stories->lastPage();
+                        $start = max(1, $currentPage - 2);
+                        $end = min($lastPage, $currentPage + 2);
+                    @endphp
+
+                    @if($start > 1)
+                        <a href="{{ $stories->url(1) }}" class="pagination-btn">1</a>
+                        @if($start > 2)
+                            <span class="pagination-dots">...</span>
+                        @endif
+                    @endif
+
+                    @for($page = $start; $page <= $end; $page++)
+                        @if ($page == $currentPage)
+                            <span class="pagination-btn active">{{ $page }}</span>
+                        @else
+                            <a href="{{ $stories->url($page) }}" class="pagination-btn">{{ $page }}</a>
+                        @endif
+                    @endfor
+
+                    @if($end < $lastPage)
+                        @if($end < $lastPage - 1)
+                            <span class="pagination-dots">...</span>
+                        @endif
+                        <a href="{{ $stories->url($lastPage) }}" class="pagination-btn">{{ $lastPage }}</a>
+                    @endif
+
+                    {{-- Next Page Link --}}
+                    @if ($stories->hasMorePages())
+                        <a href="{{ $stories->nextPageUrl() }}" class="pagination-btn nav-btn">›</a>
+                    @else
+                        <span class="pagination-btn nav-btn disabled">›</span>
+                    @endif
+                </div>
+            </div>
         </div>
     @endif
-
-    <div class="stories-container"  style = "border-color: transparent">
-        @include('admin._stories', ['stories' => $stories])
-    </div>
-</div>
-{{-- Modal --}}
-<div id="deleteStoryModal" class="modal" tabindex="-1">
-    <div class="modal-content delete-modal">
-        <div class="modal-body text-center">
-            <h3>Are you sure want to delete this story?</h3>
-        </div>
-        <div class="modal-actions">
-            <button type="button" class="btn-cancel" id="deleteModalCancel">Cancel</button>
-            <button type="button" class="btn-delete-confirm" id="deleteModalConfirm">OK</button>
-        </div>
-    </div>
-</div>
-
-@endsection
 
 @push('styles')
 <style>
@@ -379,124 +389,4 @@
         border-radius: 50%;
     }
 </style>
-@endpush
-
-@push('scripts')
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    let storyToDelete = null;
-
-    // Modal elements
-    const deleteModal = document.getElementById('deleteStoryModal');
-    const deleteModalCancel = document.getElementById('deleteModalCancel');
-    const deleteModalConfirm = document.getElementById('deleteModalConfirm');
-
-    // Open modal on delete button click (event delegation)
-    document.querySelector('.stories-container').addEventListener('click', function(e) {
-        const btn = e.target.closest('.btn-delete');
-        if (btn && btn.dataset.storyId) {
-            storyToDelete = btn.dataset.storyId;
-            deleteModal.style.display = 'flex';
-            deleteModal.style.opacity = 100;
-            deleteModal.style.visibility = 'visible';
-        }
-    });
-
-    // Cancel button closes modal
-    deleteModalCancel.addEventListener('click', function() {
-        deleteModal.style.display = 'none';
-        storyToDelete = null;
-    });
-
-    // Confirm button submits delete form
-    deleteModalConfirm.addEventListener('click', function() {
-        if (storyToDelete) {
-            const form = document.createElement('form');
-            form.method = 'POST';
-            form.action = `/admin/community/delete/${storyToDelete}`;
-            const csrfInput = document.createElement('input');
-            csrfInput.type = 'hidden';
-            csrfInput.name = '_token';
-            csrfInput.value = '{{ csrf_token() }}';
-            const methodInput = document.createElement('input');
-            methodInput.type = 'hidden';
-            methodInput.name = '_method';
-            methodInput.value = 'DELETE';
-            form.appendChild(csrfInput);
-            form.appendChild(methodInput);
-            document.body.appendChild(form);
-            form.submit();
-        }
-    });
-
-    // Close modal when clicking outside modal-content
-    deleteModal.addEventListener('mousedown', function(e) {
-        if (e.target === deleteModal) {
-            deleteModal.style.display = 'none';
-            storyToDelete = null;
-        }
-    });
-});
-
-// let searchTimeout = null;
-
-// // Search debounce and enter key
-// function debounceSearch() {
-//     clearTimeout(searchTimeout);
-//     searchTimeout = setTimeout(function() {
-//         submitSearch();
-//     }, 500); // Wait 500ms after user stops typing
-// }
-
-// function submitSearch() {
-//     document.getElementById('searchForm').submit();
-// }
-
-// // Clear search functionality
-// function clearSearch() {
-//     document.getElementById('searchInput').value = '';
-//     submitSearch();
-// }
-
-// // Handle enter key in search
-// document.getElementById('searchInput').addEventListener('keypress', function(e) {
-//     if (e.key === 'Enter') {
-//         e.preventDefault();
-//         submitSearch();
-//     }
-// });
-let searchTimeout = null;
-
-function debounceSearch() {
-    clearTimeout(searchTimeout);
-    // searchTimeout = setTimeout(function() {
-        performSearch();
-    // }, 0);
-}
-
-function performSearch() {
-    const searchQuery = document.getElementById('searchInput').value;
-    const category = new URLSearchParams(window.location.search).get('category') || '';
-
-    const url = new URL("{{ route('admin.community_list_partial') }}", window.location.origin);
-    if (searchQuery) url.searchParams.set('search', searchQuery);
-    if (category) url.searchParams.set('category', category);
-
-    fetch(url)
-        .then(response => response.text())
-        .then(html => {
-            document.querySelector('.stories-container').innerHTML = html;
-        })
-        .catch(err => console.error(err));
-}
-
-// Handle enter key juga boleh tetap ada
-document.getElementById('searchInput').addEventListener('keypress', function(e) {
-    if (e.key === 'Enter') {
-        e.preventDefault();
-        performSearch();
-    }
-});
-
-</script>
 @endpush

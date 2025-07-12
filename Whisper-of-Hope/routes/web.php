@@ -140,6 +140,7 @@ Route::prefix('admin')->group(function () {
         Route::get('/community/preview/{story}/edit', [CommunityAdminController::class, 'edit'])->name('admin.community_admin_edit');
         Route::put('/community/update/{story}', [CommunityAdminController::class, 'update'])->name('admin.community_admin_update');
         Route::delete('/community/delete/{story}', [CommunityAdminController::class, 'destroy'])->name('admin.community_admin_delete');
+        Route::get('/community/list', [CommunityAdminController::class, 'listPartial'])->name('admin.community_list_partial');
     });
 });
 

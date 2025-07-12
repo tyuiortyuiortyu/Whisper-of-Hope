@@ -12,10 +12,21 @@
         /**
          * Display a listing of the resource.
          */
-        public function index()
+        public function index(Request $request)
         {
+            $query = Story::query()
+            ->leftJoin('categories', 'stories.category_id', '=', 'categories.id')
+            ->select('stories.*', 'categories.name as category_name');
+
             $categories = Category::all();
-            $stories = Story::all();
+            
+            // Filter by category
+            if ($request->has('category') && !empty($request->category)) {
+                $query->where('category_id', $request->category);
+            }
+
+            // Paginate results (6 per page)
+            $stories = $query->paginate(6)->withQueryString();
             return view('user/community', compact('categories', 'stories'));
         }
 

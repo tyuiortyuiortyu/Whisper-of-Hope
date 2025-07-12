@@ -13,33 +13,56 @@ class CommunityAdminController extends Controller
     public function index(Request $request)
     {
         $query = Story::query()
-        ->leftJoin('categories', 'stories.category_id', '=', 'categories.id')
-        ->select('stories.*', 'categories.name as category_name');
+            ->leftJoin('categories', 'stories.category_id', '=', 'categories.id')
+            ->select('stories.*', 'categories.name as category_name');
 
         $categories = Category::all();
-        
-         // Filter by category
+
+        if ($request->filled('category')) {
+            $query->where('category_id', $request->category);
+        }
+
+        // if ($request->filled('search')) {
+        //     $search = $request->search;
+        //     $query->where(function($q) use ($search) {
+        //         $q->where('title', 'LIKE', "%{$search}%")
+        //         ->orWhere('content', 'LIKE', "%{$search}%")
+        //         ->orWhere('categories.name', 'LIKE', "%{$search}%"); 
+        //     });
+        // }
+
+        $query->orderBy('created_at', 'asc');
+        $stories = $query->paginate(10)->withQueryString();
+
+        // if ($request->ajax()) {
+        //     return view('admin._stories', compact('stories'))->render();
+        // }
+
+        return view('admin.community_admin', compact('stories', 'categories'));
+    }
+
+    public function listPartial(Request $request) {
+        $query = Story::query()
+            ->leftJoin('categories', 'stories.category_id', '=', 'categories.id')
+            ->select('stories.*', 'categories.name as category_name');
+
         if ($request->has('category') && !empty($request->category)) {
             $query->where('category_id', $request->category);
         }
 
-        // Search functionality
         if ($request->has('search') && !empty($request->search)) {
             $search = $request->search;
             $query->where(function($q) use ($search) {
                 $q->where('title', 'LIKE', "%{$search}%")
-                  ->orWhere('content', 'LIKE', "%{$search}%")
-                  ->orWhere('categories.name', 'LIKE', "%{$search}%"); 
+                ->orWhere('content', 'LIKE', "%{$search}%")
+                ->orWhere('categories.name', 'LIKE', "%{$search}%");
             });
         }
 
-        // Order by ID ascending
         $query->orderBy('created_at', 'asc');
-        
-        // Paginate results (10 per page)
         $stories = $query->paginate(10)->withQueryString();
 
-        return view('admin.community_admin', compact('stories', 'categories'));
+        return view('admin._stories', compact('stories'))->render();
     }
 
     public function create() {
