@@ -1,6 +1,6 @@
 @extends('user.layout.app')
 
-@section('title', 'Whisper of Hope - Home')
+@section('title', __('welcome.title'))
 
 @section('content')
 <style>
@@ -834,11 +834,11 @@
 <section class="hero-section">
     <div class="hero-container">
         <div class="hero-content">
-            <h1>Only by<br>Helping Each Other<br><span class="highlight">We can Make<br>World Better</span></h1>
-            <p>Every person deserves the opportunity to a better tomorrow</p>
+            <h1>{!! __('welcome.hero.heading') !!}</h1>
+            <p>{{ __('welcome.hero.description') }}</p>
             <div class="hero-buttons">
-                <a href="{{ route('user.donate') }}" class="btn btn-primary">Donate Hair!</a>
-                <a href="{{ route('user.request') }}" class="btn btn-primary">Request a Wig!</a>
+                <a href="{{ route('user.donate') }}" class="btn btn-primary">{{ __('welcome.hero.donate_button') }}</a>
+                <a href="{{ route('user.request') }}" class="btn btn-primary">{{ __('welcome.hero.request_button') }}</a>
             </div>
         </div>
         <div class="hero-image">
@@ -854,10 +854,10 @@
             <!-- First Feature Item -->
             <div class="feature-item">
                 <div class="feature-header">
-                    <h3>WHY DONATE TO PEOPLE WITH LOSS HAIR?</h3>
+                    <h3>{{ __('welcome.features.why_donate.title') }}</h3>
                 </div>
                 <div class="feature-card">
-                    <p>Hair is more than just appearance it's tied to identity, confidence, and emotional well-being. For individuals who experience hair loss due to illness, genetics, or trauma, your donation can help restore a sense of normalcy and self-esteem. Your small act of kindness can make a world of difference.</p>
+                    <p>{{ __('welcome.features.why_donate.content') }}</p>
                 </div>
             </div>
             
@@ -865,25 +865,24 @@
             <div class="feature-item">
                 <div class="feature-card special">
                     <img src="{{ asset('images/landing/gift.png') }}" alt="Gift of Hair" class="gift-image" />
-                    <p>Hair replacement systems, including wigs made from real hair, offer more than cosmetic solutions they provide emotional healing and confidence. Your hair donation helps us craft high-quality, natural-looking wigs for those in need. Together, we can give the gift of self-love and dignity.</p>
+                    <p>{{ __('welcome.features.gift_system.content') }}</p>
                 </div>
                 <div class="feature-footer">
-                    <h3>THE GIFT OF A HAIR REPLACEMENT SYSTEM</h3>
+                    <h3>{{ __('welcome.features.gift_system.title') }}</h3>
                 </div>
             </div>
             
             <!-- Third Feature Item -->
             <div class="feature-item">
                 <div class="feature-header">
-                    <h3>WHAT CAUSE HAIR LOSS?</h3>
+                    <h3>{{ __('welcome.features.hair_loss_causes.title') }}</h3>
                 </div>
                 <div class="feature-card">
-                    <p>Hair loss can affect anyone, children, teens, and adults. Common causes include:</p>
+                    <p>{{ __('welcome.features.hair_loss_causes.content') }}</p>
                     <ul style="text-align: left; margin-top: 1rem;">
-                        <li>Medical treatments (chemotherapy, radiation)</li>
-                        <li>Genetic conditions (alopecia areata)</li>
-                        <li>Burns and trauma</li>
-                        <li>Autoimmune disorders</li>
+                        @foreach(__('welcome.features.hair_loss_causes.causes') as $cause)
+                            <li>{{ $cause }}</li>
+                        @endforeach
                     </ul>
                 </div>
             </div>
@@ -894,68 +893,34 @@
 <!-- Whispers Section -->
 <section class="whispers-section">
     <div class="whispers-container">
-        <h2 class="section-title">Bringing Hope to Our Fighters</h2>
-        <p class="section-subtitle">One Strand, One Story at a Time</p>
+        <h2 class="section-title">{{ __('welcome.whispers.title') }}</h2>
+        <p class="section-subtitle">{{ __('welcome.whispers.subtitle') }}</p>
         <div class="whispers-masonry">
-            <div class="whisper-card">
-                <div class="whisper-header" style="background-color: #d4ebd1; color: #377558;">
-                    To : our fighters
+            @foreach(__('welcome.whispers.messages') as $index => $whisper)
+                @php
+                    $backgroundColors = ['#d4ebd1', '#f8bbd0', '#d1e2f5', '#fbdbc9', '#d4d1eb', '#d4ebd1'];
+                    $bgColor = $backgroundColors[$index % count($backgroundColors)];
+                @endphp
+                <div class="whisper-card">
+                    <div class="whisper-header" style="background-color: {{ $bgColor }}; color: {{ $whisper['color'] }};">
+                        {{ $whisper['to'] }}
+                    </div>
+                    <div class="whisper-body" style="color: {{ $whisper['color'] }};">
+                        {{ $whisper['message'] }}
+                    </div>
                 </div>
-                <div class="whisper-body" style="color: #377558;">
-                    We stand one in the fight. You are stronger than you are, and you are stronger than it shows.
-                </div>
-            </div>
-            <div class="whisper-card">
-                <div class="whisper-header" style="background-color: #f8bbd0; color: #753753;">
-                    To : all the fighters
-                </div>
-                <div class="whisper-body" style="color: #753753;">
-                    You are stronger than you know. You may not be where you want to be but you're still here - and that matters more than anything.
-                </div>
-            </div>
-            <div class="whisper-card">
-                <div class="whisper-header" style="background-color: #d1e2f5; color: #375375;">
-                    To : the heart that refuses to give up
-                </div>
-                <div class="whisper-body" style="color: #375375;">
-                    Today, you're still here. That's enough. You're enough.
-                </div>
-            </div>
-            <div class="whisper-card">
-                <div class="whisper-header" style="background-color: #fbdbc9; color: #753C37;">
-                    To : You
-                </div>
-                <div class="whisper-body" style="color: #753C37;">
-                    Sending you love, light, and endless hope today.
-                </div>
-            </div>
-            <div class="whisper-card">
-                <div class="whisper-header" style="background-color: #d4d1eb; color: #374375;">
-                    To : you, little warrior
-                </div>
-                <div class="whisper-body" style="color: #374375;">
-                    Even in weakness, you are strong. Every breath you take proves that you will be victorious.
-                </div>
-            </div>
-            <div class="whisper-card">
-                <div class="whisper-header" style="background-color: #d4ebd1; color: #377558;">
-                    To : brave soul
-                </div>
-                <div class="whisper-body" style="color: #377558;">
-                    Your courage inspires us all. Keep fighting, keep believing.
-                </div>
-            </div>
+            @endforeach
             <div class="whisper-card">
                 <div class="whisper-header" style="background-color: #f8bbd0; color: #753753;">
-                    To : someone special
+                    {{ __('welcome.whispers.sample_to') }}
                 </div>
                 <div class="whisper-body" style="color: #753753;">
-                    Remember that you are loved, valued, and never alone in this journey.
+                    {{ __('welcome.whispers.sample_message') }}
                 </div>
             </div>
         </div>
         <div class="whisper-buttons">
-            <a href="{{ route('user.whisper') }}" class="btn btn-primary">See More Whispers</a>
+            <a href="{{ route('user.whisper') }}" class="btn btn-primary">{{ __('welcome.whispers.see_more_button') }}</a>
         </div>
     </div>
 </section>
@@ -963,83 +928,83 @@
 <!-- Carousel Section -->
 <section class="carousel-section">
     <div class="carousel-container">
-        <h2 class="section-title" style="color: #333;">Smile, styles, and <br>happy life</h2>
-        <p class="section-subtitle" style="color: #666;">Meet the brave individuals who've received our wigs and support. Their journeys reflect resilience, courage, and the power of community.</p>
+        <h2 class="section-title" style="color: #333;">{!! __('welcome.carousel.title') !!}</h2>
+        <p class="section-subtitle" style="color: #666;">{{ __('welcome.carousel.subtitle') }}</p>
         
         <div class="carousel-wrapper">
             <div class="carousel-track" id="carouselTrack">
                 <div class="carousel-slide">
-                    <img src="{{ asset('images/landing/carousel1.png') }}" alt="Happy recipient 1" />
+                    <img src="{{ asset('images/landing/carousel1.png') }}" alt="{{ __('welcome.carousel.alt_text') }} 1" />
                 </div>
                 <div class="carousel-slide">
-                    <img src="{{ asset('images/landing/carousel2.png') }}" alt="Happy recipient 2" />
+                    <img src="{{ asset('images/landing/carousel2.png') }}" alt="{{ __('welcome.carousel.alt_text') }} 2" />
                 </div>
                 <div class="carousel-slide">
-                    <img src="{{ asset('images/landing/carousel3.png') }}" alt="Happy recipient 3" />
+                    <img src="{{ asset('images/landing/carousel3.png') }}" alt="{{ __('welcome.carousel.alt_text') }} 3" />
                 </div>
                 <div class="carousel-slide">
-                    <img src="{{ asset('images/landing/carousel4.png') }}" alt="Happy recipient 4" />
+                    <img src="{{ asset('images/landing/carousel4.png') }}" alt="{{ __('welcome.carousel.alt_text') }} 4" />
                 </div>
                 <div class="carousel-slide">
-                    <img src="{{ asset('images/landing/carousel5.png') }}" alt="Happy recipient 5" />
+                    <img src="{{ asset('images/landing/carousel5.png') }}" alt="{{ __('welcome.carousel.alt_text') }} 5" />
                 </div>
                 <div class="carousel-slide">
-                    <img src="{{ asset('images/landing/carousel6.png') }}" alt="Happy recipient 6" />
+                    <img src="{{ asset('images/landing/carousel6.png') }}" alt="{{ __('welcome.carousel.alt_text') }} 6" />
                 </div>
                 <div class="carousel-slide">
-                    <img src="{{ asset('images/landing/carousel7.png') }}" alt="Happy recipient 7" />
+                    <img src="{{ asset('images/landing/carousel7.png') }}" alt="{{ __('welcome.carousel.alt_text') }} 7" />
                 </div>
                 <div class="carousel-slide">
-                    <img src="{{ asset('images/landing/carousel8.png') }}" alt="Happy recipient 8" />
+                    <img src="{{ asset('images/landing/carousel8.png') }}" alt="{{ __('welcome.carousel.alt_text') }} 8" />
                 </div>
                 <div class="carousel-slide">
-                    <img src="{{ asset('images/landing/carousel9.png') }}" alt="Happy recipient 9" />
+                    <img src="{{ asset('images/landing/carousel9.png') }}" alt="{{ __('welcome.carousel.alt_text') }} 9" />
                 </div>
                 <div class="carousel-slide">
-                    <img src="{{ asset('images/landing/carousel10.png') }}" alt="Happy recipient 10" />
+                    <img src="{{ asset('images/landing/carousel10.png') }}" alt="{{ __('welcome.carousel.alt_text') }} 10" />
                 </div>
                 <div class="carousel-slide">
-                    <img src="{{ asset('images/landing/carousel11.png') }}" alt="Happy recipient 11" />
+                    <img src="{{ asset('images/landing/carousel11.png') }}" alt="{{ __('welcome.carousel.alt_text') }} 11" />
                 </div>
                 <div class="carousel-slide">
-                    <img src="{{ asset('images/landing/carousel12.png') }}" alt="Happy recipient 12" />
+                    <img src="{{ asset('images/landing/carousel12.png') }}" alt="{{ __('welcome.carousel.alt_text') }} 12" />
                 </div>
                 <!-- Duplicate images for infinite scroll effect -->
                 <div class="carousel-slide">
-                    <img src="{{ asset('images/landing/carousel1.png') }}" alt="Happy recipient 1" />
+                    <img src="{{ asset('images/landing/carousel1.png') }}" alt="{{ __('welcome.carousel.alt_text') }} 1" />
                 </div>
                 <div class="carousel-slide">
-                    <img src="{{ asset('images/landing/carousel2.png') }}" alt="Happy recipient 2" />
+                    <img src="{{ asset('images/landing/carousel2.png') }}" alt="{{ __('welcome.carousel.alt_text') }} 2" />
                 </div>
                 <div class="carousel-slide">
-                    <img src="{{ asset('images/landing/carousel3.png') }}" alt="Happy recipient 3" />
+                    <img src="{{ asset('images/landing/carousel3.png') }}" alt="{{ __('welcome.carousel.alt_text') }} 3" />
                 </div>
                 <div class="carousel-slide">
-                    <img src="{{ asset('images/landing/carousel4.png') }}" alt="Happy recipient 4" />
+                    <img src="{{ asset('images/landing/carousel4.png') }}" alt="{{ __('welcome.carousel.alt_text') }} 4" />
                 </div>
                 <div class="carousel-slide">
-                    <img src="{{ asset('images/landing/carousel5.png') }}" alt="Happy recipient 5" />
+                    <img src="{{ asset('images/landing/carousel5.png') }}" alt="{{ __('welcome.carousel.alt_text') }} 5" />
                 </div>
                 <div class="carousel-slide">
-                    <img src="{{ asset('images/landing/carousel6.png') }}" alt="Happy recipient 6" />
+                    <img src="{{ asset('images/landing/carousel6.png') }}" alt="{{ __('welcome.carousel.alt_text') }} 6" />
                 </div>
                 <div class="carousel-slide">
-                    <img src="{{ asset('images/landing/carousel7.png') }}" alt="Happy recipient 7" />
+                    <img src="{{ asset('images/landing/carousel7.png') }}" alt="{{ __('welcome.carousel.alt_text') }} 7" />
                 </div>
                 <div class="carousel-slide">
-                    <img src="{{ asset('images/landing/carousel8.png') }}" alt="Happy recipient 8" />
+                    <img src="{{ asset('images/landing/carousel8.png') }}" alt="{{ __('welcome.carousel.alt_text') }} 8" />
                 </div>
                 <div class="carousel-slide">
-                    <img src="{{ asset('images/landing/carousel9.png') }}" alt="Happy recipient 9" />
+                    <img src="{{ asset('images/landing/carousel9.png') }}" alt="{{ __('welcome.carousel.alt_text') }} 9" />
                 </div>
                 <div class="carousel-slide">
-                    <img src="{{ asset('images/landing/carousel10.png') }}" alt="Happy recipient 10" />
+                    <img src="{{ asset('images/landing/carousel10.png') }}" alt="{{ __('welcome.carousel.alt_text') }} 10" />
                 </div>
                 <div class="carousel-slide">
-                    <img src="{{ asset('images/landing/carousel11.png') }}" alt="Happy recipient 11" />
+                    <img src="{{ asset('images/landing/carousel11.png') }}" alt="{{ __('welcome.carousel.alt_text') }} 11" />
                 </div>
                 <div class="carousel-slide">
-                    <img src="{{ asset('images/landing/carousel12.png') }}" alt="Happy recipient 12" />
+                    <img src="{{ asset('images/landing/carousel12.png') }}" alt="{{ __('welcome.carousel.alt_text') }} 12" />
                 </div>
             </div>
         </div>
@@ -1049,99 +1014,71 @@
 <!-- FAQ Section -->
 <section class="faq-section">
     <div class="faq-container">
-        <h2 class="faq-title">FAQ's</h2>
+        <h2 class="faq-title">{{ __('welcome.faq.title') }}</h2>
         
+        @foreach(__('welcome.faq.questions') as $faq)
         <div class="faq-item">
             <div class="faq-question" onclick="toggleFAQ(this)">
-                <span>Can I Donate Colored or Treated Hair?</span>
+                <span>{{ $faq['question'] }}</span>
                 <span class="icon">+</span>
             </div>
             <div class="faq-answer">
-                <p>Yes, we accept colored or chemically treated hair, as long as it's in healthy condition—not overly dry, brittle, or damaged. We do not accept hair that is bleached or permed. If you're unsure, feel free to reach out to us with a photo.</p>
+                <p>{{ $faq['answer'] }}</p>
             </div>
         </div>
-
-        <div class="faq-item">
-            <div class="faq-question" onclick="toggleFAQ(this)">
-                <span>Who Receives the Wigs?</span>
-                <span class="icon">+</span>
-            </div>
-            <div class="faq-answer">
-                <p>Our wigs are given free of charge to children, teens, and adults who have experienced hair loss due to medical conditions such as cancer treatment, alopecia, burns, or other health-related causes. We prioritize those who lack access to quality wigs due to financial hardship.</p>
-            </div>
-        </div>
-
-        <div class="faq-item">
-            <div class="faq-question" onclick="toggleFAQ(this)">
-                <span>How Long Does It Take to Make a Wig?</span>
-                <span class="icon">+</span>
-            </div>
-            <div class="faq-answer">
-                <p>The wig-making process typically takes 4-6 weeks from the time we receive your hair donation. This includes sorting, cleaning, processing, and carefully crafting each wig by hand to ensure the highest quality.</p>
-            </div>
-        </div>
-
-        <div class="faq-item">
-            <div class="faq-question" onclick="toggleFAQ(this)">
-                <span>What Is the Minimum Length Required?</span>
-                <span class="icon">+</span>
-            </div>
-            <div class="faq-answer">
-                <p>We require a minimum of 8 inches of hair length for wig making. Hair should be clean, dry, and bundled in a ponytail or braid before cutting. Longer hair donations allow us to create more versatile wig styles.</p>
-            </div>
-        </div>
+        @endforeach
     </div>
 </section>
 
 <!-- Contact Section -->
 <section class="contact-section">
     <div class="contact-header">
-        <h2 class="contact-title">Contact Us</h2>
-        <p class="contact-intro">Whether you have a question, feedback, or just want to say hi, we're always here for you. Reach out and let us know how we can make your experience even better.</p>
+        <h2 class="contact-title">{{ __('welcome.contact.title') }}</h2>
+        <p class="contact-intro">{{ __('welcome.contact.intro') }}</p>
     </div>
     
     <div class="contact-container">
         <div class="contact-methods">
             <div class="contact-method">
                 <div class="icon phone"></div>
-                <div class="label">Phone</div>
+                <div class="label">{{ __('welcome.contact.phone') }}</div>
                 <div class="value">+62 XXX XXXX XXXX</div>
             </div>
             
             <div class="contact-method">
                 <div class="icon whatsapp"></div>
-                <div class="label">Whatsapp</div>
+                <div class="label">{{ __('welcome.contact.whatsapp') }}</div>
                 <div class="value">+62 XXX XXXX XXXX</div>
             </div>
             
             <div class="contact-method">
                 <div class="icon email"></div>
-                <div class="label">Email</div>
+                <div class="label">{{ __('welcome.contact.email') }}</div>
                 <div class="value">youremail@gmail.com</div>
             </div>
         </div>
         
         <div class="contact-form-container">
-            <h3 class="contact-form-title">Write Us a Message</h3>
+            <h3 class="contact-form-title">{{ __('welcome.contact.form_title') }}</h3>
             <form id="contactForm">
                 <div class="form-group">
-                    <input type="text" class="form-input" placeholder="Full Name" required>
+                    <input type="text" class="form-input" placeholder="{{ __('welcome.contact.form_placeholders.full_name') }}" required>
                 </div>
                 
                 <div class="form-row">
                     <div class="form-group">
-                        <input type="email" class="form-input" placeholder="youremail@email.com" required>
+                        <input type="email" class="form-input" placeholder="{{ __('welcome.contact.form_placeholders.email') }}" required>
                     </div>
                     <div class="form-group">
-                        <input type="tel" class="form-input" placeholder="+62 XXX XXXX XXXX">
+                        <input type="tel" class="form-input" placeholder="{{ __('welcome.contact.form_placeholders.phone') }}">
                     </div>
                 </div>
                 
                 <div class="form-group">
-                    <textarea class="form-input form-textarea" placeholder="Type your message..." required></textarea>
+                    <textarea class="form-input form-textarea" placeholder="{{ __('welcome.contact.form_placeholders.message') }}" required></textarea>
                 </div>
                 
-                <button type="submit" class="send-btn">Send Message</button>
+                <button type="submit" class="send-btn">{{ __('welcome.contact.send_button') }}</button>
             </form>
         </div>
     </div>
@@ -1177,32 +1114,49 @@ document.getElementById('contactForm').addEventListener('submit', function(e) {
     
     // Get form data
     const formData = new FormData(this);
-    const name = this.querySelector('input[placeholder="Full Name"]').value;
-    const email = this.querySelector('input[placeholder="youremail@email.com"]').value;
-    const phone = this.querySelector('input[placeholder="+62 XXX XXXX XXXX"]').value;
-    const subject = this.querySelector('input[placeholder="Subject"]').value;
+    const name = this.querySelector('input[placeholder*="Name"], input[placeholder*="Nama"]').value;
+    const email = this.querySelector('input[placeholder*="email"]').value;
+    const phone = this.querySelector('input[placeholder*="+62"]').value;
+    const subject = this.querySelector('input[placeholder="Subject"]')?.value || '';
     const message = this.querySelector('textarea').value;
     
     // Simple validation
     if (!name || !email || !message) {
-        alert('Please fill in all required fields.');
+        const validationMessage = window.contactFormStrings ? 
+            window.contactFormStrings.validationMessage : 
+            '{{ __('welcome.contact.validation_message') }}';
+        alert(validationMessage);
         return;
     }
     
     // Simulate sending message
     const submitBtn = this.querySelector('.send-btn');
     const originalText = submitBtn.textContent;
+    const sendingText = window.contactFormStrings ? 
+        window.contactFormStrings.sending : 
+        '{{ __('welcome.contact.sending') }}';
     
-    submitBtn.textContent = 'Sending...';
+    submitBtn.textContent = sendingText;
     submitBtn.disabled = true;
     
     setTimeout(() => {
-        alert('Thank you for your message! We will get back to you soon.');
+        const successMessage = window.contactFormStrings ? 
+            window.contactFormStrings.successMessage : 
+            '{{ __('welcome.contact.success_message') }}';
+        alert(successMessage);
         this.reset();
         submitBtn.textContent = originalText;
         submitBtn.disabled = false;
     }, 2000);
 });
+
+// Initialize contact form strings
+window.contactFormStrings = {
+    validationMessage: '{{ __('welcome.contact.validation_message') }}',
+    successMessage: '{{ __('welcome.contact.success_message') }}',
+    sending: '{{ __('welcome.contact.sending') }}',
+    sendButton: '{{ __('welcome.contact.send_button') }}'
+};
 
 // Smooth scrolling for navigation links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
