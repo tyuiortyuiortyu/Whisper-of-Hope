@@ -1,6 +1,6 @@
 @extends('admin.layout.app')
 
-@section('title', 'Requested Wig')
+@section('title', __('admin.header_request'))
 
 @section('content')
 
@@ -15,19 +15,19 @@
                 
                 <!-- all requests -->
                 <li class="nav-item @if(!request('type')) active @endif">
-                    <a href="{{ route('admin.request_admin')  }}">All Requests</a>
+                    <a href="{{ route('admin.request_admin')  }}">{{ __('admin.all_requests') }}</a>
                 </li>
                 <!-- personal -->
                 <li class="nav-item @if(request('type') == 'myself') active @endif">
-                    <a href="{{ route('admin.request_admin', ['type' => 'myself'])  }}">For Personal</a>
+                    <a href="{{ route('admin.request_admin', ['type' => 'myself'])  }}">{{ __('admin.personal_requests') }}</a>
                 </li>
                 <!-- child -->
                 <li class="nav-item @if(request('type') == 'parent_guardian') active @endif">
-                    <a href="{{ route('admin.request_admin', ['type' => 'parent_guardian'])  }}">For Child</a>
+                    <a href="{{ route('admin.request_admin', ['type' => 'parent_guardian'])  }}">{{ __('admin.parent_guardian_requests') }}</a>
                 </li>
                 <!-- patient -->
                 <li class="nav-item @if(request('type') == 'health_professional') active @endif">
-                    <a href="{{ route('admin.request_admin', ['type' => 'health_professional'])  }}">For Patient</a>
+                    <a href="{{ route('admin.request_admin', ['type' => 'health_professional'])  }}">{{ __('admin.health_professional_requests') }}</a>
                 </li>
             </ul>
         </div>
@@ -36,10 +36,10 @@
                 <input type="text" 
                        id="searchInput" 
                        name="search" 
-                       placeholder="Search requests..." 
+                       placeholder="{{ __('admin.search_requests') }}"
                        value="{{ request('search') }}"
                        onkeyup="debounceSearch()">
-                <img src="{{ asset('images/admin/user_admin/search.png') }}" class="search-icon" alt="Search" onclick="submitSearch()">
+                <img src="{{ asset('images/admin/user_admin/search.png') }}" class="search-icon" alt="{{ __('admin.search') }}" onclick="submitSearch()">
             </form>
         </div>
     </div>
@@ -60,15 +60,15 @@
         <table class="requests-table">
             <thead>
                 <tr>
-                    <th>Id</th>
-                    <th>Name</th>
-                    <th>Age</th>
-                    <th>Email</th>
-                    <th>Phone Number</th>
-                    <th>Reason</th>
-                    <th>Type</th>
-                    <th>Status</th>
-                    <th>Action</th>
+                    <th>{{ __('admin.id') }}</th>
+                    <th>{{ __('admin.name') }}</th>
+                    <th>{{ __('admin.age') }}</th>
+                    <th>{{ __('admin.email') }}</th>
+                    <th>{{ __('admin.phone') }}</th>
+                    <th>{{ __('admin.reason') }}</th>
+                    <th>{{ __('admin.type') }}</th>
+                    <th>{{ __('admin.status') }}</th>
+                    <th>{{ __('admin.action') }}</th>
                 </tr>
             </thead>
             <tbody id="requestsTableBody">
@@ -97,19 +97,19 @@
                             switch ($request->status) {
                                 case 'accepted':
                                     $statusClass = 'status-accepted';
-                                    $statusText = 'Accepted';
+                                    $statusText = __('admin.request_accepted');
                                     $iconPath = asset('images/admin/request_admin/accept-solid.png');
                                     $iconClass = 'icon-accepted';
                                     break;
                                 case 'rejected':
                                     $statusClass = 'status-rejected';
-                                    $statusText = 'Rejected';
+                                    $statusText = __('admin.request_rejected');
                                     $iconPath = asset('images/admin/request_admin/reject-solid.png');
                                     $iconClass = 'icon-rejected';
                                     break;
                                 default:
                                     $statusClass = 'status-waiting';
-                                    $statusText = 'Waiting';
+                                    $statusText = __('admin.request_waiting');
                                     $iconPath = asset('images/admin/request_admin/waiting.png');
                                     $iconClass = 'icon-waiting';
                                     break;
@@ -129,9 +129,9 @@
                             @method('PATCH')
                             <button type="submit" class="action-btn" title="Accept" @if($request->status == 'accepted') disabled @endif>
                                 @if($request->status == 'accepted')
-                                    <img src="{{ asset('images/admin/request_admin/accept-solid.png') }}" alt="Accepted">
+                                    <img src="{{ asset('images/admin/request_admin/accept-solid.png') }}" alt="{{ __('admin.request_accepted') }}">
                                 @else
-                                    <img src="{{ asset('images/admin/request_admin/accept-outline.png') }}" alt="Accept">
+                                    <img src="{{ asset('images/admin/request_admin/accept-outline.png') }}" alt="{{ __('admin.request_accept') }}">
                                 @endif
                             </button>
                         </form>
@@ -141,9 +141,9 @@
                             @method('PATCH')
                             <button type="submit" class="action-btn" title="Reject" @if($request->status == 'rejected') disabled @endif>
                                 @if($request->status == 'rejected')
-                                    <img src="{{ asset('images/admin/request_admin/reject-solid.png') }}" alt="Rejected">
+                                    <img src="{{ asset('images/admin/request_admin/reject-solid.png') }}" alt="{{ __('admin.request_rejected') }}">
                                 @else
-                                    <img src="{{ asset('images/admin/request_admin/reject-outline.png') }}" alt="Reject">
+                                    <img src="{{ asset('images/admin/request_admin/reject-outline.png') }}" alt="{{ __('admin.request_reject') }}">
                                 @endif
                             </button>
                         </form>
@@ -152,7 +152,7 @@
                             @csrf
                             @method('DELETE')
                             <button type="button" class="action-btn" title="Delete" onclick="showDeleteModal(event, '{{ $request->id }}')">
-                                <img src="{{ asset('images/admin/user_admin/delete.png') }}" alt="Delete">
+                                <img src="{{ asset('images/admin/user_admin/delete.png') }}" alt="{{ __('admin.delete') }}">
                             </button>
                         </form>
                     </td>
@@ -161,9 +161,9 @@
                 <tr>
                     <td colspan="9" class="no-data">
                         @if(request('search'))
-                            No requests found for "{{ request('search') }}"
+                            {{ __('admin.no_requests_found_search', ['search' => request('search')]) }}
                         @else
-                            No requests found
+                            {{ __('admin.no_data') }}
                         @endif
                     </td>
                 </tr>
@@ -175,7 +175,7 @@
        @if($requests->hasPages())
             <div class="pagination-container">
                 <div class="pagination-info">
-                    <span>Showing {{ $requests->firstItem() }} to {{ $requests->lastItem() }} of {{ $requests->total() }} results</span>
+                    <span>{{ __('admin.showing') }} {{ $requests->firstItem() }} {{ __('admin.to') }} {{ $requests->lastItem() }} {{ __('admin.of') }} {{ $requests->total() }} {{ __('admin.results') }}</span>
                 </div>
                 <div class="pagination-wrapper">
                     <div class="pagination-links">
@@ -232,12 +232,12 @@
 <div id="deleteRequestModal" class="modal">
     <div class="modal-content delete-modal">
         <div class="modal-body text-center">
-            <h3>Are you sure want to delete this request?</h3>
+            <h3>{{ __('admin.confirm_delete_request') }}</h3>
         </div>
         
         <div class="modal-actions">
-            <button type="button" class="btn-cancel">Cancel</button>
-            <button type="button" class="btn-delete-confirm">OK</button>
+            <button type="button" class="btn-cancel">{{ __('admin.cancel') }}</button>
+            <button type="button" class="btn-delete-confirm">{{ __('general.ok') }}</button>
         </div>
     </div>
 </div>
@@ -400,7 +400,7 @@
         background: #fafafa;
         font-weight: 600;
         color: #2c2c2c;
-        font-size: 14px;
+        font-size: 12px;
         font-family: 'Yantramanav';
         border-bottom: 2px solid #f0f0f0;
         text-transform: uppercase;

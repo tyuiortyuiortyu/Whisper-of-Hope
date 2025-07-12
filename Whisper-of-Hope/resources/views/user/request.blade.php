@@ -11,18 +11,16 @@
             <img src="{{ asset('images/request.jpg') }}" class="img-fluid" alt="Requesting Your Wig">
             <div class="z-2 overlay"></div>
             <div class="z-3 intro">
-                <h1>Requesting Your Wig</h1>
-                <p>Our free, high-quality wigs are specially crafted for individuals experiencing medical hair loss.
-                    Apply in just 5 minutes to be matched with your perfect fit,
-                    because you deserve to feel like yourself again.</p>
+                <h1>{{ __('request.intro_header') }}</h1>
+                <p>{{ __('request.intro_text') }}</p>
             </div>
         </div>
 
         <div class="guide">
             <div class="container">
                 <div class="header-guide">
-                    <h1>Find Your Perfect Hair Match</h1>
-                    <p>Every wig tells a story of strength. Let us help you or your loved one feel whole again.</p>
+                    <h1>{{ __('request.guide_header') }}</h1>
+                    <p>{{ __('request.guide_text') }}</p>
                 </div>
                 <div class="container overflow-hidden text-center">
                     <div class="row gx-5">
@@ -30,32 +28,32 @@
                             <div class="step-box">
                                 <!-- <p>Step 1</p> -->
                                 <img src="{{ asset('images/one.png') }}" alt="Step 1" class="img-fluid mb-3">
-                                <h4>Complete<br>the Form</h4>
-                                <p>Fill out a quick application with your basic details to help us understand your needs</p>
+                                <h4>{!! __('request.step1_title') !!}</h4>
+                                <p>{{ __('request.step1_desc') }}</p>
                             </div>
                         </div>
                         <div class="col">
                             <div class="step-box">
                                 <!-- <p>Step 2</p> -->
                                 <img src="{{ asset('images/two.png') }}" alt="Step 1" class="img-fluid mb-3">
-                                <h4>Request<br>Reviewed</h4>
-                                <p>Our team will verify your request and match you with an accredited wig fitter near to you</p>
+                                <h4>{!! __('request.step2_title') !!}</h4>
+                                <p>{{ __('request.step2_desc') }}</p>
                             </div>
                         </div>
                         <div class="col">
                             <div class="step-box">
                                 <!-- <p>Step 3</p> -->
                                 <img src="{{ asset('images/three.png') }}" alt="Step 1" class="img-fluid mb-3">
-                                <h4>Book Your<br>Appointment</h4>
-                                <p>We'll connect you directly with your wig specialist to schedule a private fitting at their salon or via virtual consultation</p>
+                                <h4>{!! __('request.step3_title') !!}</h4>
+                                <p>{{ __('request.step3_desc') }}</p>
                             </div>
                         </div>
                         <div class="col">
                             <div class="step-box">
                                 <!-- <p>Step 4</p> -->
                                 <img src="{{ asset('images/four.png') }}" alt="Step 1" class="img-fluid mb-3">
-                                <h4>Receive<br>Your Wig</h4>
-                                <p>Your wig will be handcrafted to your fit and style, with delivery in 2-3 weeks</p>
+                                <h4>{!! __('request.step4_title') !!}</h4>
+                                <p>{{ __('request.step4_desc') }}</p>
                             </div>
                         </div>
                     </div>
@@ -68,7 +66,7 @@
 
         <div class="request-form">
             <div class="header-form">
-                <h1>For Yourself or Someone You Care For</h1>
+                <h1>{{ __('request.form_header') }}</h1>
             </div>
                 
             <form id="requestWigForm" method="POST" action="{{ route('request.wig.storeRequest') }}" class="align-items-center justify-content-center">
@@ -76,31 +74,31 @@
                 
                 <!-- Dropdown Option -->
                 <div style="padding: 0 1.2rem; margin-bottom: 2rem;">
-                    <label class="dropdown-label" for="who_for">Who is this wig for?</label>
+                    <label class="dropdown-label" for="who_for">{{ __('request.form_who') }}</label>
                     <select class="dropdown-select" id="who_for" name="who_for" required>
-                        <option value="myself">I am applying for myself</option>
-                        <option value="parent_guardian">I am applying for my child as their parent/guardian</option>
-                        <option value="health_professional">I am applying for a patient as a medical professional</option>
+                        <option value="myself">{{ __('request.form_who_myself') }}</option>
+                        <option value="parent_guardian">{{ __('request.form_who_parent_guardian') }}</option>
+                        <option value="health_professional">{{ __('request.form_who_health_professional') }}</option>
                     </select>
                 </div>
                 
                 <div class="form-container">
-                    <h2>Request a Wig</h2>
+                    <h2>{{ __('request.form_container') }}</h2>
                     <hr>
                     <!-- For Myself -->
                     <div class="form-section-wrapper" id="myself">
                         <div class="form-section">
-                            <div class="form-label">Your Details</div>
+                            <div class="form-label">{{ __('request.form_section_your_details') }}</div>
                             <div class="form-fields">
-                                <label>Full Name</label>
+                                <label>{{ __('request.form_name') }}</label>
                                 <input type="text" name="recipient_full_name" id="recipient_full_name_myself" required>
-                                <label>Age</label>
+                                <label>{{ __('request.form_age') }}</label>
                                 <input type="number" name="recipient_age" required>
-                                <label>Email</label>
+                                <label>{{ __('request.form_email') }}</label>
                                 <input type="email" name="recipient_email" id="recipient_email_myself" required>
-                                <label>Phone Number</label>
+                                <label>{{ __('request.form_phone') }}</label>
                                 <input type="tel" name="recipient_phone" id="recipient_phone_myself" required>
-                                <label>Reason for Hair Loss</label>
+                                <label>{{ __('request.form_reason') }}</label>
                                 <input type="text" name="recipient_reason" required>
                             </div>
                         </div>
@@ -109,27 +107,27 @@
                     <!-- As Parent/Guardian -->
                     <div class="form-section-wrapper" id="parent_guardian">
                         <div class="form-section">
-                            <div class="form-label">Recipient's Details</div>
+                            <div class="form-label">{{ __('request.form_section_recipient_details') }}</div>
                             <div class="form-fields">
-                                <label>Full Name</label>
+                                <label>{{ __('request.form_name') }}</label>
                                 <input type="text" name="recipient_full_name" required>
-                                <label>Age</label>
+                                <label>{{ __('request.form_age') }}</label>
                                 <input type="number" name="recipient_age" required>
-                                <label>Reason for Hair Loss</label>
+                                <label>{{ __('request.form_reason') }}</label>
                                 <input type="text" name="recipient_reason" required>
                             </div>
                         </div>
                         <hr>
                         <div class="form-section">
-                            <div class="form-label">Your Details</div>
+                            <div class="form-label">{{ __('request.form_section_your_details') }}</div>
                             <div class="form-fields">
-                                <label>Full Name</label>
+                                <label>{{ __('request.form_name') }}</label>
                                 <input type="text" name="requester_full_name" id="requester_full_name_pg" required>
-                                <label>Email</label>
+                                <label>{{ __('request.form_email') }}</label>
                                 <input type="email" name="requester_email" id="requester_email_pg" required>
-                                <label>Phone Number</label>
+                                <label>{{ __('request.form_phone') }}</label>
                                 <input type="tel" name="requester_phone" id="requester_phone_pg" required>
-                                <label>Relationship to the Recipient</label>
+                                <label>{{ __('request.form_relationship') }}</label>
                                 <input type="text" name="relationship_to_recipient" required>
                             </div>
                         </div>
@@ -138,44 +136,41 @@
                     <!-- As Health Professional -->
                     <div class="form-section-wrapper" id="health_professional">
                         <div class="form-section">
-                            <div class="form-label">Recipient's Details</div>
+                            <div class="form-label">{{ __('request.form_section_recipient_details') }}</div>
                             <div class="form-fields">
-                                <label>Full Name</label>
+                                <label>{{ __('request.form_name') }}</label>
                                 <input type="text" name="recipient_full_name" required>
-                                <label>Age</label>
+                                <label>{{ __('request.form_age') }}</label>
                                 <input type="number" name="recipient_age" required>
-                                <label>Email</label>
+                                <label>{{ __('request.form_email') }}</label>
                                 <input type="email" name="recipient_email" required>
-                                <label>Phone Number</label>
+                                <label>{{ __('request.form_phone') }}</label>
                                 <input type="tel" name="recipient_phone" required>
-                                <label>Reason for Hair Loss</label>
+                                <label>{{ __('request.form_reason') }}</label>
                                 <input type="text" name="recipient_reason" required>
                             </div>
                         </div>
                         <hr>
                         <div class="form-section">
-                            <div class="form-label">Your Details</div>
+                            <div class="form-label">{{ __('request.form_section_your_details') }}</div>
                             <div class="form-fields">
-                                <label>Full Name</label>
+                                <label>{{ __('request.form_name') }}</label>
                                 <input type="text" name="requester_full_name" id="requester_full_name_hp" required>
-                                <label>Email</label>
+                                <label>{{ __('request.form_email') }}</label>
                                 <input type="email" name="requester_email" id="requester_email_hp" required>
-                                <label>Phone Number</label>
+                                <label>{{ __('request.form_phone') }}</label>
                                 <input type="tel" name="requester_phone" id="requester_phone_hp" required>
-                                <label>Healthcare Location</label>
+                                <label>{{ __('request.form_healthcare') }}</label>
                                 <input type="text" name="healthcare_location" required>
                             </div>
                         </div>
                     </div>
 
                     <hr>
-                    <div class="form-note">
-                        Thank you for trusting us! Our team will review your request promptly.<br>
-                        Click ‘Submit’ to send us your information.
-                    </div>
+                    <div class="form-note">{!! __('request.form_note') !!}</div>
                     <div class="form-button">
-                        <button type="button" id="clear-form-btn" class="btn btn-clear">Clear</button>
-                        <button type="submit" class="btn btn-submit">Submit</button>
+                        <button type="button" id="clear-form-btn" class="btn btn-clear">{{ __('request.form_clear') }}</button>
+                        <button type="submit" class="btn btn-submit">{{ __('request.form_submit') }}</button>
                     </div>
                 </form>
             </div>
@@ -186,12 +181,10 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modalContent">
                 <div class="modalHeader">
-                    <h2>Your request have been received!</h2>
+                    <h2>{{ __('request.modal_header') }}</h2>
                 </div>
                 <div class="modalBody">
-                    <p>Please know you’re not alone in this journey,
-                        we’re honoured to walk this path with you.
-                        Kindly check your email for further details.</p>
+                    <p>{{ __('request.modal_body') }}</p>
                 </div>
                 <div class="modalFooter">
                     <button type="button" class="btn btn-submit" data-bs-dismiss="modal">OK</button>
@@ -204,9 +197,9 @@
     <!-- if not logged in, pop up login -->
 
     <div class="z-0 container-guest">
-        <h2>For Yourself or Someone You Care For</h2>
+        <h2>{{ __('request.form_header') }}</h2>
         <div class="hero-buttons">
-            <a href="{{ route('user.request') }}" class="btn btn-primary">Request a Wig!</a>
+            <a href="{{ route('user.request') }}" class="btn btn-primary">{{ __('request.form_button') }}</a>
         </div>
     </div>
     

@@ -84,4 +84,37 @@ return [
     // Additional translations for user management
     'not_specified' => 'Not specified',
     'no_users_found_search' => 'No users found for ":search"',
+
+
+    // REQUESTS
+    'header_request' => 'Requested Wig',
+
+    'all_requests' => 'All Requests',
+    'personal_requests' => 'For Personal',
+    'parent_guardian_requests' => 'For Child',
+    'health_professional_requests' => 'For Patient',
+    'search_requests' => 'Search requests...', 
+
+    // Request Table Headers
+    'id' => 'Id',
+    'name' => 'Name',
+    'age' => 'Age',
+    'email' => 'Email',
+    'phone' => 'Phone Number',
+    'reason' => 'Reason',
+    'type' => 'Type',
+    'status' => 'Status',
+    'action' => 'Action',
+
+    // Request Status
+    'request_waiting' => 'Waiting',
+    'request_accepted' => 'Accepted',
+    'request_rejected' => 'Rejected',
+    'request_accept' => 'Accept',
+    'request_reject' => 'Reject',
+
+    // Delete Request Modal
+    'confirm_delete_request' => 'Are you sure want to delete this request?',
+
+    'no_requests_found_search' => 'No requests found for ":search"',
 ];
