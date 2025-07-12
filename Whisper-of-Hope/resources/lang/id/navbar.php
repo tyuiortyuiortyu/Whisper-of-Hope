@@ -7,7 +7,7 @@ return [
     'register' => 'Daftar',
     'profile' => 'Profil',
     'donate' => 'Donasi Rambut',
-    'request' => 'Minta Rambut',
+    'request' => 'Pesan Wig',
     'community' => 'Cerita Komunitas',
     'about' => 'Tentang Kami',
 ];

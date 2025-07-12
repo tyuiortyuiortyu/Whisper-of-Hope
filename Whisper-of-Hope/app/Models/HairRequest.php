@@ -39,10 +39,16 @@ class HairRequest extends Model
     {
         static::creating(function ($hairRequest) {
             if (empty($hairRequest->id)) {
-                $count = self::count();
-                $nextId = $count + 1;
-                $formattedId = str_pad($nextId, 3, '0', STR_PAD_LEFT);
-                $hairRequest->id = 'WR' . $formattedId;
+                $latestRequest = self::query()->orderByRaw('CAST(SUBSTRING(id, 3) AS UNSIGNED) DESC')->first();
+
+                $nextIdNumber = 1; // Start at 1 if this is the first record.
+                
+                if ($latestRequest) {
+                    $lastIdNumber = (int) substr($latestRequest->id, 2);
+                    $nextIdNumber = $lastIdNumber + 1;
+                }
+
+                $hairRequest->id = 'WR' . str_pad($nextIdNumber, 3, '0', STR_PAD_LEFT);
             }
         });
     }
