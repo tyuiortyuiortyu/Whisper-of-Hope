@@ -3,8 +3,8 @@
         <div class="modal-content" style="background: #FFFFFF; border-radius: 25px; box-shadow: 0 4px 20px rgba(0,0,0,0.10); border: none;">
             <!-- White Header -->
             <div class="modal-header" style="border: none; background: #FFFFFF; padding: 10px 20px 8px; border-bottom: 1px solid #f0f0f0; border-radius: 25px 25px 0 0;">
-                <h5 class="modal-title" id="editProfileModalLabel" style="font-size: 2.5rem; letter-spacing: 2px; color: #333; margin: 0; font-weight: 300;">Edit Profile</h5>
-                <img src="{{ asset('images/admin/user_admin/close.png') }}" class="modal-close-btn" data-bs-dismiss="modal" aria-label="Close" alt="Close">
+                <h5 class="modal-title" id="editProfileModalLabel" style="font-size: 2.5rem; letter-spacing: 2px; color: #333; margin: 0; font-weight: 300;">{{ __('profile.edit_profile') }}</h5>
+                <img src="{{ asset('images/admin/user_admin/close.png') }}" class="modal-close-btn" data-bs-dismiss="modal" aria-label="{{ __('general.close') }}" alt="Close">
             </div>
             <form method="POST" action="{{ route('profile.update') }}" enctype="multipart/form-data" id="editProfileForm">
                 @csrf
@@ -38,19 +38,19 @@
                     <div class="d-flex justify-content-center gap-2 mb-4">
                         <button type="button" class="btn" onclick="document.getElementById('profileImage').click()" 
                             style="background: #F9BCC4; color: black; border: none; border-radius: 15px; padding: 6px 16px; font-weight: 500; font-size: 0.9rem;">
-                            Upload
+                            {{ __('profile.upload') }}
                         </button>
                         
                         <button type="button" class="btn" id="removeImageBtn"
                             style="background: #D6D6D6; color: black; border: none; border-radius: 15px; padding: 6px 16px; font-weight: 500; font-size: 0.9rem;">
-                            Remove
+                            {{ __('profile.remove') }}
                         </button>
                     </div>
 
                     <!-- Form Fields in 2 columns -->
                     <div class="row g-3">
                         <div class="col-md-6">
-                            <label for="editName" class="form-label fw-bold mb-2" style="color: #333; font-size: 0.9rem;">Name</label>
+                            <label for="editName" class="form-label fw-bold mb-2" style="color: #333; font-size: 0.9rem;">{{ __('profile.name') }}</label>
                             <input type="text" class="form-control @error('name') is-invalid @enderror"
                                    id="editName" name="name" value="{{ old('name', auth()->user()->name) }}" required
                                    style="background: #FFF9EA; border: none; border-radius: 10px; padding: 12px 16px; min-height: 45px;">
@@ -59,7 +59,7 @@
                             @enderror
                         </div>
                         <div class="col-md-6">
-                            <label for="editEmail" class="form-label fw-bold mb-2" style="color: #333; font-size: 0.9rem;">Email</label>
+                            <label for="editEmail" class="form-label fw-bold mb-2" style="color: #333; font-size: 0.9rem;">{{ __('profile.email') }}</label>
                             <input type="email" class="form-control @error('email') is-invalid @enderror"
                                    id="editEmail" name="email" value="{{ old('email', auth()->user()->email) }}" required
                                    style="background: #FFF9EA; border: none; border-radius: 10px; padding: 12px 16px; min-height: 45px;">
@@ -68,7 +68,7 @@
                             @enderror
                         </div>
                         <div class="col-md-6">
-                            <label for="editPhone" class="form-label fw-bold mb-2" style="color: #333; font-size: 0.9rem;">Phone Number</label>
+                            <label for="editPhone" class="form-label fw-bold mb-2" style="color: #333; font-size: 0.9rem;">{{ __('profile.phone_number') }}</label>
                             <input type="tel" class="form-control @error('phone') is-invalid @enderror"
                                    id="editPhone" name="phone" value="{{ old('phone', auth()->user()->phone) }}"
                                    style="background: #FFF9EA; border: none; border-radius: 10px; padding: 12px 16px; min-height: 45px;">
@@ -77,13 +77,13 @@
                             @enderror
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label fw-bold mb-2" style="color: #333; font-size: 0.9rem;">Gender</label>
+                            <label class="form-label fw-bold mb-2" style="color: #333; font-size: 0.9rem;">{{ __('profile.gender') }}</label>
                             <div class="position-relative">
                                 <select class="form-select @error('gender') is-invalid @enderror" name="gender"
                                     style="background: #FFF9EA; border: none; border-radius: 10px; padding: 12px 16px; min-height: 45px; appearance: none;">
-                                    <option value="">Select Gender</option>
-                                    <option value="male" {{ old('gender', auth()->user()->gender) == 'male' ? 'selected' : '' }}>Male</option>
-                                    <option value="female" {{ old('gender', auth()->user()->gender) == 'female' ? 'selected' : '' }}>Female</option>
+                                    <option value="">{{ __('profile.select_gender') }}</option>
+                                    <option value="male" {{ old('gender', auth()->user()->gender) == 'male' ? 'selected' : '' }}>{{ __('profile.male') }}</option>
+                                    <option value="female" {{ old('gender', auth()->user()->gender) == 'female' ? 'selected' : '' }}>{{ __('profile.female') }}</option>
                                 </select>
                                 <div style="position: absolute; right: 16px; top: 50%; transform: translateY(-50%); pointer-events: none;">
                                     <i class="bi bi-chevron-down" style="color: #666; font-size: 0.8rem;"></i>
@@ -100,11 +100,11 @@
                 <div class="modal-footer d-flex justify-content-end gap-2" style="border: none; background: #FFDBDF; padding: 0 30px 30px; border-radius: 0 0 25px 25px;">
                     <button type="submit" class="btn" 
                         style="background: #F9BCC4; color: black; border: none; border-radius: 15px; padding: 8px 20px; font-weight: 500; font-size: 0.9rem;">
-                        Save changes
+                        {{ __('profile.save_changes') }}
                     </button>
                     <button type="button" class="btn" data-bs-dismiss="modal"
                         style="background: #D6D6D6; color: black; border: none; border-radius: 15px; padding: 8px 20px; font-weight: 500; font-size: 0.9rem;">
-                        Cancel
+                        {{ __('general.cancel') }}
                     </button>
                 </div>
             </form>

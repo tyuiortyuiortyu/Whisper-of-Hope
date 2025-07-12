@@ -28,6 +28,7 @@ class DatabaseSeeder extends Seeder
             StorySeeder::class,
             AdminSeeder::class,
             RequestsSeeder::class,
+            DonatePageSeeder::class,
         ]);
     }
 }

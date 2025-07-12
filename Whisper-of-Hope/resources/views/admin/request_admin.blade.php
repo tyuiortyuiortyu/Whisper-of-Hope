@@ -236,8 +236,8 @@
         </div>
         
         <div class="modal-actions">
-            <button type="button" class="btn-cancel" onclick="closeModal('deleteUserModal')">Cancel</button>
-            <button type="button" class="btn-delete-confirm" onclick="confirmDelete()">OK</button>
+            <button type="button" class="btn-cancel">Cancel</button>
+            <button type="button" class="btn-delete-confirm">OK</button>
         </div>
     </div>
 </div>
@@ -779,158 +779,167 @@
 </style>
 
 <script>
-    // search 
-    let searchTimeout = null;
+    document.addEventListener('DOMContentLoaded', function() {
+        
+        // delete modal
+        const deleteModal = document.getElementById('deleteRequestModal');
+        let requestToDeleteId = null;
+
+        window.showDeleteModal = function(event, requestId) {
+            event.stopPropagation(); // Prevents the row's main click event
+            requestToDeleteId = requestId;
+            if (deleteModal) {
+                deleteModal.classList.add('is-active');
+            }
+        }
+
+        function closeModal() {
+            if (deleteModal) {
+                deleteModal.classList.remove('is-active');
+            }
+            requestToDeleteId = null;
+        }
+
+        function confirmDelete() {
+            if (requestToDeleteId) {
+                const form = document.getElementById('deleteForm-' + requestToDeleteId);
+                if (form) {
+                    form.submit();
+                }
+            }
+        }
+
+        const cancelButton = deleteModal.querySelector('.btn-cancel');
+        const confirmButton = deleteModal.querySelector('.btn-delete-confirm');
+
+        if (cancelButton) {
+            cancelButton.addEventListener('click', closeModal);
+        }
+        if (confirmButton) {
+            confirmButton.addEventListener('click', confirmDelete);
+        }
+
+        // close modal if clicking outside of it
+        window.addEventListener('click', function(event) {
+            if (event.target === deleteModal) {
+                closeModal();
+            }
+        });
+
+        // auto dismiss alerts
+        const successAlert = document.getElementById('successAlert');
+        if (successAlert) {
+            setTimeout(() => {
+                successAlert.style.opacity = '0';
+                setTimeout(() => successAlert.remove(), 500);
+            }, 3000); // 3 seconds
+        }
+        const errorAlert = document.getElementById('errorAlert');
+        if (errorAlert) {
+            setTimeout(() => {
+                errorAlert.style.opacity = '0';
+                setTimeout(() => errorAlert.remove(), 500);
+            }, 5000); // 5 seconds
+        }
+
+        const style = document.createElement('style');
+        style.innerHTML = `.alert { transition: opacity 0.5s ease-out; }`;
+        document.head.appendChild(style);
+    });
+
+    // search
     let requestData = [];
-    let filteredRequests = [];
+    let searchTimeout = null;
+
+    document.addEventListener('DOMContentLoaded', function() {
+        extractRequestData();
+        setupSearch();
+    });
+
+    function extractRequestData() {
+        const rows = document.querySelectorAll('#requestsTableBody tr');
+        requestData = [];
+        
+        rows.forEach(row => {
+            const cells = row.querySelectorAll('td');
+            if (cells.length > 1 && !row.querySelector('.no-data')) {
+                const statusElement = row.querySelector('.status-pill span:last-of-type');
+                
+                requestData.push({
+                    id: cells[0].textContent.trim(),    
+                    name: cells[1].textContent.trim(),  
+                    age: cells[2].textContent.trim(),   
+                    email: cells[3].textContent.trim(), 
+                    phone: cells[4].textContent.trim(), 
+                    reason: cells[5].getAttribute('title') || cells[5].textContent.trim(),
+                    type: cells[6].textContent.trim(),  
+                    status: statusElement ? statusElement.textContent.trim() : '',
+                    element: row
+                });
+            }
+        });
+    }
+
     function setupSearch() {
         const searchInput = document.getElementById('searchInput');
-        
+
         searchInput.addEventListener('input', function() {
             clearTimeout(searchTimeout);
             searchTimeout = setTimeout(function() {
                 performSearch();
-            }, 300); // Faster response time like whisper
-        });
-        
-        // Handle enter key
-        searchInput.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                e.preventDefault();
-                performSearch();
-            }
+            }, 300);
         });
     }
-    
+
     function performSearch() {
-        const searchValue = document.getElementById('searchInput').value.toLowerCase().trim();
+        const searchInput = document.getElementById('searchInput');
+        const searchValue = searchInput.value.toLowerCase().trim();
+        
+        const filteredRequests = requestData.filter(request => 
+            request.name.toLowerCase().includes(searchValue) ||
+            request.email.toLowerCase().includes(searchValue) ||
+            request.reason.toLowerCase().includes(searchValue) ||
+            request.type.toLowerCase().includes(searchValue) ||
+            request.status.toLowerCase().includes(searchValue)
+        );
+        
+        updateRequestDisplay(filteredRequests, searchValue);
+    }
+
+    function updateRequestDisplay(filteredRequests, searchValue) {
         const tbody = document.getElementById('requestsTableBody');
         
-        if (searchValue === '') {
-            // Show all users
-            filteredRequests = [...requestData];
-        } else {
-            // Filter requests based on search term
-            filteredRequests = requestData.filter(request => 
-                request.recipient_full_name.toLowerCase().includes(searchValue) ||
-                request.recipient_email.toLowerCase().includes(searchValue) ||
-            );
+        const noDataRow = tbody.querySelector('.no-data-js');
+        if (noDataRow) {
+            noDataRow.remove();
         }
-        
-        // // Update display
-        // updateUserDisplay();
-        
-        // // Update URL without refresh
-        // const url = new URL(window.location.href);
-        // if (searchValue) {
-        //     url.searchParams.set('search', searchValue);
-        // } else {
-        //     url.searchParams.delete('search');
-        // }
-        // window.history.replaceState({}, '', url.toString());
-    }
-    
-    // function updateUserDisplay() {
-    //     const tbody = document.getElementById('requestsTableBody');
-        
-    //     // Hide all rows first
-    //     userData.forEach(user => {
-    //         user.element.style.display = 'none';
-    //     });
-        
-    //     if (filteredUsers.length === 0) {
-    //         // Show no data message
-    //         const searchValue = document.getElementById('searchInput').value;
-    //         tbody.innerHTML = `
-    //             <tr>
-    //                 <td colspan="7" class="no-data">
-    //                     ${searchValue ? `No requests found for "${searchValue}"` : 'No requests found'}
-    //                 </td>
-    //             </tr>
-    //         `;
-    //     } else {
-    //         // Remove no-data row if exists
-    //         const noDataRow = tbody.querySelector('.no-data');
-    //         if (noDataRow) {
-    //             noDataRow.closest('tr').remove();
-    //         }
-            
-    //         // Show filtered rows
-    //         filteredUsers.forEach(user => {
-    //             user.element.style.display = '';
-    //         });
-    //     }
-    // }
 
-    // Legacy functions for backward compatibility
-    function debounceSearch() {
-        performSearch();
+        requestData.forEach(request => {
+            request.element.style.display = 'none';
+        });
+        
+        if (filteredRequests.length === 0 && searchValue !== '') {
+            const newRow = tbody.insertRow();
+            newRow.className = 'no-data-js';
+            newRow.innerHTML = `
+                <td colspan="9" class="no-data">
+                    No requests found for "${searchValue}"
+                </td>
+            `;
+        } else {
+            filteredRequests.forEach(request => {
+                request.element.style.display = '';
+            });
+        }
     }
-    
+
+    function debounceSearch() {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(() => performSearch(), 300);
+    }
+
     function submitSearch() {
         performSearch();
     }
-    
-    function clearSearch() {
-        document.getElementById('searchInput').value = '';
-        performSearch();
-    }
-
-    // delete modal
-    const deleteModal = document.getElementById('deleteRequestModal');
-    let requestToDelete = null;
-
-    function showDeleteModal(event, requestId) {
-        event.stopPropagation();
-        requestToDelete = requestId;
-        deleteModal.classList.add('is-active');
-    }
-    function closeModal() {
-        requestToDelete = null;
-        deleteModal.classList.remove('is-active');
-    }
-    function confirmDelete() {
-        if (requestToDelete) {
-            const form = document.getElementById('deleteForm-' + requestToDelete);
-            if (form) {
-                form.submit();
-            }
-        }
-    }
-
-    const cancelButton = deleteModal.querySelector('.btn-cancel');
-    if (cancelButton) {
-        cancelButton.onclick = closeModal;
-    }
-    const confirmButton = deleteModal.querySelector('.btn-delete-confirm');
-    if (confirmButton) {
-        confirmButton.onclick = confirmDelete;
-    }
-    window.addEventListener('click', function(event) {
-        if (event.target == deleteModal) {
-            closeModal();
-        }
-    });
-
-    // Auto-dismiss alerts
-    document.addEventListener('DOMContentLoaded', function() {
-        const successAlert = document.getElementById('successAlert');
-        const errorAlert = document.getElementById('errorAlert');
-
-        if (successAlert) {
-            setTimeout(() => {
-                successAlert.classList.add('fade-out');
-                setTimeout(() => successAlert.remove(), 500); // Remove after fade-out transition
-            }, 2000); // 10 seconds
-        }
-
-        if (errorAlert) {
-            setTimeout(() => {
-                errorAlert.classList.add('fade-out');
-                setTimeout(() => errorAlert.remove(), 500); // Remove after fade-out transition
-            }, 2000); // 10 seconds
-        }
-    });
 </script>
-
 @endsection
