@@ -67,7 +67,7 @@ return [
 
     // Bagian Atas
     'donate_page_title' => 'Halaman Donasi Rambut',
-    'ready_to_give_hope' => 'Apakah Anda Siap Memberi Harapan?',
+    'ready_to_give_hope' => 'Siapkah Rambutmu Menjadi Harapan bagi Mereka yang membutuhkan?',
     'donate_hair_intro' => 'Syarat dan ketentuan untuk mendonasikan rambut anda',
 
     // Kriteria

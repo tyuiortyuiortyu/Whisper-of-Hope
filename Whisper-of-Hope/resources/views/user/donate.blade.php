@@ -171,10 +171,10 @@
 
 <div id="page-content-wrapper">
     <div class="container" style="margin-top: 500px;">
-        <h2 class="text-center fw spacing-custom" style="font-size: 96px; font-family: 'Gidugu', sans-serif; font-weight:500;">
+        <h2 class="text-center fw spacing-custom" style="font-size: 96px; font-family: 'Gidugu', sans-serif; font-weight:500; line-height: 0.7;">
             {{ __('donation.ready_to_give_hope') }}
         </h2>
-        <p class="text-center mb-6" style="font-size: 24px; font-family: 'Yantramanav', sans-serif; margin-top: -20px; margin-bottom: 50px;">
+        <p class="text-center mb-6" style="font-size: 24px; font-family: 'Yantramanav', sans-serif; margin-bottom: 50px; margin-top: 30px;">
             {{ __('donation.donate_hair_intro') }}
         </p>
 

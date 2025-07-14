@@ -13,5 +13,5 @@ return [
     'vision_desc' => 'Menjadi jembatan harapan bagi mereka yang kehilangan rambut karena kondisi medis, dengan membangun komunitas yang penuh kasih yang terhubung melalui kebaikan dan donasi.',
     'our_team_tag' => 'Tim Kami',
     'team_title_part1' => 'Pelajari lebih lanjut tentang tim',
-    'team_title_part2' => 'dedikasi Whisper of Hope!',
+    'team_title_part2' => 'dedikasi tim Whisper of Hope!',
 ];
