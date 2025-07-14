@@ -155,49 +155,49 @@
         margin-top: -30px;
         padding: 10px 40px;
         min-width: 200px;
-        transition: background-color 0.3s ease, color 0.3s ease; /* Tambahkan transisi untuk efek halus */
+        transition: background-color 0.3s ease, color 0.3s ease;
     }
 
     .donate-button:hover {
-        background-color: #F791A9; /* Warna background saat hover */
-        color: #FFFFFF; /* Warna teks saat hover */
+        background-color: #F791A9;
+        color: #FFFFFF;
     }
 </style>
 @endpush
 
-@section('title', 'Donate Hair Page')
+@section('title', __('donation.donate_page_title'))
 
 @section('content')
 
 <div id="page-content-wrapper">
     <div class="container" style="margin-top: 500px;">
-        <h2 class="text-center fw spacing-custom" style="font-size: 96px; font-family: 'Gidugu', sans-serif; font-weight:500;">
-            Is Your Hair Ready to Give Hope?
+        <h2 class="text-center fw spacing-custom" style="font-size: 96px; font-family: 'Gidugu', sans-serif; font-weight:500; line-height: 0.7;">
+            {{ __('donation.ready_to_give_hope') }}
         </h2>
-        <p class="text-center mb-6" style="font-size: 24px; font-family: 'Yantramanav', sans-serif; margin-top: -20px; margin-bottom: 50px;">
-            Here’s everything you need to know to donate your hair and help someone feel whole again.
+        <p class="text-center mb-6" style="font-size: 24px; font-family: 'Yantramanav', sans-serif; margin-bottom: 50px; margin-top: 30px;">
+            {{ __('donation.donate_hair_intro') }}
         </p>
 
         <div class="row text-center mb-5 justify-content-center align-items-stretch" style="font-family: 'Yantramanav', sans-serif; row-gap: 10px; margin-left: 0;">
             @php
                 $criteria = [
                     [
-                        'title' => '30',
-                        'subtitle' => 'Centimeters',
-                        'desc' => 'at least 30 cms<br>Longer is better!',
+                        'title' => __('donation.criteria_title_30'),
+                        'subtitle' => __('donation.criteria_subtitle_30'),
+                        'desc' => __('donation.criteria_desc_30'),
                         'style' => 'margin-top: -55px;',
                     ],
                     [
-                        'title' => 'Natural and<br>Unprocessed',
-                        'desc' => 'No dyes, bleach, or chemical treatments',
+                        'title' => __('donation.criteria_title_natural'),
+                        'desc' => __('donation.criteria_desc_natural'),
                     ],
                     [
-                        'title' => 'Clean<br>and Dry',
-                        'desc' => 'Washed, fully dried, and free of styling products',
+                        'title' => __('donation.criteria_title_clean'),
+                        'desc' => __('donation.criteria_desc_clean'),
                     ],
                     [
-                        'title' => 'Healthy Condition',
-                        'desc' => 'No mold, excessive split ends, or damage',
+                        'title' => __('donation.criteria_title_healthy'),
+                        'desc' => __('donation.criteria_desc_healthy'),
                     ],
                 ];
             @endphp
@@ -223,11 +223,11 @@
 
         <div class="col-md-12 d-flex justify-content-center px-1 mb-5">
             <div class="p-4 rounded mb-3" style="background-color: #fcd6e2; max-width: 1150px; width: 100%;">
-                <strong class="mb-2" style="font-size: 24px;">Friendly Reminders</strong>
+                <strong class="mb-2" style="font-size: 24px;">{{ __('donation.friendly_reminders_title') }}</strong>
                 <ul class="mb-2 ps-3" style="font-size: 18px;">
-                    <li>Hair must be secured in a ponytail or braid before being cut.</li>
-                    <li>Please ensure your hair is clean and thoroughly dry before you have it cut.</li>
-                    <li>Please ensure conditioner or other products are completely washed out prior to your final hair cut.</li>
+                    <li>{{ __('donation.reminder_1') }}</li>
+                    <li>{{ __('donation.reminder_2') }}</li>
+                    <li>{{ __('donation.reminder_3') }}</li>
                 </ul>
             </div>
         </div>
@@ -235,16 +235,16 @@
         <div class="donate-bg">
             <div class="mx-auto" style="max-width: 1100px;">
                 <p class="text-center" style="font-size: 24px;">
-                    Not all hair can be used, but many types are welcome! Make sure your donation meets the criteria below so it can be turned into something truly meaningful.
+                    {{ __('donation.hair_welcome_message') }}
                 </p>
             </div>
 
             <div class="container py-5 d-flex flex-column align-items-center">
                 <h2 class="text-center fw spacing-custom" style="font-size: 96px; font-family: 'Gidugu', sans-serif;">
-                    HOW TO DONATE YOUR HAIR?
+                    {{ __('donation.how_to_donate_title') }}
                 </h2>
                 <p class="text-center mb-5" style="font-size: 24px; max-width: 1100px; margin-top: -20px;">
-                    This guide will walk you through each step to ensure your generous act becomes a meaningful source of hope and strength for someone on a healing journey.
+                    {{ __('donation.how_to_donate_intro') }}
                 </p>
                 <div class="d-flex align-items-center justify-content-center mb-5">
                     <div class="d-flex w-100">
@@ -253,18 +253,18 @@
                                 $steps = [
                                     [
                                         'img' => '/images/Donate_hair/1.png',
-                                        'title' => 'PREPARE',
-                                        'desc' => 'Ensure your hair meets our donation requirements. Don’t forget to tie your hair securely in a ponytail or braid before cutting.',
+                                        'title' => __('donation.step_prepare_title'),
+                                        'desc' => __('donation.step_prepare_desc'),
                                     ],
                                     [
                                         'img' => '/images/Donate_hair/2.png',
-                                        'title' => 'PACKAGE',
-                                        'desc' => 'Place the tied hair in a zip-lock or sealed plastic bag, then insert it into a waterproof envelope. Be sure to include your completed donation form.',
+                                        'title' => __('donation.step_package_title'),
+                                        'desc' => __('donation.step_package_desc'),
                                     ],
                                     [
                                         'img' => '/images/Donate_hair/3.png',
-                                        'title' => 'MAIL',
-                                        'desc' => 'Ship your donation to the designated address listed on our website. For optimal quality, please send the hair within 2 weeks of cutting.',
+                                        'title' => __('donation.step_mail_title'),
+                                        'desc' => __('donation.step_mail_desc'),
                                     ],
                                 ];
                             @endphp
@@ -285,10 +285,10 @@
 
             <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 200px;">
                 <h2 class="text-center spacing-custom" style="font-size: 96px; font-family: 'Gidugu', sans-serif;">
-                    Give the Gift of the Hair
+                    {{ __('donation.give_the_gift_title') }}
                 </h2>
                 <p class="text-center mb-5" style="font-size: 24px; max-width: 1100px;">
-                    Your donation makes a difference! Take a moment to complete this form.
+                    {{ __('donation.give_the_gift_intro') }}
                 </p>
             </div>
         </div>
@@ -297,7 +297,7 @@
             @guest
                 <div class="d-flex justify-content-center align-items-start" style="min-height: 100px; position: relative;">
                     <a href="{{ route('user.donate') }}" class="btn donate-button">
-                        Donate Hair!
+                        {{ __('donation.donate_hair_button') }}
                     </a>
                 </div>
             @else
@@ -305,7 +305,7 @@
                     style="background-color: #FFF9EA; border-radius: 20px; padding: 40px 64px; margin: 8px 0px; max-width: 1200px; display: flex; flex-direction: column;
                     box-shadow: 4px 4px 12px 0 rgba(0,0,0,0.3);">
 
-                    <h2 class="mb-0" style="font-family: 'Yantramanav', sans-serif; font-size: 28px; margin-left: 20px; margin-bottom: 0;">Donate Hair</h2>
+                    <h2 class="mb-0" style="font-family: 'Yantramanav', sans-serif; font-size: 28px; margin-left: 20px; margin-bottom: 0;">{{ __('donation.form_title') }}</h2>
                     <hr style="border: none; border-top: 1px solid #000; margin-top: 0; margin-bottom: 28px;">
 
                     <form id="DonateHairForm" method="POST" action="{{ route('donate.hair.store') }}">
@@ -314,12 +314,12 @@
                         {{-- Hair Donor's Details Section --}}
                         <div class="row mb-3" style="display: flex; margin-left: 10px;">
                             <div class="form-label col-md-3 fw-bold d-flex align-items-start flex-column justify-content-start mb-2">
-                                Hair Donor's Detail
+                                {{ __('donation.donor_details_label') }}
                             </div>
                             <div class="form-fields col-md-9">
                                 {{-- Full Name Field --}}
                                 <div class="mb-1">
-                                    <label for="full_name">Full Name</label>
+                                    <label for="full_name">{{ __('donation.full_name') }}</label>
                                     <input type="text" id="full_name" name="full_name" class="bg-transparent always-transparent" required value="{{ old('full_name', Auth::check() ? Auth::user()->name : '') }}">
                                     @error('full_name')
                                         <div class="text-danger">{{ $message }}</div>
@@ -328,7 +328,7 @@
 
                                 {{-- Age Field --}}
                                 <div class="mb-1">
-                                    <label for="age">Age</label>
+                                    <label for="age">{{ __('donation.age') }}</label>
                                     <input type="number" id="age" name="age" class="bg-transparent always-transparent" required value="{{ old('age') }}">
                                     @error('age')
                                         <div class="text-danger">{{ $message }}</div>
@@ -337,7 +337,7 @@
 
                                 {{-- Email Field --}}
                                 <div class="mb-1">
-                                    <label for="email">Email</label>
+                                    <label for="email">{{ __('donation.email') }}</label>
                                     <input type="email" id="email" class="bg-transparent always-transparent" name="email" required value="{{ old('email', Auth::check() ? Auth::user()->email : '') }}">
                                     @error('email')
                                         <div class="text-danger">{{ $message }}</div>
@@ -346,7 +346,7 @@
 
                                 {{-- Phone Number Field --}}
                                 <div class="mb-1">
-                                    <label for="phone">Phone Number</label>
+                                    <label for="phone">{{ __('donation.phone_number') }}</label>
                                     <input type="tel" id="phone" class="bg-transparent always-transparent" name="phone" required value="{{ old('phone', Auth::check() ? Auth::user()->phone : '') }}">
                                     @error('phone')
                                         <div class="text-danger">{{ $message }}</div>
@@ -355,7 +355,7 @@
 
                                 {{-- Hair Length Field --}}
                                 <div class="mb-1">
-                                    <label for="hair_length">The Length of Your Ponytails (cm)</label>
+                                    <label for="hair_length">{{ __('donation.hair_length_label') }}</label>
                                     <input type="number" id="hair_length" class="bg-transparent always-transparent" name="hair_length" required value="{{ old('hair_length') }}">
                                     @error('hair_length')
                                         <div class="text-danger">{{ $message }}</div>
@@ -368,14 +368,13 @@
 
                         {{-- Thank You Message --}}
                         <div class="text-center mb-4">
-                            Terima kasih atas kemurahan hati Anda! Donasi Anda akan membantu seseorang merasa utuh kembali.<br>
-                            Klik ‘Submit’ untuk menyelesaikan tindakan kebaikan Anda.
+                            {{ __('donation.form_thank_you_message') }}
                         </div>
 
                         {{-- Form Buttons --}}
                         <div class="form-button d-flex justify-content-center gap-3 mt-3">
-                            <button type="reset" class="btn px-4 rounded-pill btn-clear" style="min-width: 150px; background-color: #E8E8E8; color: #000; border: none; font-weight: 500;">Clear</button>
-                            <button type="submit" class="btn btn-pink px-4 rounded-pill btn-submit" style="min-width: 150px; background-color: #F9BCC4; color: #000; font-weight: 500;">Submit</button>
+                            <button type="reset" class="btn px-4 rounded-pill btn-clear" style="min-width: 150px; background-color: #E8E8E8; color: #000; border: none; font-weight: 500;">{{ __('donation.clear_button') }}</button>
+                            <button type="submit" class="btn btn-pink px-4 rounded-pill btn-submit" style="min-width: 150px; background-color: #F9BCC4; color: #000; font-weight: 500;">{{ __('donation.submit_button') }}</button>
                         </div>
                     </form>
                 </div>
@@ -386,20 +385,17 @@
 
 @include('user.auth.login')
 
-
 <div class="modal fade" id="submitFormModal" tabindex="-1" aria-labelledby="submitModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modalContent">
             <div class="modalHeader">
-                <h2 style="margin-bottom: 18px;">Thank you for your beautiful gift!</h2>
+                <h2 style="margin-bottom: 18px;">{{ __('donation.modal_thank_you_title') }}</h2>
             </div>
             <div class="modalBody">
-                <p>Please mail your hair within 7 days to 
-                    Jl. Pakuan No.3, Sumur Batu, Kec. Babakan Madang, 
-                    Kabupaten Bogor, Jawa Barat 16810.</p>
+                <p>{{ __('donation.modal_address_message') }}</p>
             </div>
             <div class="modalFooter">
-                <button type="button" class="btn btn-submit px-5 py-2 rounded-pill" style="min-width: 180px; border-radius: 30px; font-weight: 500;" data-bs-dismiss="modal">OK</button>
+                <button type="button" class="btn btn-submit px-5 py-2 rounded-pill" style="min-width: 180px; border-radius: 30px; font-weight: 500;" data-bs-dismiss="modal">{{ __('donation.ok_button') }}</button>
             </div>
         </div>
     </div>
