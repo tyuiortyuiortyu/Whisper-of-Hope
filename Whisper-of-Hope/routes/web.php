@@ -129,10 +129,11 @@ Route::prefix('admin')->group(function () {
 
         
        // Donation Management
-    Route::get('/donations', [DonateAdminController::class, 'index'])->name('admin.donate_admin');
-    Route::put('/donations/{hairDonation}/approve', [DonateAdminController::class, 'approve'])->name('admin.donations.approve');
-    Route::put('/donations/{hairDonation}/reject', [DonateAdminController::class, 'reject'])->name('admin.donations.reject');
-    Route::delete('/donations/{hairDonation}', [DonateAdminController::class, 'destroy'])->name('admin.donations.destroy');
+        Route::get('/donations', [DonateAdminController::class, 'index'])->name('admin.donate_admin');
+        Route::get('/donations/{hairDonation}', [DonateAdminController::class, 'show'])->name('admin.donations.show');
+        Route::put('/donations/{hairDonation}/approve', [DonateAdminController::class, 'approve'])->name('admin.donations.approve');
+        Route::put('/donations/{hairDonation}/reject', [DonateAdminController::class, 'reject'])->name('admin.donations.reject');
+        Route::delete('/donations/{hairDonation}', [DonateAdminController::class, 'destroy'])->name('admin.donations.destroy');
         
         // Whisper Management
         Route::get('/whisper', [WhisperAdminController::class, 'index'])->name('admin.whisper_admin');

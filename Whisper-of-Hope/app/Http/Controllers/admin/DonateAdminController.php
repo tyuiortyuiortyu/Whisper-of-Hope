@@ -29,12 +29,18 @@ class DonateAdminController extends Controller // Pastikan nama class ini sesuai
         return view('admin.donate_admin', compact('hairDonations'));
     }
 
+    public function show(DonateHair $hairDonation)
+    {
+        $hairDonation->load('user'); 
+        return view('admin.Donate_admin_detail', compact('hairDonation'));
+    }
+
     public function approve(DonateHair $hairDonation) // Model binding ke DonateHair
     {
         $hairDonation->status = 'received';
         $hairDonation->save();
 
-        return redirect()->back()->with('success', 'Hair donation approved successfully!');
+        return redirect()->back()->with('success', __('donation.donation_approved_success'));
     }
 
     /**
@@ -45,14 +51,14 @@ class DonateAdminController extends Controller // Pastikan nama class ini sesuai
         $hairDonation->status = 'missing';
         $hairDonation->save();
 
-        return redirect()->back()->with('success', 'Hair donation rejected successfully!');
+        return redirect()->back()->with('success', __('donation.donation_rejected_success'));
     }
 
     public function destroy(DonateHair $hairDonation) // Model binding ke DonateHair
     {
         $hairDonation->delete();
 
-        return redirect()->back()->with('success', 'Hair donation deleted successfully!');
+        return redirect()->back()->with('success', __('donation.donation_deleted_success'));
     }
 
 }

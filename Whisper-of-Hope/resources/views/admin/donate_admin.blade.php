@@ -1,6 +1,6 @@
-@extends('admin.layout.app') {{-- Ensure the path to your admin layout is correct --}}
+@extends('admin.layout.app')
 
-@section('title', 'Hair Donations')
+@section('title', __('donation.page_title_index'))
 
 @section('content')
 <div class="hair-donations-management" style="display: flex; flex-direction: column; align-items: center;">
@@ -11,23 +11,23 @@
                 <input type="text"
                     id="searchInput"
                     name="search"
-                    placeholder="Search donations..."
+                    placeholder="{{ __('donation.search_placeholder') }}"
                     value="{{ request('search') }}"
                     onkeyup="debounceSearch()"
                     style="width: 100%; min-width: 300px; max-width: 100%; padding-right: 45px;">
-                <img src="{{ asset('images/admin/user_admin/search.png') }}" class="search-icon" alt="Search" onclick="submitSearch()">
+                <img src="{{ asset('images/admin/user_admin/search.png') }}" class="search-icon" alt="{{ __('donation.search_placeholder') }}" onclick="submitSearch()">
             </form>
         </div>
     </div>
 
     @if(session('success'))
-        <div class="alert alert-success" id="successAlert" style="text-align: center;">
+        <div class="alert alert-success" id="successAlert" style="text-align: left;">
             {{ session('success') }}
         </div>
     @endif
 
     @if(session('error'))
-        <div class="alert alert-danger" id="errorAlert" style="text-align: center;">
+        <div class="alert alert-danger" id="errorAlert" style="text-align: left;">
             {{ session('error') }}
         </div>
     @endif
@@ -36,25 +36,25 @@
         <table class="donations-table">
             <thead>
                 <tr>
-                    <th style="width: 8%; text-align: center;">Id</th>
-                    <th style="width: 16%; text-align: center;">Name</th>
-                    <th style="width: 6%; text-align: center;">Age</th>
-                    <th style="width: 20%; text-align: center;">Email</th>
-                    <th style="width: 14%; text-align: center;">Phone Number</th>
-                    <th style="width: 12%; text-align: center;">Hair Length</th>
-                    <th style="width: 10%; text-align: center;">Status</th> 
-                    <th style="width: 20%; text-align: center;">Action</th> 
+                    <th class="{{ app()->getLocale() === 'id' ? 'id-th-small' : '' }}" style="width: 8%; text-align: center;">{{ __('donation.donation_id') }}</th>
+                    <th class="{{ app()->getLocale() === 'id' ? 'id-th-small' : '' }}" style="width: 16%; text-align: center;">{{ __('donation.full_name') }}</th>
+                    <th class="{{ app()->getLocale() === 'id' ? 'id-th-small' : '' }}" style="width: 6%; text-align: center;">{{ __('donation.age') }}</th>
+                    <th class="{{ app()->getLocale() === 'id' ? 'id-th-small' : '' }}" style="width: 20%; text-align: center;">{{ __('donation.email') }}</th>
+                    <th class="{{ app()->getLocale() === 'id' ? 'id-th-small' : '' }}" style="width: 14%; text-align: center;">{{ __('donation.phone_number') }}</th>
+                    <th class="{{ app()->getLocale() === 'id' ? 'id-th-small' : '' }}" style="width: 12%; text-align: center;">{{ __('donation.hair_length') }}</th>
+                    <th class="{{ app()->getLocale() === 'id' ? 'id-th-small' : '' }}" style="width: 10%; text-align: center;">{{ __('donation.status') }}</th> 
+                    <th class="{{ app()->getLocale() === 'id' ? 'id-th-small' : '' }}" style="width: 20%; text-align: center;">{{ __('donation.actions') }}</th> 
                 </tr>
             </thead>
             <tbody id="donationsTableBody">
                 @forelse($hairDonations as $donation)
-                <tr>
+                <tr onclick="window.location='{{ route('admin.donations.show', ['hairDonation' => $donation->id]) }}'" style="cursor: pointer;">
                     <td style="text-align: center;">{{ $donation->id }}</td>
                     <td style="text-align: center;">{{ $donation->full_name }}</td>
-                    <td style="text-align: center;">{{ $donation->age ?? 'N/A' }}</td>
+                    <td style="text-align: center;">{{ $donation->age ?? __('donation.na') }}</td>
                     <td style="text-align: center;">{{ $donation->email }}</td>
-                    <td style="text-align: center;">{{ $donation->phone ?? 'N/A' }}</td>
-                    <td style="text-align: center;">{{ $donation->hair_length ?? 'N/A' }} cm</td>
+                    <td style="text-align: center;">{{ $donation->phone ?? __('donation.na') }}</td>
+                    <td style="text-align: center;">{{ $donation->hair_length ?? __('donation.na') }} cm</td>
                     <td style="text-align: center;">
                         @php
                             $status = strtolower($donation->status);
@@ -66,44 +66,43 @@
                             $statusImage = $statusImages[$status] ?? null;
                         @endphp
                         <div style="display: flex; align-items: center; gap: 3px; justify-content: center;">
-                            <span class="status-badge status-{{ str_replace(' ', '-', $status) }}">
+                            <span class="status-badge status-{{ str_replace(' ', '-', $status) }}" @if($donation->status == 'waiting') disabled @endif>
                                 @if($statusImage)
                                     @php
                                         $imgSize = ($status === 'waiting') ? 15 : 16;
                                     @endphp
-                                    <img src="{{ $statusImage }}" alt="{{ ucfirst($status) }}" style="width:{{ $imgSize }}px; height:{{ $imgSize }}px;">
+                                    <img src="{{ $statusImage }}" alt="{{ __('donation.status_label_' . $status) }}" style="width:{{ $imgSize }}px; height:{{ $imgSize }}px;">
                                 @endif
-                                {{ ucfirst($donation->status) }}
+                                {{ __('donation.status_label_' . $status) }}
                             </span>
                         </div>
                     </td>
                     <td style="text-align: center;">
-                        <div class="action-buttons" style="justify-content: center;">
+                        <div class="action-buttons" style="justify-content: center;" onclick="event.stopPropagation();">
                             {{-- Approve Button --}}
                             <button class="action-btn approve-btn" onclick="confirmAction('{{ $donation->id }}', 'approve')"
                                 @if(strtolower($donation->status) === 'received') disabled @endif>
-                                <img src="{{ asset('images/Donate_hair/' . (strtolower($donation->status) === 'received' ? 'accept-solid.png' : 'admin_received.svg')) }}" alt="Approve">
+                                <img src="{{ asset('images/Donate_hair/' . (strtolower($donation->status) === 'received' ? 'accept-solid.png' : 'admin_received.svg')) }}" alt="{{ __('donation.approve') }}">
                             </button>
 
                             {{-- Reject Button --}}
                             <button class="action-btn reject-btn" onclick="confirmAction('{{ $donation->id }}', 'reject')"
                                 @if(strtolower($donation->status) === 'missing') disabled @endif>
-                                <img src="{{ asset('images/Donate_hair/' . (strtolower($donation->status) === 'missing' ? 'reject-solid.png' : 'reject-outline.png')) }}" style = "width: 18px;" alt="Reject">
+                                <img src="{{ asset('images/Donate_hair/' . (strtolower($donation->status) === 'missing' ? 'reject-solid.png' : 'reject-outline.png')) }}" style = "width: 18px;" alt="{{ __('donation.reject') }}">
                             </button>
                             <button class="action-btn delete-btn" onclick="deleteHairDonation('{{ $donation->id }}')">
-                                <img src="{{ asset('images/Donate_hair/admin_hapus.svg') }}" alt="Delete">
+                                <img src="{{ asset('images/Donate_hair/admin_hapus.svg') }}" alt="{{ __('donation.delete') }}">
                             </button>
                         </div>
-                        
                     </td>
                 </tr>
                 @empty
                 <tr>
                     <td colspan="8" class="no-data" style="text-align: center; vertical-align: middle;">
                         @if(request('search'))
-                            No hair donations found for "{{ request('search') }}"
+                            {{ __('donation.no_donations_found_for', ['search' => request('search')]) }}
                         @else
-                            No hair donations found
+                            {{ __('donation.no_donations_found') }}
                         @endif
                     </td>
                 </tr>
@@ -114,7 +113,11 @@
         @if($hairDonations->hasPages())
             <div class="pagination-container" style="justify-content: center;">
                 <div class="pagination-info" style="text-align: center; width: 20%;">
-                    <span>Showing {{ $hairDonations->firstItem() }} to {{ $hairDonations->lastItem() }} of {{ $hairDonations->total() }} results</span>
+                    <span>{{ __('donation.showing_results', [
+                        'first' => $hairDonations->firstItem(),
+                        'last' => $hairDonations->lastItem(),
+                        'total' => $hairDonations->total()
+                    ]) }}</span>
                 </div>
                 <div class="pagination-wrapper" style="justify-content: center; width: 20%;">
                     <div class="pagination-links" style="justify-content: center; width: 100%;">
@@ -175,8 +178,8 @@
         </div>
 
         <div class="modal-actions">
-            <button type="button" class="btn-cancel" onclick="closeModal('actionConfirmModal')">Cancel</button>
-            <button type="button" class="btn-confirm" onclick="executeAction()">OK</button>
+            <button type="button" class="btn-cancel" onclick="closeModal('actionConfirmModal')">{{ __('donation.cancel') }}</button>
+            <button type="button" class="btn-confirm" onclick="executeAction()">{{ __('donation.ok') }}</button>
         </div>
     </div>
 </div>
@@ -230,12 +233,16 @@
         cursor: pointer;
     }
 
+    .id-th-small {
+        font-size: 12px !important;
+    }
+
     .alert {
-        padding: 15px;
-        margin: 0 10px 20px 10px;
         border-radius: 14px;
         opacity: 1;
         transition: opacity 0.5s ease-out;
+        width: 98%;
+        margin-left: 10px;
     }
 
     .alert.fade-out {
@@ -334,20 +341,20 @@
     }
 
     .status-missing {
-        background: #fbecec;
-        color: #e53935;
+        background-color: #FFD3D3;
+        color: #AC1A1A;
         border-color: #fce4e4;
     }
 
     .status-received {
-        background: #e8f5e8;
-        color: #388e3c;
+        background-color: #C4F0B3;
+        color: #328525;
         border-color: #d4edda;
     }
 
     .status-waiting {
-        background: #fff8e1;
-        color: #fbc02d;
+        background-color: #FFDDA5;
+        color: #EF8C00;
         border-color: #fff3cd;
     }
 
@@ -378,6 +385,17 @@
         width: 20px;
         height: 20px;
         object-fit: contain;
+    }
+
+    .action-btn:disabled {
+        cursor: default;
+        transform: none;
+        background-color: transparent;
+    }
+
+    .action-btn:disabled:hover {
+        transform: none;
+        background-color: transparent;
     }
 
     .approve-btn:hover {
@@ -752,11 +770,11 @@
         actionType = type;
         let message = '';
         if (type === 'approve') {
-            message = 'Are you sure you want to approve this donation?';
+            message = '{{ __('donation.confirm_approve') }}';
         } else if (type === 'reject') {
-            message = 'Are you sure you want to reject this donation?';
+            message = '{{ __('donation.confirm_reject') }}';
         } else if (type === 'delete') {
-            message = 'Are you sure you want to delete this donation?';
+            message = '{{ __('donation.confirm_delete') }}';
         }
         showActionConfirmModal(message);
     }
