@@ -362,6 +362,57 @@
             color: #000;
         }
 
+        .language-switcher .btn {
+            background: rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            color: #333;
+            font-size: 0.875rem;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .language-switcher .btn:hover {
+            background: rgba(255, 255, 255, 0.5);
+            border-color: rgba(255, 255, 255, 0.6);
+            color: #333;
+            transform: translateY(-1px);
+        }
+
+        .language-switcher .dropdown-menu {
+            min-width: 160px;
+            border-radius: 10px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+            padding: 8px 0;
+        }
+        
+        .language-switcher .dropdown-item {
+            font-size: 0.875rem;
+            padding: 10px 16px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .language-switcher .dropdown-item.active {
+            background-color: #F791A9;
+            color: white;
+            font-weight: 600;
+        }
+        
+        .language-switcher .dropdown-item:hover {
+            background-color: #f8f9fa;
+            color: #333;
+            transform: translateX(2px);
+        }
+        
+        .language-switcher .dropdown-item.active:hover {
+            background-color: #F791A9;
+            color: white;
+            transform: translateX(2px);
+        }
+
         /* Responsive Design */
         @media (max-width: 768px) {
             .main-content {
@@ -401,73 +452,78 @@
                 <div class="logo">
                     <img src="{{ asset('images/logo.png') }}" alt="Whisper of Hope" class="logo-img">
                     <div class="logo-text">
-                        <h3>Admin</h3>
-                        <span>Dashboard</span>
+                        <h3>{{ __('navbar.admin') }}</h3>
+                        <span>{{ __('admin.dashboard') }}</span>
                     </div>
+                </div>
+
+                <!-- Language Switcher -->
+                <div class="language-switcher mt-3">
+                    <x-language-switcher />
                 </div>
             </div>
             
             <ul class="sidebar-menu">
                 <li class="menu-item">
                     <a href="{{ route('admin.user_admin') }}">
-                        <img src="/images/admin/users.png" class="menu-icon" alt="Users">
-                        <span>Users</span>
+                        <img src="/images/admin/users.png" class="menu-icon" alt="{{ __('admin.users') }}">
+                        <span>{{ __('admin.users') }}</span>
                     </a>
                 </li>
                 
                 <li class="menu-item">
                     <a href="{{ route('admin.request_admin') }}">
-                        <img src="/images/admin/requested-wig.png" class="menu-icon" alt="Requested Wig">
-                        <span>Requested Wig</span>
+                        <img src="/images/admin/requested-wig.png" class="menu-icon" alt="{{ __('admin.requested_wig') }}">
+                        <span>{{ __('admin.requested_wig') }}</span>
                     </a>
                 </li>
                 
                 <li class="menu-item">
                     <a href="{{ route('admin.donate_admin') }}">
-                        <img src="/images/admin/donated-hair.png" class="menu-icon" alt="Donated Hair">
-                        <span>Donated Hair</span>
+                        <img src="/images/admin/donated-hair.png" class="menu-icon" alt="{{ __('admin.donated_hair') }}">
+                        <span>{{ __('admin.donated_hair') }}</span>
                     </a>
                 </li>
                 
                 <li class="menu-item">
                     <a href="{{ route('admin.whisper_admin') }}">
-                        <img src="/images/admin/the-whispers.png" class="menu-icon" alt="The Whisper">
-                        <span>The Whisper</span>
+                        <img src="/images/admin/the-whispers.png" class="menu-icon" alt="{{ __('admin.the_whisper') }}">
+                        <span>{{ __('admin.the_whisper') }}</span>
                     </a>
                 </li>
                 
                 <li class="menu-item active">
                     <a href="{{ route('admin.community_admin') }}">
-                        <img src="/images/admin/community-stories.png" class="menu-icon" alt="Community Stories">
-                        <span>Community Stories</span>
+                        <img src="/images/admin/community-stories.png" class="menu-icon" alt="{{ __('admin.community_stories') }}">
+                        <span>{{ __('admin.community_stories') }}</span>
                     </a>
                 </li>
             </ul>
             
             <div class="sidebar-footer">
                 <a href="#" class="logout-btn" onclick="event.preventDefault(); logoutAdmin();">
-                    <img src="/images/admin/logout.png" class="menu-icon" alt="Logout">
-                    <span>Logout</span>
+                    <img src="/images/admin/logout.png" class="menu-icon" alt="{{ __('admin.logout') }}">
+                    <span>{{ __('navbar.logout') }}</span>
                 </a>
             </div>
         </nav>
         
         <div class="main-content">
             <header class="top-header">
-                <h1>Community Stories</h1>
+                <h1>{{ __('admin.header_community') }}</h1>
             </header>
             
             <div class="content-area px-0">
                 <div class="page-content d-flex flex-row pt-0">
                     <!-- Left Panel: Edit Form -->
                     <div class="left-panel px-4 pt-4 pb-5" style="background: #ffffff; color: black; box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15); border: 1px solid rgba(0, 0, 0, 0.08); position: relative; z-index: 10">
-                        <h4>Details</h4>
+                        <h4>{{ __('admin.preview.details_label') }}</h4>
                         <form action="{{ route('admin.community_admin_add') }}" method="POST" enctype="multipart/form-data" id="storyForm">
                             @csrf
                             {{-- @method('PUT') --}}
                             {{-- Image Upload --}}
                             <div class="form-group mb-4">
-                                <label style="color: #8C8C8C">Image</label>
+                                <label style="color: #8C8C8C">{{ __('admin.preview.image_label') }}</label>
                                 <div class="d-flex justify-content-center">
                                     <div class="image-upload-box" style="width:100%; height: 250px; position: relative;"  id="imagePreview">
                                         <img id="previewImg" src="{{ asset('images/TemplateImage.png') }}" alt="Preview" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer; border-radius: 5px;">
@@ -475,7 +531,7 @@
                                             <div class="circle">
                                                 <span>+</span>
                                             </div>
-                                            <div class="text" style="color: white">Add Image</div>
+                                            <div class="text" style="color: white">{{ __('admin.preview.add_image') }}</div>
                                         </div>
                                         <input type="file" id="imageInput" name="image" accept="image/*" style="display: none;" onchange="previewImage(this)">
                                     </div>
@@ -484,7 +540,7 @@
 
                             {{-- Title --}}
                             <div class="form-group mb-4">
-                                <label for="title" style="color: #8C8C8C">Title</label>
+                                <label for="title" style="color: #8C8C8C">{{ __('admin.preview.title_label') }}</label>
                                 <div class="d-flex justify-content-center">
                                     <input type="text" id="title" name="title" style="border-width: 1px; border-color: #8C8C8C; height: 3rem; border-radius: 5px; width: 100%; padding: 0 0 0 15px" required>
                                 </div>
@@ -492,13 +548,13 @@
 
                             {{-- Category --}}
                             <div class="form-group mb-4">
-                                <label for="category" style="color: #8C8C8C">Category</label><br>
+                                <label for="category" style="color: #8C8C8C">{{ __('admin.preview.category_label') }}</label><br>
                                 <div class="category-grid">
                                     @foreach($categories as $category)
-                                        <label class="category-option {{ $category->id % 2 == 0 ? 'ms-1' : 'me-1' }}" style="border-radius: 5px; height: 3rem; font-family: 'Yantramanav'" onclick="selectCategory({{ $category->id }}, '{{ $category->name }}')">
+                                        <label class="category-option {{ $category->id % 2 == 0 ? 'ms-1' : 'me-1' }}" style="border-radius: 5px; height: 3rem; font-family: 'Yantramanav'" onclick="selectCategory({{ $category->id }}, '{{ __('admin.' . $category->name) }}')">
                                             <input type="radio" name="category_id" value="{{ $category->id }}" id="category_id">
                                             <span class="checkmark"></span>
-                                            {{ $category->name }}
+                                            {{ __('admin.' . $category->name)}}
                                         </label>
                                     @endforeach
                                 </div>
@@ -506,7 +562,7 @@
 
                             {{-- Content --}}
                             <div>
-                                <label style="color: #8C8C8C">Story</label>
+                                <label style="color: #8C8C8C">{{ __('admin.preview.story_label') }}</label>
                                 <textarea id="content" name="content" class="form-control" style="height: 200px; border-radius: 5px"></textarea>
                             </div>
                         </form>
@@ -516,12 +572,12 @@
                     <div class="right-panel">
                         {{-- Header --}}
                         <div class="d-flex align-items-center py-3" style="background: #ffffff; color: black; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); border-bottom: 1px solid rgba(0, 0, 0, 0.08); position: relative; z-index: 10">
-                            <h4 class="ps-4 my-0">Preview</h4>
+                            <h4 class="ps-4 my-0">{{ __('admin.preview.preview_header') }}</h4>
                         </div>
 
                         {{-- Post Button --}}
                         <div class="d-flex align-items-center justify-content-end py-4 pe-4">
-                            <button type="submit" form="storyForm" class="update-btn mb-0 px-4 py-1" style="border-radius: 40px; background: #F9BCC4; color: black; border-color: transparent; font-family: 'Yantramanav'">Post</button>
+                            <button type="submit" form="storyForm" class="update-btn mb-0 px-4 py-1" style="border-radius: 40px; background: #F9BCC4; color: black; border-color: transparent; font-family: 'Yantramanav'">{{ __('admin.preview.post_btn') }}</button>
                         </div>
 
                         {{-- Preview Box --}}
@@ -529,17 +585,17 @@
                             <div class="preview-box px-4 py-4" style="border: 1px solid #8C8C8C; border-radius: 5px; min-height: 44rem">
                                 <div class="category-name d-flex align-items-center justify-content-start" style="width: 100%">
                                     <div class="d-flex align-items-center justify-content-center py-2 px-3" style="border: 1px solid #F9BCC4; border-radius: 40px;">
-                                        <p class="preview-category mb-0" id="previewCategory">Category's Name</p>
+                                        <p class="preview-category mb-0" id="previewCategory">{{ __('admin.preview.categPlaceholder') }}</p>
                                     </div>
                                 </div>
                                 
                                 <div class="title-container d-flex align-items-center justify-content-center py-4">
-                                    <h3 class="preview-title mb-0" id="previewTitle" style="font-family: 'Gidugu'; font-size: 3rem">Title</h3>
+                                    <h3 class="preview-title mb-0" id="previewTitle" style="font-family: 'Gidugu'; font-size: 3rem">{{ __('admin.preview.titlePlaceholder') }}</h3>
                                 </div>
 
                                 <div class="creator-container d-flex align-items-center ps-3">
                                     <p class="text-start text-muted mb-0" style="font-family: 'Yantramanav'">
-                                        by Whisper on May 23, 2025 12.00.00 PM
+                                        {{ __('admin.preview.creatorPlaceholder') }}
                                     </p>
                                 </div>
                                 
@@ -556,10 +612,10 @@
                 </div>
                 <div id="unsavedModal" class="modal" tabindex="-1" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.2); z-index:2000; justify-content:center; align-items:center;">
                     <div style="background:white; border-radius:1rem; padding:2rem 2.5rem; box-shadow:0 4px 24px rgba(0,0,0,0.15); min-width:320px; max-width:90vw; text-align:center;">
-                        <div style="font-size:1.1rem; margin-bottom:1.5rem; color:#333;">Your story haven't been sent yet.<br>If you close this, you'll lose them.</div>
+                        <div style="font-size:1.1rem; margin-bottom:1.5rem; color:#333;">{{ __('admin.preview.modalMsg1') }} <br> {{ __('admin.preview.modalMsg2')}}</div>
                         <div style="display:flex; gap:1.5rem; justify-content:center;">
-                            <button id="unsavedCancel" style="background:#D6D6D6; color:#333; border:none; border-radius:2rem; padding:0.3rem 2.5rem; font-weight:600; font-size:1rem;">Cancel</button>
-                            <button id="unsavedClose" style="background:#F9BCC4; color:#333; border:none; border-radius:2rem; padding:0.3rem 2.5rem; font-weight:600; font-size:1rem;">Close</button>
+                            <button id="unsavedCancel" style="background:#D6D6D6; color:#333; border:none; border-radius:2rem; padding:0.3rem 2.5rem; font-weight:600; font-size:1rem;">{{ __('admin.cancelBtn_label') }}</button>
+                            <button id="unsavedClose" style="background:#F9BCC4; color:#333; border:none; border-radius:2rem; padding:0.3rem 2.5rem; font-weight:600; font-size:1rem;">{{ __('admin.preview.closeBtn_label') }}</button>
                         </div>
                     </div>
                 </div>

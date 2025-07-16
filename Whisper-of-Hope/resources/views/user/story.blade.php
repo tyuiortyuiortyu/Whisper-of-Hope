@@ -11,7 +11,7 @@
 
     {{-- Author & Date --}}
     <p class="text-start text-muted" style="font-family: 'Yantramanav'">
-        by {{ $story->author ?? 'Whisper of Hope' }} on {{ \Carbon\Carbon::parse($story->created_at)->format('F d, Y h.i.s A') }}
+        {{ __('community.story.by_whisper') . \Carbon\Carbon::parse($story->created_at)->format('F d, Y h.i.s A') }}
     </p>
 
     {{-- Gambar --}}
@@ -25,7 +25,7 @@
     </div>
 
     {{-- Related Stories --}}
-    <h3 class="text-center mb-4" style="font-family: 'Gidugu'; font-size: 3.5rem;">You Might Also Like</h3>
+    <h3 class="text-center mb-4" style="font-family: 'Gidugu'; font-size: 3.5rem;">{{ __('community.story.also_like') }}</h3>
     <div class="row justify-content-center pb-5" id="story-container">
         @forelse ($relatedStories as $related)
         <div class="col-md-4 px-4 story-card justify-content-center">

@@ -7,9 +7,9 @@
 <div class="w-100">
     <div class="hero-section text-center text-white d-flex align-items-center justify-content-center" style="height: 350px; background-image: url('{{ asset('images/background.png') }}'); background-size: cover; background-position: center;">
         <div>
-            <h1 class="mb-0" style="line-height: 4rem; font-family: 'Gidugu', cursive; font-weight: 100; letter-spacing: 0.25rem; font-size: 6rem">Community Stories</h1>
-            <p class="mt-2 mb-0" style="line-height:1.5rem; font-family: 'Yantramanav'; font-weight: 20; font-size: 1.4rem">Whether you have a question, feedback, or just want to say hi, we're always here for you. Reach out and let us know how we can make your</p>
-            <p class="my-0" style="linez-height:1.5rem; font-family: 'Yantramanav'; font-weight: 20; font-size: 1.4rem">experience even better.</p>
+            <h1 class="mb-0" style="line-height: 4rem; font-family: 'Gidugu', cursive; font-weight: 100; letter-spacing: 0.25rem; font-size: 6rem">{{ __('community.hero_title') }}</h1>
+            <p class="mt-2 mb-0" style="line-height:1.5rem; font-family: 'Yantramanav'; font-weight: 20; font-size: 1.4rem">{{ __('community.hero_desc1') }}</p>
+            <p class="my-0" style="linez-height:1.5rem; font-family: 'Yantramanav'; font-weight: 20; font-size: 1.4rem">{{ __('community.hero_desc2') }}</p>
         </div>
     </div>
 </div>
@@ -19,21 +19,30 @@
 <div class="container">
     {{-- Judul Kategori --}}
     <div class="text-end" style = "margin-top: 2.7rem; margin-left: 0px;">
-        <h1 id="filter-title" class="display-6 mb-2" style="line-height: 4rem; font-family: 'gidugu'; font-size: 4.5rem">Community Stories</h1>
+        <h1 id="filter-title" class="display-6 mb-2" style="line-height: 4rem; font-family: 'gidugu'; font-size: 4.5rem">
+            @if(!request('category'))
+                {{ __('community.hero_title') }}
+            @else
+                @php
+                    $selectedCategory = $categories->firstWhere('id', request('category'));
+                @endphp
+                {{ $selectedCategory ? __('community.' . $selectedCategory->name) : __('community.hero_title') }}
+            @endif
+        </h1>
     </div>
 
     {{-- Kotak Filter Kategori --}}
     <div class="px-5 flex-column d-flex justify-content-center" style="height: 12rem; background-color: rgb(254,240,240); border-radius: 20px;">
-        <h5 class="mb-2 ms-2" style="font-family: 'Yantramanav'; font-size:30px">Filter by Category:</h5>
+        <h5 class="mb-2 ms-2" style="font-family: 'Yantramanav'; font-size:30px">{{ __('community.category_title') }}</h5>
         <div class="d-flex flex-wrap gap-2 pt-3">
             <a href="{{ route('user.community') }}" class="btn text-dark rounded-pill px-4 py-2 filter-btn {{ request('category') ? 'btn-light' : 'btn-pink' }}" style="font-family: 'Yantramanav'; font-size: 20px">
-                All
+                {{ __('community.All') }}
             </a>
             @foreach ($categories as $category)
                 <a href="{{ route('user.community', ['category' => $category->id]) }}"
                 class="btn text-dark rounded-pill px-4 py-2 filter-btn {{ request('category') == $category->id ? 'btn-pink' : 'btn-light' }}"
                 style="font-family: 'Yantramanav'; font-size: 20px">
-                    {{ $category->name }}
+                    {{ __('community.' . $category->name)}}
                 </a>
             @endforeach
         </div>
@@ -58,14 +67,14 @@
         @endforeach
     </div>
     <div id="no-story-message" class="text-center fw-bold fs-4 mt-0" style="display: none; font-family: 'Yantramanav'">
-        There's no story for this category yet :(
+        {{ __('community.no_stories') }}
     </div>
 
     {{-- Pagination --}}
     @if($stories->hasPages())
         <div class="pagination-container">
             <div class="pagination-info">
-                <span>Showing {{ $stories->firstItem() }} to {{ $stories->lastItem() }} of {{ $stories->total() }} results</span>
+                <span>{{ __('community.showing_pagi') .' '. $stories->firstItem() .' '. __('community.to_pagi') .' '. $stories->lastItem() .' '. __('community.of_pagi') .' '. $stories->total() .' '. __('community.results_pagi')}}</span>
             </div>
             <div class="pagination-wrapper">
                 <div class="pagination-links">

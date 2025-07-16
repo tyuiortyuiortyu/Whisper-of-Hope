@@ -27,7 +27,7 @@
     @if($stories->hasPages())
         <div class="pagination-container">
             <div class="pagination-info">
-                <span>Showing {{ $stories->firstItem() }} to {{ $stories->lastItem() }} of {{ $stories->total() }} results</span>
+                <span>{{ __('admin.showing_pagi') .' '. $stories->firstItem() .' '. __('admin.to_pagi') .' '. $stories->lastItem() .' '. __('admin.of_pagi') .' '. $stories->total() .' '. __('admin.results_pagi')}}</span>
             </div>
             <div class="pagination-wrapper">
                 <div class="pagination-links">

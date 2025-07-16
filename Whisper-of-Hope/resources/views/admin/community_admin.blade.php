@@ -1,40 +1,31 @@
 @extends('admin.layout.app')
 
-@section('title', 'Community Stories')
+@section('title', __('admin.header_community'))
 
 @section('content')
 <div class="stories-management">
     <div class="d-flex flex-wrap gap-3 pt-5">
         <a href="{{ route('admin.community_admin') }}" class="btn text-dark rounded-pill px-4 py-2 filter-btn btn-light {{ request('category') ? '' : 'btn-pink' }}" style="font-family: 'Yantramanav'; font-size: 20px">
-            All
+            {{ __('admin.All')}}
         </a>
         @foreach ($categories as $category)
         <a href="{{ route('admin.community_admin', ['category' => $category->id]) }}" class="btn text-dark rounded-pill px-4 py-2 filter-btn btn-light {{ request('category') == $category->id ? 'btn-pink' : '' }}" style="font-family: 'Yantramanav'; font-size: 20px">
-            {{ $category->name }}
+            {{ __('admin.' . $category->name)}}
         </a>
         @endforeach
     </div>
 
     <div class="page-header mb-3">
         <div class="search-container">
-            {{-- <form method="GET" action="{{ route('admin.community_admin') }}" id="searchForm">
-                <input type="text" 
-                       id="searchInput" 
-                       name="search" 
-                       placeholder="Search stories..." 
-                       value="{{ request('search') }}"
-                       onkeyup="debounceSearch()">
-                <img src="{{ asset('images/admin/user_admin/search.png') }}" class="search-icon" alt="Search" onclick="submitSearch()">
-            </form> --}}
             <input type="text" 
                 id="searchInput" 
-                placeholder="Search stories..." 
+                placeholder="{{ __('admin.search_placeholder') }}"
                 value="{{ request('search') }}"
                 onkeyup="debounceSearch()">
             <img src="{{ asset('images/admin/user_admin/search.png') }}" class="search-icon" alt="Search" onclick="performSearch()">
         </div>
         <div class="btn-add-user" onclick="window.location.href='{{ route('admin.community_admin_addPreview') }}'">
-            Add Story
+            {{ __('admin.add_story') }}
         </div>
     </div>
 
@@ -58,10 +49,10 @@
 <div id="deleteStoryModal" class="modal" tabindex="-1">
     <div class="modal-content delete-modal">
         <div class="modal-body text-center">
-            <h3>Are you sure want to delete this story?</h3>
+            <h3>{{ __('admin.modal_deleteMsg')}}</h3>
         </div>
         <div class="modal-actions">
-            <button type="button" class="btn-cancel" id="deleteModalCancel">Cancel</button>
+            <button type="button" class="btn-cancel" id="deleteModalCancel">{{ __('admin.cancelBtn_label') }}</button>
             <button type="button" class="btn-delete-confirm" id="deleteModalConfirm">OK</button>
         </div>
     </div>
