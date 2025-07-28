@@ -38,6 +38,12 @@ php artisan db:show || echo "Warning: Database connection failed"
 echo "🔍 Testing models..."
 php artisan tinker --execute="App\Models\Story::count(); echo 'Stories model OK';" || echo "Warning: Story model issue"
 php artisan tinker --execute="App\Models\Category::count(); echo 'Category model OK';" || echo "Warning: Category model issue"
+php artisan tinker --execute="App\Models\Whisper::count(); echo 'Whisper model OK';" || echo "Warning: Whisper model issue"
+php artisan tinker --execute="App\Models\Color::count(); echo 'Color model OK';" || echo "Warning: Color model issue"
+
+# Test controller instantiation
+echo "🎮 Testing controllers..."
+php artisan tinker --execute="try { new App\Http\Controllers\User\WhisperController(); echo 'WhisperController OK'; } catch (Exception \$e) { echo 'WhisperController Error: ' . \$e->getMessage(); }" || echo "WhisperController test failed"
 
 # Run migrations
 echo "📊 Running database migrations..."
