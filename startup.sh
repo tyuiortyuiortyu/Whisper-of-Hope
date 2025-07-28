@@ -19,25 +19,8 @@ echo "APP_DEBUG: $APP_DEBUG"
 echo "DB_CONNECTION: $DB_CONNECTION"
 echo "LOG_CHANNEL: $LOG_CHANNEL"
 
-# Fix PSR-4 compliance - ensure directory names match case
-echo "🔧 Fixing PSR-4 directory structure..."
-if [ -d "app/Http/Controllers/user" ] && [ ! -d "app/Http/Controllers/User" ]; then
-    echo "Renaming user to User directory..."
-    mv app/Http/Controllers/user app/Http/Controllers/User
-fi
-
-if [ -d "app/Http/Controllers/admin" ] && [ ! -d "app/Http/Controllers/Admin" ]; then
-    echo "Renaming admin to Admin directory..."
-    mv app/Http/Controllers/admin app/Http/Controllers/Admin
-fi
-
-if [ -d "app/Http/Controllers/User/auth" ] && [ ! -d "app/Http/Controllers/User/Auth" ]; then
-    echo "Renaming auth to Auth directory..."
-    mv app/Http/Controllers/User/auth app/Http/Controllers/User/Auth
-fi
-
-# Regenerate autoloader to ensure all classes are loaded
-echo "🔄 Regenerating autoloader..."
+# Regenerate autoloader to ensure all classes are loaded properly after directory fixes
+echo "🔄 Regenerating autoloader after directory structure fixes..."
 composer dump-autoload --no-dev --optimize
 
 # Generate application key if not exists
