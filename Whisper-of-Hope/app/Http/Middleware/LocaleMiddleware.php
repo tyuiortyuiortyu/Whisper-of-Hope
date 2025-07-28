@@ -11,11 +11,19 @@ class LocaleMiddleware
 {
     public function handle(Request $request, Closure $next)
     {
-        $locale = Session::get('locale', config('app.locale'));
-        $supportedLocales = config('app.supported_locales', ['en', 'id']);
-        
-        if (in_array($locale, $supportedLocales)) {
-            App::setLocale($locale);
+        try {
+            $locale = Session::get('locale', config('app.locale', 'en'));
+            $supportedLocales = config('app.supported_locales', ['en', 'id']);
+            
+            if (is_array($supportedLocales) && in_array($locale, $supportedLocales)) {
+                App::setLocale($locale);
+            } else {
+                // Fallback to default locale if supported_locales is not an array or locale is not supported
+                App::setLocale(config('app.locale', 'en'));
+            }
+        } catch (\Exception $e) {
+            // Fallback to default locale if anything goes wrong
+            App::setLocale('en');
         }
         
         return $next($request);
