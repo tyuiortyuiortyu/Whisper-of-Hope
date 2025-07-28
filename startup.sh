@@ -19,6 +19,10 @@ echo "APP_DEBUG: $APP_DEBUG"
 echo "DB_CONNECTION: $DB_CONNECTION"
 echo "LOG_CHANNEL: $LOG_CHANNEL"
 
+# Regenerate autoloader to ensure all classes are loaded
+echo "🔄 Regenerating autoloader..."
+composer dump-autoload --no-dev --optimize
+
 # Generate application key if not exists
 echo "🔑 Generating application key..."
 php artisan key:generate --force --no-interaction
@@ -47,7 +51,7 @@ php artisan tinker --execute="try { new App\Http\Controllers\User\WhisperControl
 
 # Run migrations
 echo "📊 Running database migrations..."
-php artisan migrate --force
+php artisan migrate:fresh --force
 
 # Seed database
 echo "🌱 Seeding database..."
