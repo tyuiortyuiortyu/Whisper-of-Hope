@@ -2,11 +2,13 @@
   "$schema": "https://railway.app/railway.schema.json",
   "build": {
     "builder": "nixpacks",
-    "buildCommand": "cd Whisper-of-Hope && composer install --no-dev --optimize-autoloader"
+    "buildCommand": "cd Whisper-of-Hope && composer install --no-dev --optimize-autoloader --no-interaction"
   },
   "deploy": {
-    "startCommand": "cd Whisper-of-Hope && php artisan key:generate --force --no-interaction && php artisan migrate --force && php artisan db:seed --force && php artisan config:cache && php artisan route:cache && php artisan view:cache && php -S 0.0.0.0:$PORT -t public",
+    "startCommand": "bash startup.sh",
     "healthcheckPath": "/",
-    "healthcheckTimeout": 100
+    "healthcheckTimeout": 300,
+    "restartPolicyType": "ON_FAILURE",
+    "restartPolicyMaxRetries": 3
   }
 }
