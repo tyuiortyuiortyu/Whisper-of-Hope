@@ -3,10 +3,10 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LanguageController;
 
-use App\Http\Controllers\User\auth\LoginController;
-use App\Http\Controllers\User\auth\RegisterController;
-use App\Http\Controllers\User\auth\ForgotPasswordController;
-use App\Http\Controllers\User\auth\ResetPasswordController;
+use App\Http\Controllers\User\Auth\LoginController;
+use App\Http\Controllers\User\Auth\RegisterController;
+use App\Http\Controllers\User\Auth\ForgotPasswordController;
+use App\Http\Controllers\User\Auth\ResetPasswordController;
 
 use App\Http\Controllers\User\WhisperController;
 use App\Http\Controllers\User\ProfileController;
