@@ -309,7 +309,21 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Show more detailed error message
                 let errorMessage = 'Failed to update profile';
                 if (error.message.includes('Failed to fetch')) {
-                    errorMessage = 'Network error: Please check your internet connection and try again';
+                    errorMessage = 'Network error - trying normal form submission instead...';
+                    
+                    // Fallback: Submit form normally if AJAX fails
+                    console.log('AJAX failed, falling back to normal form submission');
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = originalText;
+                    
+                    // Remove AJAX headers and submit normally
+                    const form = this;
+                    setTimeout(() => {
+                        // Remove the event listener temporarily to avoid infinite loop
+                        form.removeEventListener('submit', arguments.callee);
+                        form.submit();
+                    }, 100);
+                    return;
                 } else if (error.message.includes('HTTP 419')) {
                     errorMessage = 'Session expired: Please refresh the page and try again';
                 } else if (error.message.includes('HTTP 422')) {
