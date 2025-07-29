@@ -13,11 +13,29 @@ export LOG_CHANNEL=${LOG_CHANNEL:-stderr}
 export SESSION_DRIVER=${SESSION_DRIVER:-database}
 export CACHE_STORE=${CACHE_STORE:-database}
 
+# Fix session and CSRF configuration for Railway
+export SESSION_LIFETIME=${SESSION_LIFETIME:-7200}
+export SESSION_EXPIRE_ON_CLOSE=${SESSION_EXPIRE_ON_CLOSE:-false}
+export SESSION_ENCRYPT=${SESSION_ENCRYPT:-false}
+export SESSION_PATH=${SESSION_PATH:-/}
+export SESSION_DOMAIN=${SESSION_DOMAIN:-}
+export SESSION_SECURE_COOKIE=${SESSION_SECURE_COOKIE:-true}
+export SESSION_HTTP_ONLY=${SESSION_HTTP_ONLY:-true}
+export SESSION_SAME_SITE=${SESSION_SAME_SITE:-none}
+
+# Additional debugging for production
+export APP_DEBUG=${APP_DEBUG:-true}
+export LOG_LEVEL=${LOG_LEVEL:-debug}
+export SANCTUM_STATEFUL_DOMAINS=${SANCTUM_STATEFUL_DOMAINS:-localhost,127.0.0.1,whisper-of-hope-production-be1c.up.railway.app}
+
 echo "📋 Current environment variables:"
 echo "APP_ENV: $APP_ENV"
 echo "APP_DEBUG: $APP_DEBUG"
 echo "DB_CONNECTION: $DB_CONNECTION"
 echo "LOG_CHANNEL: $LOG_CHANNEL"
+echo "SESSION_DRIVER: $SESSION_DRIVER"
+echo "SESSION_LIFETIME: $SESSION_LIFETIME"
+echo "SESSION_SAME_SITE: $SESSION_SAME_SITE"
 
 # Regenerate autoloader to ensure all classes are loaded properly after directory fixes
 echo "🔄 Regenerating autoloader after directory structure fixes..."

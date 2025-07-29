@@ -254,16 +254,37 @@ document.addEventListener('DOMContentLoaded', function() {
                 body: formData,
                 headers: {
                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                    'X-Requested-With': 'XMLHttpRequest'
-                }
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Accept': 'application/json'
+                },
+                credentials: 'same-origin'
             })
             .then(response => {
+                console.log('Response status:', response.status);
+                console.log('Response headers:', response.headers);
+                
                 if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                    // Try to get error message from response
+                    return response.text().then(text => {
+                        console.error('Error response body:', text);
+                        throw new Error(`HTTP ${response.status}: ${text || 'Unknown error'}`);
+                    });
                 }
+                
+                // Check if response is JSON
+                const contentType = response.headers.get('content-type');
+                if (!contentType || !contentType.includes('application/json')) {
+                    return response.text().then(text => {
+                        console.error('Non-JSON response:', text);
+                        throw new Error('Server returned non-JSON response');
+                    });
+                }
+                
                 return response.json();
             })
             .then(data => {
+                console.log('Success response:', data);
+                
                 if (data.success) {
                     // Update profile modal data
                     updateProfileModal(data);
@@ -283,7 +304,21 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .catch(error => {
                 console.error('Error details:', error);
-                alert('Error updating profile: ' + error.message);
+                console.error('Error stack:', error.stack);
+                
+                // Show more detailed error message
+                let errorMessage = 'Failed to update profile';
+                if (error.message.includes('Failed to fetch')) {
+                    errorMessage = 'Network error: Please check your internet connection and try again';
+                } else if (error.message.includes('HTTP 419')) {
+                    errorMessage = 'Session expired: Please refresh the page and try again';
+                } else if (error.message.includes('HTTP 422')) {
+                    errorMessage = 'Validation error: Please check your input and try again';
+                } else if (error.message) {
+                    errorMessage = error.message;
+                }
+                
+                alert('Error updating profile: ' + errorMessage);
             })
             .finally(() => {
                 // Reset button state
