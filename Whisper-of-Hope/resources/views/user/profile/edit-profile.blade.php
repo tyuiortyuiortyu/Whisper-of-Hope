@@ -265,10 +265,7 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .then(data => {
                 if (data.success) {
-                    // Update profile modal data
-                    updateProfileModal(data);
-                    
-                    // Close edit modal and show profile modal
+                    // Close edit modal
                     const modalInstance = bootstrap.Modal.getInstance(editProfileModal);
                     if (modalInstance) {
                         modalInstance.hide();
@@ -276,6 +273,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     
                     // Show success message
                     showSuccessMessage(data.message);
+                    
+                    // Reload page after a short delay to show updated profile
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1500);
                     
                 } else {
                     throw new Error(data.message || 'Update failed');
