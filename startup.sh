@@ -19,9 +19,13 @@ export SESSION_EXPIRE_ON_CLOSE=${SESSION_EXPIRE_ON_CLOSE:-false}
 export SESSION_ENCRYPT=${SESSION_ENCRYPT:-false}
 export SESSION_PATH=${SESSION_PATH:-/}
 export SESSION_DOMAIN=${SESSION_DOMAIN:-}
-export SESSION_SECURE_COOKIE=${SESSION_SECURE_COOKIE:-false}
+export SESSION_SECURE_COOKIE=${SESSION_SECURE_COOKIE:-true}
 export SESSION_HTTP_ONLY=${SESSION_HTTP_ONLY:-true}
 export SESSION_SAME_SITE=${SESSION_SAME_SITE:-lax}
+
+# Force HTTPS URLs in production
+export APP_URL=${APP_URL:-https://whisper-of-hope-production-be1c.up.railway.app}
+export FORCE_HTTPS=${FORCE_HTTPS:-true}
 
 # Additional debugging for production
 export APP_DEBUG=${APP_DEBUG:-true}
