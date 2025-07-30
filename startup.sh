@@ -79,6 +79,10 @@ php artisan migrate:fresh --force
 echo "🌱 Seeding database..."
 php artisan db:seed --force
 
+# Create storage symlink for file uploads
+echo "🔗 Creating storage symlink..."
+php artisan storage:link || echo "Storage link already exists or failed"
+
 # Optimize for production only if not debugging
 if [ "$APP_DEBUG" = "false" ]; then
     echo "⚡ Optimizing application..."
