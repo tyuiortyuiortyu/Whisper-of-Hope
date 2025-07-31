@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 use App\Models\HairRequest;
 use App\Models\User;
 
@@ -206,10 +207,12 @@ class RequestsSeeder extends Seeder
         ];
 
         foreach ($requestRecords as $record) {
-            HairRequest::updateOrCreate(
-                ['id' => $record['id']], // Check by ID
-                $record // Create or update with this data
-            );
+            // First check if record exists
+            $existing = HairRequest::where('id', $record['id'])->first();
+            if (!$existing) {
+                // Create new record using insert to bypass model events
+                DB::table('hair_requests')->insert($record);
+            }
         }
     }
 }
