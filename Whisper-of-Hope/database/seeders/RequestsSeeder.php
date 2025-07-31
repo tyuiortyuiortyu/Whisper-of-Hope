@@ -206,7 +206,10 @@ class RequestsSeeder extends Seeder
         ];
 
         foreach ($requestRecords as $record) {
-            HairRequest::insert($record);
+            HairRequest::updateOrCreate(
+                ['id' => $record['id']], // Check by ID
+                $record // Create or update with this data
+            );
         }
     }
 }

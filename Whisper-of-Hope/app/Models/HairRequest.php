@@ -16,6 +16,7 @@ class HairRequest extends Model
     public $incrementing = false;
 
     protected $fillable = [
+        'id',
         'who_for',
         'recipient_full_name',
         'recipient_age',
