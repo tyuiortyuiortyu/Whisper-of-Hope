@@ -50,4 +50,16 @@ return [
         'Purple' => 'Ungu',
         'Light Purple' => 'Ungu Muda',
     ],
+    
+    // Admin whisper page
+    'admin' => [
+        'title' => 'Bisikan',
+        'search_placeholder' => 'Cari berdasarkan penerima...',
+        'all_colors' => 'Semua Warna',
+        'delete_confirmation' => 'Apakah Anda yakin ingin menghapus Bisikan ini?',
+        'delete_cancel' => 'Batal',
+        'delete_confirm' => 'OK',
+        'delete_success' => 'Whisper berhasil dihapus!',
+        'delete_error' => 'Gagal menghapus whisper. Silakan coba lagi.',
+    ],
 ];

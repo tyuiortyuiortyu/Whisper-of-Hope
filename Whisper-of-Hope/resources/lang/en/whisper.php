@@ -50,4 +50,16 @@ return [
         'Purple' => 'Purple',
         'Light Purple' => 'Light Purple',
     ],
+    
+    // Admin whisper page
+    'admin' => [
+        'title' => 'The Whisper',
+        'search_placeholder' => 'Search by recipient...',
+        'all_colors' => 'All Colors',
+        'delete_confirmation' => 'Are you sure want to delete this Whisper?',
+        'delete_cancel' => 'Cancel',
+        'delete_confirm' => 'OK',
+        'delete_success' => 'Whisper deleted successfully!',
+        'delete_error' => 'Failed to delete whisper. Please try again.',
+    ],
 ];

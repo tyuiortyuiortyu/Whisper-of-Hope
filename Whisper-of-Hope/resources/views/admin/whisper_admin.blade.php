@@ -1,6 +1,6 @@
 @extends('admin.layout.app')
 
-@section('title', 'The Whisper')
+@section('title', __('whisper.admin.title'))
 
 @section('content')
 
@@ -334,11 +334,11 @@
     <!-- Filter Section -->
     <div class="page-header">
         <div class="search-container">
-            <input type="text" id="searchInput" class="search-input" placeholder="Search by recipient...">
+            <input type="text" id="searchInput" class="search-input" placeholder="{{ __('whisper.admin.search_placeholder') }}">
             <img src="{{ asset('images/admin/user_admin/search.png') }}" class="search-icon" alt="Search">
         </div>
         <select id="colorFilter" class="filter-dropdown">
-            <option value="">All Colors</option>
+            <option value="">{{ __('whisper.admin.all_colors') }}</option>
             <!-- Options will be populated dynamically -->
         </select>
     </div>
@@ -354,17 +354,25 @@
 <div id="deleteConfirmationModal" class="modal">
     <div class="modal-content delete-modal">
         <div class="modal-body text-center">
-            <h3>Are you sure want to delete this Whisper?</h3>
+            <h3>{{ __('whisper.admin.delete_confirmation') }}</h3>
         </div>
         
         <div class="modal-actions">
-            <button type="button" class="btn-cancel" id="deleteCancel">Cancel</button>
-            <button type="button" class="btn-delete-confirm" id="deleteConfirm">OK</button>
+            <button type="button" class="btn-cancel" id="deleteCancel">{{ __('whisper.admin.delete_cancel') }}</button>
+            <button type="button" class="btn-delete-confirm" id="deleteConfirm">{{ __('whisper.admin.delete_confirm') }}</button>
         </div>
     </div>
 </div>
 
 <script>
+    // Localization variables
+    const translations = {
+        deleteSuccess: @json(__('whisper.admin.delete_success')),
+        deleteError: @json(__('whisper.admin.delete_error')),
+        allColors: @json(__('whisper.admin.all_colors')),
+        whisperToPrefix: @json(__('whisper.whisper_to_prefix'))
+    };
+
     // Global variables
     let whisperData = [];
     let colorData = [];
@@ -595,7 +603,7 @@
         // Create header content container
         const headerContent = document.createElement('div');
         headerContent.className = 'header-content';
-        headerContent.textContent = 'To : ' + whisper.to;
+        headerContent.textContent = translations.whisperToPrefix + whisper.to;
         
         // Create delete button
         const deleteBtn = document.createElement('button');
@@ -668,7 +676,7 @@
         .then(data => {
             if (data.success) {
                 // Show success alert
-                showAlert('Whisper deleted successfully!', 'success');
+                showAlert(translations.deleteSuccess, 'success');
                 
                 // Remove from whisperData array
                 whisperData = whisperData.filter(whisper => whisper.id != whisperToDelete);
@@ -694,7 +702,7 @@
         })
         .catch(error => {
             console.error('Error deleting whisper:', error);
-            showAlert('Failed to delete whisper. Please try again.', 'danger');
+            showAlert(translations.deleteError, 'danger');
             hideDeleteConfirmation();
         });
     }
