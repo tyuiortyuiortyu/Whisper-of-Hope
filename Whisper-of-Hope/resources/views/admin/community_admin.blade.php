@@ -116,6 +116,13 @@
         padding: 15px;
         margin: 0 30px 20px 30px;
         border-radius: 8px;
+        transition: opacity 0.5s ease, transform 0.5s ease;
+        position: relative;
+    }
+    
+    .alert.fade-out {
+        opacity: 0;
+        transform: translateY(-10px);
     }
     
     .alert-success {
@@ -376,6 +383,9 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     let storyToDelete = null;
+    
+    // Setup auto-closing alerts
+    setupAutoCloseAlerts();
 
     // Modal elements
     const deleteModal = document.getElementById('deleteStoryModal');
@@ -488,6 +498,19 @@ document.getElementById('searchInput').addEventListener('keypress', function(e) 
         performSearch();
     }
 });
+
+function setupAutoCloseAlerts() {
+    const alerts = document.querySelectorAll('.alert');
+    
+    alerts.forEach(alert => {
+        setTimeout(() => {
+            alert.classList.add('fade-out');
+            setTimeout(() => {
+                alert.remove();
+            }, 500);
+        }, 5000);
+    });
+}
 
 </script>
 @endpush

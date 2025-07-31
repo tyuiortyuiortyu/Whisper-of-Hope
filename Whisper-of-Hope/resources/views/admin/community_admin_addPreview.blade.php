@@ -661,7 +661,7 @@
         }
 
         document.getElementById('title').addEventListener('input', function() {
-            document.getElementById('previewTitle').textContent = this.value || 'Title';
+            document.getElementById('previewTitle').textContent = this.value || '{{ __("admin.preview.titlePlaceholder") }}';
             checkUnsaved();
         });
 
