@@ -111,16 +111,12 @@
         </table>
 
         @if($hairDonations->hasPages())
-            <div class="pagination-container" style="justify-content: center;">
-                <div class="pagination-info" style="text-align: center; width: 20%;">
-                    <span>{{ __('donation.showing_results', [
-                        'first' => $hairDonations->firstItem(),
-                        'last' => $hairDonations->lastItem(),
-                        'total' => $hairDonations->total()
-                    ]) }}</span>
+            <div class="pagination-container">
+                <div class="pagination-info">
+                    <span>{{ __('admin.showing') }} {{ $hairDonations->firstItem() }} {{ __('admin.to') }} {{ $hairDonations->lastItem() }} {{ __('admin.of') }} {{ $hairDonations->total() }} {{ __('admin.results') }}</span>
                 </div>
-                <div class="pagination-wrapper" style="justify-content: center; width: 20%;">
-                    <div class="pagination-links" style="justify-content: center; width: 100%;">
+                <div class="pagination-wrapper">
+                    <div class="pagination-links">
                         {{-- Previous Page Link --}}
                         @if ($hairDonations->onFirstPage())
                             <span class="pagination-btn nav-btn disabled">‹</span>
