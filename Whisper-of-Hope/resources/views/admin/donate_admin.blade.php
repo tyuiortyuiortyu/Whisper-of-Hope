@@ -6,17 +6,13 @@
 <div class="hair-donations-management" style="display: flex; flex-direction: column; align-items: center;">
     <div class="page-header" style="justify-content: center; margin-left: 0; width: 100%;">
         <div style="flex: 1;"></div>
+        {{-- BAGIAN SEARCH DIUBAH: Form dihapus, hanya input dan ikon untuk pencarian client-side --}}
         <div class="search-container" style="justify-content: center; display: flex; width: 100%; max-width: 300px;">
-            <form method="GET" action="{{ route('admin.donate_admin') }}" id="searchForm" style="width: 100%;">
-                <input type="text"
-                    id="searchInput"
-                    name="search"
-                    placeholder="{{ __('donation.search_placeholder') }}"
-                    value="{{ request('search') }}"
-                    onkeyup="debounceSearch()"
-                    style="width: 100%; min-width: 300px; max-width: 100%; padding-right: 45px;">
-                <img src="{{ asset('images/admin/user_admin/search.png') }}" class="search-icon" alt="{{ __('donation.search_placeholder') }}" onclick="submitSearch()">
-            </form>
+            <input type="text"
+                id="searchInput"
+                placeholder="{{ __('donation.search_placeholder') }}"
+                style="width: 100%; min-width: 300px; max-width: 100%; padding-right: 45px;">
+            <img src="{{ asset('images/admin/user_admin/search.png') }}" class="search-icon" alt="{{ __('donation.search_placeholder') }}">
         </div>
     </div>
 
@@ -42,13 +38,14 @@
                     <th class="{{ app()->getLocale() === 'id' ? 'id-th-small' : '' }}" style="width: 20%; text-align: center;">{{ __('donation.email') }}</th>
                     <th class="{{ app()->getLocale() === 'id' ? 'id-th-small' : '' }}" style="width: 14%; text-align: center;">{{ __('donation.phone_number') }}</th>
                     <th class="{{ app()->getLocale() === 'id' ? 'id-th-small' : '' }}" style="width: 12%; text-align: center;">{{ __('donation.hair_length') }}</th>
-                    <th class="{{ app()->getLocale() === 'id' ? 'id-th-small' : '' }}" style="width: 10%; text-align: center;">{{ __('donation.status') }}</th> 
-                    <th class="{{ app()->getLocale() === 'id' ? 'id-th-small' : '' }}" style="width: 20%; text-align: center;">{{ __('donation.actions') }}</th> 
+                    <th class="{{ app()->getLocale() === 'id' ? 'id-th-small' : '' }}" style="width: 10%; text-align: center;">{{ __('donation.status') }}</th>
+                    <th class="{{ app()->getLocale() === 'id' ? 'id-th-small' : '' }}" style="width: 20%; text-align: center;">{{ __('donation.actions') }}</th>
                 </tr>
             </thead>
+            {{-- ID dan class ditambahkan untuk target JavaScript --}}
             <tbody id="donationsTableBody">
                 @forelse($hairDonations as $donation)
-                <tr onclick="window.location='{{ route('admin.donations.show', ['hairDonation' => $donation->id]) }}'" style="cursor: pointer;">
+                <tr class="donation-row" onclick="window.location='{{ route('admin.donations.show', ['hairDonation' => $donation->id]) }}'" style="cursor: pointer;">
                     <td style="text-align: center;">{{ $donation->id }}</td>
                     <td style="text-align: center;">{{ $donation->full_name }}</td>
                     <td style="text-align: center;">{{ $donation->age ?? __('donation.na') }}</td>
@@ -97,19 +94,18 @@
                     </td>
                 </tr>
                 @empty
-                <tr>
+                {{-- Kosong, karena baris "no-data" akan ditangani oleh JS di bawah --}}
+                @endforelse
+                {{-- Baris "tidak ada data" ini dikontrol sepenuhnya oleh JavaScript --}}
+                <tr id="no-data-row" style="display: none;">
                     <td colspan="8" class="no-data" style="text-align: center; vertical-align: middle;">
-                        @if(request('search'))
-                            {{ __('donation.no_donations_found_for', ['search' => request('search')]) }}
-                        @else
-                            {{ __('donation.no_donations_found') }}
-                        @endif
+                         {{ __('donation.no_donations_found') }}
                     </td>
                 </tr>
-                @endforelse
             </tbody>
         </table>
 
+        {{-- Catatan: Pagination hanya berlaku untuk data yang dimuat awal. Pencarian client-side tidak akan mempengaruhi pagination. --}}
         @if($hairDonations->hasPages())
             <div class="pagination-container">
                 <div class="pagination-info">
@@ -167,6 +163,7 @@
     </div>
 </div>
 
+{{-- Modal HTML untuk konfirmasi aksi --}}
 <div id="actionConfirmModal" class="modal">
     <div class="modal-content delete-modal">
         <div class="modal-body text-center">
@@ -236,7 +233,8 @@
     .alert {
         border-radius: 14px;
         opacity: 1;
-        transition: opacity 0.5s ease-out;
+        transition: opacity 2s ease-out;
+        animation: fadeIn 0.5s ease;
         width: 98%;
         margin-left: 10px;
     }
@@ -275,7 +273,7 @@
     }
 
     .donations-table th {
-        padding: 18px 15px; 
+        padding: 18px 15px;
         text-align: left;
         vertical-align: middle;
         background: #fafafa;
@@ -293,7 +291,7 @@
     }
 
     .donations-table td {
-        padding: 15px 15px; 
+        padding: 15px 15px;
         text-align: left;
         vertical-align: middle;
         font-size: 15px;
@@ -417,7 +415,6 @@
         font-size: 16px;
     }
 
-    /* Enhanced Modal Styles (reused and slightly modified) */
     .modal {
         display: none;
         position: fixed;
@@ -430,12 +427,12 @@
     }
 
     .modal-content {
-        background-color: #FFFCF5;
+        background-color: #FEF0F0;
         margin: 3% auto;
         padding: 0;
         border-radius: 14px;
-        width: 90%;
-        max-width: 520px;
+        width: 100%;
+        max-width: 420px;
         box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         position: relative;
     }
@@ -444,15 +441,14 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 25px 30px;
-        border-bottom: 1px solid #f0f0f0;
+        border-bottom: 1px solid #FEF0F0;
     }
 
     .modal-header h3 {
         margin: 0;
         color: #333;
         font-family: 'Yantramanav';
-        font-size: 1.2rem;
+        font-size: 1.4rem;
         font-weight: 600;
     }
 
@@ -476,127 +472,34 @@
         transform: scale(1.1);
     }
 
-    .modal-body {
-        padding: 25px 30px;
-    }
-
-    .form-section {
-        margin-bottom: 20px;
-    }
-
-    .form-row {
-        display: flex;
-        gap: 15px;
-    }
-
-    .half-width {
-        flex: 1;
-    }
-
-    .form-label {
-        display: block;
-        margin-bottom: 8px;
-        font-weight: 500;
-        color: #333;
-        font-family: 'Yantramanav';
-        font-size: 14px;
-    }
-
-    .form-input {
-        width: 100%;
-        padding: 12px 15px;
-        border: 1px solid #e0e0e0;
-        border-radius: 8px;
-        font-size: 14px;
-        font-family: 'Yantramanav';
-        transition: border-color 0.3s ease;
-        background: white;
-    }
-
-    .form-input:focus {
-        outline: none;
-        border-color: #F9BCC4;
-        box-shadow: 0 0 0 3px rgba(249, 188, 196, 0.1);
-    }
-
-    .radio-group {
-        display: flex;
-        gap: 25px;
-        margin-top: 5px;
-    }
-
-    .radio-option {
-        display: flex;
-        align-items: center;
-        cursor: pointer;
-        font-family: 'Yantramanav', sans-serif;
-        font-size: 14px;
-        color: #333;
-        font-weight: 400;
-    }
-
-    .radio-option input[type="radio"] {
-        display: none;
-    }
-
-    .radio-custom {
-        width: 18px;
-        height: 18px;
-        border: 2px solid #ddd;
-        border-radius: 50%;
-        margin-right: 10px;
-        position: relative;
-        transition: all 0.3s ease;
-    }
-
-    .radio-option input[type="radio"]:checked + .radio-custom {
-        border-color: #F9BCC4;
-        background: #F9BCC4;
-    }
-
-    .radio-option input[type="radio"]:checked + .radio-custom::after {
-        content: '';
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 8px;
-        height: 8px;
-        background: white;
-        border-radius: 50%;
-    }
-
     .modal-actions {
         display: flex;
-        justify-content: center;
         gap: 12px;
-        padding: 15px 30px 20px;
-        background: #FFFCF5;
+        background: #FEF0F0;
         border-radius: 0 0 15px 15px;
     }
 
     .btn-cancel,
     .btn-confirm {
-        padding: 12px 28px;
+        padding: 10px 10px;
         border: none;
         border-radius: 50px;
         cursor: pointer;
-        font-size: 14px;
+        font-size: 15px;
         font-family: 'Yantramanav';
         font-weight: 600;
         transition: all 0.3s ease;
-        min-width: 100px;
+        min-width: 120px;
     }
 
     .btn-cancel {
-        background: #D6D6D6;
-        color: black;
-        border-radius: 50px;
+        background-color: #E8E8E8;
+        font-weight: 500;
     }
 
     .btn-cancel:hover {
-        background: #C3C3C3;
-        color: black;
+        background-color: #CCC;
+        color: #FFFFFF;
     }
 
     .btn-confirm {
@@ -608,23 +511,17 @@
     .btn-confirm:hover {
         background: #F791A9;
         border-color: #F791A9;
+        color: white;
     }
 
-    .btn-confirm:active {
-        transform: translateY(0);
-        box-shadow: 0 2px 4px rgba(249, 188, 196, 0.2);
-    }
-
-    /* Delete Modal Styles (reused for general confirmation) */
     .delete-modal {
-        max-width: 400px;
         text-align: center;
         margin: 50vh auto;
         transform: translateY(-50%);
     }
 
     .delete-modal .modal-body {
-        padding: 40px 30px 20px 30px;
+        padding: 30px 20px 0px 20px;
     }
 
     .delete-modal .modal-body h3 {
@@ -637,7 +534,7 @@
     }
 
     .delete-modal .modal-actions {
-        padding: 15px 30px 20px;
+        padding: 20px 20px 20px;
         border-top: none;
         gap: 15px;
         justify-content: center;
@@ -726,12 +623,6 @@
         border-color: #E8E8E8;
     }
 
-    .pagination-btn.disabled:hover {
-        transform: none;
-        background: #E8E8E8;
-        border-color: #E8E8E8;
-    }
-
     .pagination-dots {
         padding: 8px 4px;
         color: #666;
@@ -744,9 +635,58 @@
 
 @push('scripts')
 <script>
+    // --- BAGIAN UTAMA UNTUK PENCARIAN CLIENT-SIDE ---
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.getElementById('searchInput');
+        const tableBody = document.getElementById('donationsTableBody');
+        const allDataRows = tableBody.querySelectorAll('tr.donation-row');
+        const noDataRow = document.getElementById('no-data-row');
+
+        // Sembunyikan baris "no data" pada awalnya jika ada data
+        if (allDataRows.length > 0 && noDataRow) {
+            noDataRow.style.display = 'none';
+        } else if (allDataRows.length === 0 && noDataRow) {
+            // Tampilkan jika memang tidak ada data sama sekali dari server
+            noDataRow.style.display = 'table-row';
+        }
+
+        searchInput.addEventListener('keyup', function(e) {
+            const searchTerm = e.target.value.toLowerCase().trim();
+            let visibleRowCount = 0;
+
+            allDataRows.forEach(row => {
+                // Mengambil seluruh teks dari satu baris untuk pencarian
+                const rowText = row.textContent.toLowerCase();
+                const isVisible = rowText.includes(searchTerm);
+                
+                row.style.display = isVisible ? '' : 'none'; // Gunakan string kosong untuk kembali ke default display
+                
+                if (isVisible) {
+                    visibleRowCount++;
+                }
+            });
+
+            // Tampilkan atau sembunyikan pesan "tidak ada data" berdasarkan hasil filter
+            if (noDataRow) {
+                const noDataCell = noDataRow.querySelector('.no-data');
+                if (visibleRowCount === 0) {
+                    noDataRow.style.display = 'table-row';
+                    // Ubah teks pesan jika pengguna sedang mengetik di search bar
+                    if (searchTerm) {
+                        noDataCell.textContent = "{{ __('donation.no_donations_found_for', ['search' => '']) }}" + `"${searchTerm}"`;
+                    } else {
+                        noDataCell.textContent = "{{ __('donation.no_donations_found') }}";
+                    }
+                } else {
+                    noDataRow.style.display = 'none';
+                }
+            }
+        });
+    });
+
+    // --- LOGIKA UNTUK MODAL DAN AKSI (TETAP SAMA) ---
     let donationIdToAction = null;
-    let actionType = null; // 'approve', 'reject', or 'delete'
-    let searchTimeout = null;
+    let actionType = null;
 
     function showActionConfirmModal(message) {
         document.getElementById('confirmMessage').innerText = message;
@@ -792,15 +732,12 @@
             form.appendChild(methodInput);
 
             if (actionType === 'delete') {
-                // For delete, we want: /admin/donations/{id}
                 form.action = '{{ route('admin.donations.destroy', ['hairDonation' => '__ID__']) }}'.replace('__ID__', donationIdToAction);
                 methodInput.value = 'DELETE';
             } else if (actionType === 'approve') {
-                // For approve, we want: /admin/donations/{id}/approve
                 form.action = '{{ route('admin.donations.approve', ['hairDonation' => '__ID__']) }}'.replace('__ID__', donationIdToAction);
                 methodInput.value = 'PUT';
             } else if (actionType === 'reject') {
-                // For reject, we want: /admin/donations/{id}/reject
                 form.action = '{{ route('admin.donations.reject', ['hairDonation' => '__ID__']) }}'.replace('__ID__', donationIdToAction);
                 methodInput.value = 'PUT';
             }
@@ -810,49 +747,18 @@
         }
     }
 
-    // Function specifically for delete, if you prefer a separate confirmation
     function deleteHairDonation(donationId) {
         confirmAction(donationId, 'delete');
     }
 
-    function debounceSearch() {
-        clearTimeout(searchTimeout);
-        searchTimeout = setTimeout(function() {
-            submitSearch();
-        }, 500);
-    }
-
-    function submitSearch() {
-        document.getElementById('searchForm').submit();
-    }
-
-    // Clear search functionality
-    function clearSearch() {
-        document.getElementById('searchInput').value = '';
-        submitSearch();
-    }
-
-    // Close modal when clicking outside the modal
     window.onclick = function(event) {
         const modals = document.getElementsByClassName('modal');
         for (let i = 0; i < modals.length; i++) {
             if (event.target === modals[i]) {
-                modals[i].style.display = 'none';
-                if (modals[i].id === 'actionConfirmModal') {
-                    donationIdToAction = null;
-                    actionType = null;
-                }
+                closeModal(modals[i].id);
             }
         }
     }
-
-    // Handle enter key on search
-    document.getElementById('searchInput').addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-            e.preventDefault();
-            submitSearch();
-        }
-    });
 
     // Auto-dismiss alerts
     document.addEventListener('DOMContentLoaded', function() {
@@ -862,15 +768,15 @@
         if (successAlert) {
             setTimeout(() => {
                 successAlert.classList.add('fade-out');
-                setTimeout(() => successAlert.remove(), 500); // Remove after fade-out transition
-            }, 2000); // 2 seconds
+                setTimeout(() => successAlert.remove(), 500);
+            }, 3000);
         }
 
         if (errorAlert) {
             setTimeout(() => {
                 errorAlert.classList.add('fade-out');
-                setTimeout(() => errorAlert.remove(), 500); // Remove after fade-out transition
-            }, 2000); // 2 seconds
+                setTimeout(() => errorAlert.remove(), 500);
+            }, 3000);
         }
     });
 </script>
