@@ -1,5 +1,5 @@
 @extends('user.layout.app')
-@section('title', 'The Whisper Page')
+@section('title', __('whisper.title'))
 
 @section('content')
 
@@ -581,15 +581,15 @@
 </style>
 
 <div class="container pb-4">
-    <h1 class="header-text">THE WHISPERS</h1>
+    <h1 class="header-text">{{ __('whisper.page_title') }}</h1>
     
     <!-- Filter Section -->
     <div class="filter-container">
         {{-- <label class="filter-label" for="searchInput">Search:</label> --}}
-        <input type="text" id="searchInput" class="search-input" placeholder="Search by recipient...">
+        <input type="text" id="searchInput" class="search-input" placeholder="{{ __('whisper.search_placeholder') }}">
         
         <select id="colorFilter" class="filter-dropdown">
-            <option value="">All Colors</option>
+            <option value="">{{ __('whisper.all_colors') }}</option>
             <!-- Options will be populated dynamically -->
         </select>
     </div>
@@ -603,7 +603,7 @@
     <button class="add-button" id="add-whisper">
         <span class="plain-plus">+</span>
         <i class="bi bi-plus-lg"></i>
-        <span class="leave-note-text">Leave a note of<br>hope & support</span>
+        <span class="leave-note-text">{!! __('whisper.leave_note_text') !!}</span>
     </button>
 </div>
 
@@ -611,7 +611,7 @@
 <div class="add-modal-overlay" id="whisperModal">
     <div class="add-modal-content">
         <img src="{{ asset('images/admin/user_admin/close.png') }}" class="modal-close-btn" id="closeModal" alt="Close">
-        <h3 style="margin-bottom: 1.5rem; margin-top: 0;">Create a Whisper of Hope</h3>
+        <h3 style="margin-bottom: 1.5rem; margin-top: 0;">{{ __('whisper.modal_title') }}</h3>
         
         <div id="alertContainer"></div>
         
@@ -619,27 +619,27 @@
         <div class="preview-card">
             <div class="whisper-card">
                 <div class="whisper-header" id="previewHeader" style="background-color: #f8bbd0; color: #753753;">
-                    To : <span id="previewTo">Someone Special</span>
+                    {{ __('whisper.whisper_to_prefix') }}<span id="previewTo">{{ __('whisper.preview_to_default') }}</span>
                 </div>
                 <div class="whisper-body">
-                    <div id="previewMessage" style="color: #753753;">Your words of support will appear here...</div>
+                    <div id="previewMessage" style="color: #753753;">{{ __('whisper.preview_message_default') }}</div>
                 </div>
             </div>
         </div>
 
         <form id="whisperForm">
             <div class="form-group">
-                <label class="form-label" for="toInput">To:</label>
-                <input type="text" id="toInput" class="form-input" placeholder="e.g., our brave fighter, someone special, you" maxlength="50" required>
+                <label class="form-label" for="toInput">{{ __('whisper.to_label') }}</label>
+                <input type="text" id="toInput" class="form-input" placeholder="{{ __('whisper.to_placeholder') }}" maxlength="50" required>
             </div>
 
             <div class="form-group">
-                <label class="form-label" for="messageInput">Words of Support:</label>
-                <textarea id="messageInput" class="form-input form-textarea" placeholder="Write your message of hope, strength, or encouragement..." maxlength="500" required></textarea>
+                <label class="form-label" for="messageInput">{{ __('whisper.message_label') }}</label>
+                <textarea id="messageInput" class="form-input form-textarea" placeholder="{{ __('whisper.message_placeholder') }}" maxlength="500" required></textarea>
             </div>
 
             <div class="form-group">
-                <label class="form-label">Choose a Color:</label>
+                <label class="form-label">{{ __('whisper.color_label') }}</label>
                 <div class="color-options" id="colorOptions">
                     <!-- Colors will be loaded dynamically -->
                 </div>
@@ -647,7 +647,7 @@
 
             <div class="add-modal-buttons">
                 <button type="submit" class="btn btn-primary" id="submitBtn">
-                    Post Whisper
+                    {{ __('whisper.submit_button') }}
                     <div class="loading-spinner" id="loadingSpinner"></div>
                 </button>
             </div>
@@ -659,16 +659,31 @@
 <div class="confirmation-overlay" id="confirmationModal">
     <div class="confirmation-content">
         <div class="confirmation-message">
-            Your message hasn't been sent yet. Closing this will lose it.
+            {{ __('whisper.confirmation_message') }}
         </div>
         <div class="confirmation-buttons">
-            <button class="btn-cancel" id="confirmCancel">Cancel</button>
-            <button class="btn-confirm" id="confirmClose">Close</button>
+            <button class="btn-cancel" id="confirmCancel">{{ __('whisper.cancel_button') }}</button>
+            <button class="btn-confirm" id="confirmClose">{{ __('whisper.close_button') }}</button>
         </div>
     </div>
 </div>
 
 <script>
+    // Localized strings for JavaScript
+    const whisperStrings = {
+        previewToDefault: @json(__('whisper.preview_to_default')),
+        previewMessageDefault: @json(__('whisper.preview_message_default')),
+        whisperToPrefix: @json(__('whisper.whisper_to_prefix')),
+        colorsLoadError: @json(__('whisper.colors_load_error')),
+        colorsUnavailable: @json(__('whisper.colors_unavailable')),
+        whispersLoadError: @json(__('whisper.whispers_load_error')),
+        fillRequiredFields: @json(__('whisper.fill_required_fields')),
+        selectColor: @json(__('whisper.select_color')),
+        postError: @json(__('whisper.post_error')),
+        postSuccess: @json(__('whisper.post_success')),
+        colors: @json(__('whisper.colors'))
+    };
+
     // Global variables
     let whisperData = [];
     let colorData = [];
@@ -721,7 +736,7 @@
                 console.error('Error loading colors:', error);
                 // Fallback to default colors if API fails
                 createDefaultColors();
-                showAlert('Using default colors. Some features may be limited.', 'error');
+                showAlert(whisperStrings.colorsLoadError, 'error');
                 // Still load whispers even with default colors
                 loadWhispers();
             });
@@ -730,11 +745,11 @@
     // Fallback function to create default colors
     function createDefaultColors() {
         colorData = [
-            { id: 1, name: 'Pink', hex_value: '#f8bbd0', font_color: '#753753' },
-            { id: 2, name: 'Orange', hex_value: '#fbdbc9', font_color: '#753C37' },
-            { id: 3, name: 'Green', hex_value: '#d4ebd1', font_color: '#377558' },
-            { id: 4, name: 'Blue', hex_value: '#d1e2f5', font_color: '#375375' },
-            { id: 5, name: 'Purple', hex_value: '#d4d1eb', font_color: '#374375' }
+            { id: 1, name: 'Pink', display_name: whisperStrings.colors['Pink'] || 'Pink', hex_value: '#f8bbd0', font_color: '#753753' },
+            { id: 2, name: 'Orange', display_name: whisperStrings.colors['Orange'] || 'Orange', hex_value: '#fbdbc9', font_color: '#753C37' },
+            { id: 3, name: 'Green', display_name: whisperStrings.colors['Green'] || 'Green', hex_value: '#d4ebd1', font_color: '#377558' },
+            { id: 4, name: 'Blue', display_name: whisperStrings.colors['Blue'] || 'Blue', hex_value: '#d1e2f5', font_color: '#375375' },
+            { id: 5, name: 'Purple', display_name: whisperStrings.colors['Purple'] || 'Purple', hex_value: '#d4d1eb', font_color: '#374375' }
         ];
         createColorOptions();
     }
@@ -744,7 +759,7 @@
         colorOptionsContainer.innerHTML = '';
         
         if (colorData.length === 0) {
-            showAlert('No colors available. Please refresh the page.', 'error');
+            showAlert(whisperStrings.colorsUnavailable, 'error');
             return;
         }
         
@@ -754,7 +769,9 @@
             colorDiv.dataset.colorId = color.id;
             colorDiv.dataset.colorHex = color.hex_value;
             colorDiv.style.backgroundColor = color.hex_value;
-            colorDiv.title = color.name;
+            // Use display_name from API if available, fallback to localized lookup, then original name
+            const displayName = color.display_name || whisperStrings.colors[color.name] || color.name;
+            colorDiv.title = displayName;
             
             // Select first color by default
             if (index === 0) {
@@ -797,7 +814,9 @@
         colorData.forEach(color => {
             const option = document.createElement('option');
             option.value = color.id;
-            option.textContent = color.name;
+            // Use display_name from API if available, fallback to localized lookup, then original name
+            const displayName = color.display_name || whisperStrings.colors[color.name] || color.name;
+            option.textContent = displayName;
             option.style.backgroundColor = color.hex_value;
             option.style.color = color.font_color;
             colorFilter.appendChild(option);
@@ -820,7 +839,7 @@
             })
             .catch(error => {
                 console.error('Error loading whispers:', error);
-                showAlert('Failed to load whispers. Please refresh the page.', 'error');
+                showAlert(whisperStrings.whispersLoadError, 'error');
             });
     }
 
@@ -873,7 +892,7 @@
         headerDiv.className = 'whisper-header';
         headerDiv.style.backgroundColor = whisper.color;
         headerDiv.style.color = whisper.font_color; // Use font_color from database
-        headerDiv.textContent = 'To : ' + whisper.to;
+        headerDiv.textContent = whisperStrings.whisperToPrefix + whisper.to;
         
         // Create body
         const bodyDiv = document.createElement('div');
@@ -969,8 +988,8 @@
     messageInput.addEventListener('input', updatePreview);
 
     function updatePreview() {
-        const toValue = toInput.value.trim() || 'Someone Special';
-        const messageValue = messageInput.value.trim() || 'Your words of support will appear here...';
+        const toValue = toInput.value.trim() || whisperStrings.previewToDefault;
+        const messageValue = messageInput.value.trim() || whisperStrings.previewMessageDefault;
         
         previewTo.textContent = toValue;
         previewMessage.innerHTML = messageValue.replace(/\n/g, '<br>');
@@ -993,12 +1012,12 @@
         const messageValue = messageInput.value.trim();
         
         if (!toValue || !messageValue) {
-            showAlert('Please fill in both the recipient and message fields.', 'error');
+            showAlert(whisperStrings.fillRequiredFields, 'error');
             return;
         }
         
         if (!selectedColorId) {
-            showAlert('Please select a color.', 'error');
+            showAlert(whisperStrings.selectColor, 'error');
             return;
         }
         
@@ -1038,15 +1057,15 @@
                 
                 // Show success alert outside modal
                 setTimeout(() => {
-                    showAlert(data.message, 'success');
+                    showAlert(whisperStrings.postSuccess, 'success');
                 }, 100);
             } else {
-                throw new Error(data.message || 'Failed to post whisper');
+                throw new Error(data.message || whisperStrings.postError);
             }
         })
         .catch(error => {
             console.error('Error posting whisper:', error);
-            showAlert('Failed to post whisper. Please try again.', 'error');
+            showAlert(whisperStrings.postError, 'error');
         })
         .finally(() => {
             // Reset loading state
@@ -1128,7 +1147,7 @@
                 console.error('Error loading colors:', error);
                 // Fallback to default colors if API fails
                 createDefaultColors();
-                showAlert('Using default colors. Some features may be limited.', 'error');
+                showAlert(whisperStrings.colorsLoadError, 'error');
                 // Still load whispers even with default colors
                 loadWhispers();
             });
