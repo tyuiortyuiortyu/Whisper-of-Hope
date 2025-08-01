@@ -34,11 +34,17 @@ class WhisperController extends Controller
     public function getColors()
     {
         $colors = Color::all()->map(function ($color) {
+            // Get localized color name
+            $localizedName = __('whisper.colors.' . $color->name, [], app()->getLocale());
+            // If translation doesn't exist, fallback to original name
+            $displayName = ($localizedName === 'whisper.colors.' . $color->name) ? $color->name : $localizedName;
+            
             return [
                 'id' => $color->id,
-                'name' => $color->name,
+                'name' => $color->name, // Keep original name for JavaScript lookups
+                'display_name' => $displayName, // Localized name for display
                 'hex_value' => $color->hex_value,
-                'font_color' => $color->font_color  // Add this line
+                'font_color' => $color->font_color
             ];
         });
 
