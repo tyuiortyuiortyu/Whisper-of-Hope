@@ -2,11 +2,11 @@
     <div class="container">
         <div class="row align-items-center">
             <div class="col-md-4 text-center text-md-start mb-2 mb-md-0">
-                Copyright &copy; {{ date('Y') }} WhisperOfHope. All Rights Reserved.
+                {{ __('footer.copyright', ['year' => date('Y')]) }}
             </div>
             <div class="col-md-4 text-center mb-2 mb-md-0">
-                <a href="#" class="text-decoration-none text-dark mx-2">Account Privacy Policy</a> |
-                <a href="#" class="text-decoration-none text-dark mx-2">Terms of Service</a>
+                <a href="#" class="text-decoration-none text-dark mx-2">{{ __('footer.privacy_policy') }}</a> |
+                <a href="#" class="text-decoration-none text-dark mx-2">{{ __('footer.terms_of_service') }}</a>
             </div>
             <div class="col-md-4 text-center text-md-end">
                 <a href="#" class="text-dark mx-2"><i class="bi bi-instagram fs-5"></i></a>
