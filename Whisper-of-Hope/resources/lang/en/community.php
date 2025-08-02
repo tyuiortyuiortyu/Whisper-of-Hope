@@ -13,7 +13,7 @@ return [
     'no_stories' => 'There\'s no story for this category yet :(',
     'All' => 'All',
     'Blog' => 'Blog',
-    'Children’s Hair Donation Stories' => 'Children’s Hair Donation Stories_categ',
+    'Children’s Hair Donation Stories' => 'Children’s Hair Donation Stories',
     'Hair Donation Stories' => 'Hair Donation Stories',
     'Recipient Stories' => 'Recipient Stories',
     'story' => [
