@@ -16,16 +16,23 @@
         background-size: cover;
         background-position: top center;
         background-repeat: no-repeat;
-        z-index: -1;
+        opacity: 0.95; /* Make image slightly transparent */
+        z-index: -2;
     }
     body::after {
         content: '';
         position: absolute;
         left: 0;
         right: 0;
-        top: 100px;
-        height: 600px;
-        background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%);
+        top: 0;
+        height: 700px;
+        background: linear-gradient(to bottom, 
+            rgba(255,255,255,0) 0%, 
+            rgba(255,255,255,0.1) 20%,
+            rgba(255,255,255,0.3) 40%,
+            rgba(255,255,255,0.6) 60%,
+            rgba(255,255,255,0.8) 80%,
+            rgba(255,255,255,1) 100%);
         z-index: -1;
     }
 
@@ -33,6 +40,7 @@
         overflow: auto;
         scrollbar-width: none;
         -ms-overflow-style: none;
+        padding-top: 80px; /* Donate page specific padding */
     }
     body::-webkit-scrollbar, html::-webkit-scrollbar {
         display: none;

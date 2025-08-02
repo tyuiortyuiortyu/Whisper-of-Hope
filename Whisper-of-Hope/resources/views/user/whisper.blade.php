@@ -15,6 +15,7 @@
         scrollbar-width: none; /* Firefox */
         -ms-overflow-style: none; /* Internet Explorer 10+ */
         font-family: 'Yantramanav', sans-serif; /* Default font for body */
+        padding-top: 80px; /* Whisper page specific padding for fixed navbar */
     }
     
     body::-webkit-scrollbar {

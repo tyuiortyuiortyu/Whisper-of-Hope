@@ -7,9 +7,8 @@
     /* Import Google Fonts */
     @import url('https://fonts.googleapis.com/css2?family=Gidugu&family=Yantramanav:wght@300;400;500;700&display=swap');
 
+    /* CSS Reset - more targeted */
     * {
-        margin: 0;
-        padding: 0;
         box-sizing: border-box;
     }
 
@@ -21,19 +20,7 @@
         overflow-x: hidden;
         scrollbar-width: none; /* Firefox */
         -ms-overflow-style: none; /* Internet Explorer 10+ */
-        padding-top: 80px; /* Add padding for fixed navbar */
-    }
-
-    /* Navbar Sticky Styles */
-    .navbar, nav {
-        position: fixed !important;
-        top: 0 !important;
-        left: 0 !important;
-        right: 0 !important;
-        z-index: 1000 !important;
-        backdrop-filter: blur(10px);
-        transition: all 0.3s ease;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        padding-top: 80px; /* Welcome page specific padding */
     }
     
     body::-webkit-scrollbar {

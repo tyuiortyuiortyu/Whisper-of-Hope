@@ -211,24 +211,40 @@
 
         @import url('https://fonts.googleapis.com/css2?family=Gidugu&family=Yantramanav:wght@300;400;500;700&display=swap');
         
-        html, body{
+        /* CSS targeting content only */
+        html, body {
             margin: 0;
             padding: 0;
             width: 100%;
             height: 100%;
             overflow-x: hidden;
-            background-color : #FFFDFE;
+            background-color : #FFFFFF;
             font-family: 'Yantramanav', sans-serif; 
         }
 
         body {
-        overflow: auto;
-        scrollbar-width: none;
-        -ms-overflow-style: none;
+            overflow: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
         }
         
         body::-webkit-scrollbar, html::-webkit-scrollbar {
             display: none;
+        }
+
+        /* Independent navbar styling */
+        .navbar {
+            background-color: #FFDBDF !important;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.10);
+            font-family: 'Yantramanav', Arial, sans-serif !important;
+        }
+
+        /* Independent footer styling */
+        footer {
+            background-color: #FFDBDF !important;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.10);
+            font-family: 'Yantramanav', Arial, sans-serif !important;
+            flex-shrink: 0;
         }
 
         .content {
@@ -237,6 +253,8 @@
             height: auto;
             position: relative;
             overflow: hidden;
+            margin-top: -80px; /* Offset the navbar height */
+            padding-top: 80px; /* Add padding to push content down */
             /* z-index: 0; */
         }
 
@@ -254,7 +272,7 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            object-position: center;
+            object-position: center 18%;
         }
 
         .overlay {
@@ -266,8 +284,9 @@
             background: linear-gradient(
                 to bottom,
                 rgba(255, 255, 255, 0) 0%,
-                rgba(255, 219, 223, 0.2) 30%,
-                rgba(255, 219, 223, 0.5) 70%,
+                rgba(255, 219, 223, 0.1) 30%,
+                rgba(255, 219, 223, 0.4) 60%,
+                rgba(255, 219, 223, 0.7) 80%,
                 rgba(255, 219, 223, 1) 100%
             );
             pointer-events: none;
@@ -280,7 +299,7 @@
             margin: auto 5vw;
             /* z-index: 3; */
             transform: translateY(-50%);
-            top: 80%;
+            top: 90%;
             text-align: justify;
         }
 

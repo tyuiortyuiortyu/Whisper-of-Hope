@@ -1,20 +1,60 @@
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Yantramanav:wght@300;400;500;600;700&display=swap');
     
+    /* Navbar consistency - only for navbar elements */
+    .navbar {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        z-index: 1030 !important;
+        backdrop-filter: blur(10px);
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        height: auto !important;
+        min-height: 70px !important;
+    }
+    
+    /* Ensure consistent container behavior - only for navbar */
+    .navbar .container-fluid {
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+    }
+    
+    /* Consistent menu spacing - only for navbar */
+    .navbar .navbar-nav {
+        display: flex !important;
+        align-items: center !important;
+        gap: 0.75rem !important; /* Consistent spacing between menu items */
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    
+    .navbar .navbar-nav .nav-item {
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    
     .menubtn {
-        background-color: transparent;
-        color: #000000;
-        padding: 6px 20px;
-        font-weight: 600;
-        font-size: 1rem;
-        font-family: 'Yantramanav', sans-serif;
+        background-color: transparent !important;
+        color: #000000 !important;
+        padding: 6px 20px !important;
+        font-weight: 600 !important;
+        font-size: 1rem !important;
+        font-family: 'Yantramanav', sans-serif !important;
         transition: all 0.3s ease;
         text-align: center;
-        border: none;
-        display: inline-flex;
+        border: none !important;
+        display: inline-flex !important;
         align-items: center;
-        text-decoration: none;
+        text-decoration: none !important;
         cursor: pointer;
+        margin: 0 !important; /* Remove individual margins, use parent gap instead */
+        white-space: nowrap !important;
     }
 
     .menubtn:hover,
@@ -58,13 +98,19 @@
     .auth-container {
         display: flex;
         align-items: center;
-        margin-left: 10px;
+        margin-left: 10px !important; /* Consistent spacing from menu */
     }
 
     .auth-link .bi-person-fill {
         margin-left: 8px;
         font-size: 1.1rem;
         transition: all 0.3s ease;
+    }
+
+    /* Language switcher spacing */
+    .language-switcher {
+        margin-left: 10px !important;
+        margin-right: 0 !important;
     }
 
     .navbar-nav .nav-item .menubtn,
@@ -210,10 +256,24 @@
         .language-switcher {
             margin-top: 10px;
         }
+        
+        .navbar .navbar-nav {
+            gap: 0.5rem !important; /* Smaller gap on mobile */
+        }
+    }
+    
+    /* Ensure consistent spacing in all screen sizes */
+    .navbar-brand {
+        margin-right: auto !important;
+    }
+    
+    .navbar-collapse {
+        flex-grow: 0 !important; /* Don't let it grow to full width */
     }
 </style>
+</style>
 
-<nav class="navbar navbar-expand-lg sticky-top" style="background-color: #FFDBDF;">
+<nav class="navbar navbar-expand-lg fixed-top" style="background-color: #FFDBDF;">
     <div class="container-fluid px-4">
         <!-- Logo (left side) -->
         <a class="navbar-brand me-4" href="{{ route('welcome') }}">
@@ -230,25 +290,25 @@
             <ul class="navbar-nav">
                 <!-- Your existing menu items -->
                 <li class="nav-item">
-                    <a href="{{ route('user.donate') }}" class="btn menubtn mx-2 {{ request()->routeIs('user.donate') ? 'active' : '' }}">
+                    <a href="{{ route('user.donate') }}" class="btn menubtn {{ request()->routeIs('user.donate') ? 'active' : '' }}">
                         {{ __('navbar.donate') }}
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('user.request') }}"
-                        class="btn menubtn mx-2 {{ request()->routeIs('user.request') ? 'active' : '' }}">
+                        class="btn menubtn {{ request()->routeIs('user.request') ? 'active' : '' }}">
                         {{ __('navbar.request') }}
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('user.community') }}"
-                        class="btn menubtn mx-2 {{ request()->routeIs('user.community') ? 'active' : '' }}">
+                        class="btn menubtn {{ request()->routeIs('user.community') ? 'active' : '' }}">
                         {{ __('navbar.community') }}
                     </a>    
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('user.about') }}"
-                        class="btn menubtn mx-2 {{ request()->routeIs('user.about') ? 'active' : '' }}">
+                        class="btn menubtn {{ request()->routeIs('user.about') ? 'active' : '' }}">
                         {{ __('navbar.about') }}
                     </a>
                 </li>
@@ -283,7 +343,7 @@
             </div>
 
             <!-- Language Switcher -->
-            <div class="language-switcher me-3">
+            <div class="language-switcher">
                 <x-language-switcher />
             </div>
         </div>
@@ -444,13 +504,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
-
-// Adjust z-index for donate page so it appears above other content
-@if(request()->routeIs('user.donate'))
-    document.querySelector('.navbar').style.zIndex = 1800;
-@else
-    document.querySelector('.navbar').style.zIndex = '';
-@endif
 </script>
 
 <!-- Include auth modals -->
