@@ -23,7 +23,7 @@
         position: absolute;
         left: 0;
         right: 0;
-        top: 100px;
+        top: 180px; /* Adjusted for fixed navbar */
         height: 600px;
         background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%);
         z-index: -1;
@@ -33,6 +33,7 @@
         overflow: auto;
         scrollbar-width: none;
         -ms-overflow-style: none;
+        padding-top: 80px; /* Donate page specific padding */
     }
     body::-webkit-scrollbar, html::-webkit-scrollbar {
         display: none;

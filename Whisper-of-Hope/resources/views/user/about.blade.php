@@ -2,6 +2,15 @@
 
 @section('title', __('about.page_title'))
 
+@push('styles')
+<style>
+    /* About page specific padding */
+    body {
+        padding-top: 80px;
+    }
+</style>
+@endpush
+
 @section('content')
 <link href="https://fonts.googleapis.com/css2?family=Gidugu&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Yantramanav:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
