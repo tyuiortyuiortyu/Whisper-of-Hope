@@ -17,7 +17,7 @@
     
     /* Add padding to main content container */
     .container {
-        padding-top: 40px; /* Reduced from 80px for shorter spacing after hero */
+        padding-top: 20px; /* Reduced from 40px for shorter spacing after hero */
     }
 </style>
 @endpush
@@ -25,11 +25,12 @@
 {{-- Gambar Bagian paling atas --}}
 @section('hero')
 <div class="w-100">
-    <div class="hero-section text-center text-white d-flex align-items-center justify-content-center" style="height: 500px; background-image: url('{{ asset('images/community.jpg') }}'); background-size: cover; background-position: center 50%;">
-        <div>
+    <div class="hero-section text-center text-black d-flex align-items-center justify-content-center" style="height: 500px; background-image: url('{{ asset('images/community.jpg') }}'); background-size: cover; background-position: center 50%; position: relative;">
+        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(255, 255, 255, 0.4); z-index: 1;"></div>
+        <div style="position: relative; z-index: 2; padding-top: 40px;">
             <h1 class="mb-0" style="line-height: 4rem; font-family: 'Gidugu', cursive; font-weight: 100; letter-spacing: 0.25rem; font-size: 6rem">{{ __('community.hero_title') }}</h1>
             <p class="mt-2 mb-0" style="line-height:1.5rem; font-family: 'Yantramanav'; font-weight: 20; font-size: 1.4rem">{{ __('community.hero_desc1') }}</p>
-            <p class="my-0" style="linez-height:1.5rem; font-family: 'Yantramanav'; font-weight: 20; font-size: 1.4rem">{{ __('community.hero_desc2') }}</p>
+            <p class="my-0" style="line-height:1.5rem; font-family: 'Yantramanav'; font-weight: 20; font-size: 1.4rem">{{ __('community.hero_desc2') }}</p>
         </div>
     </div>
 </div>

@@ -272,7 +272,7 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            object-position: center 10%;
+            object-position: center 18%;
         }
 
         .overlay {
@@ -284,8 +284,9 @@
             background: linear-gradient(
                 to bottom,
                 rgba(255, 255, 255, 0) 0%,
-                rgba(255, 219, 223, 0.2) 30%,
-                rgba(255, 219, 223, 0.5) 70%,
+                rgba(255, 219, 223, 0.1) 30%,
+                rgba(255, 219, 223, 0.4) 60%,
+                rgba(255, 219, 223, 0.7) 80%,
                 rgba(255, 219, 223, 1) 100%
             );
             pointer-events: none;
@@ -298,7 +299,7 @@
             margin: auto 5vw;
             /* z-index: 3; */
             transform: translateY(-50%);
-            top: 80%;
+            top: 90%;
             text-align: justify;
         }
 
