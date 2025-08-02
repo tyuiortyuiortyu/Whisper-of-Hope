@@ -40,7 +40,16 @@
 <div class="container">
     {{-- Judul Kategori --}}
     <div class="text-end" style = "margin-top: 1rem; margin-left: 0px;">
-        <h1 id="filter-title" class="display-6 mb-2" style="line-height: 4rem; font-family: 'gidugu'; font-size: 4.5rem">Community Stories</h1>
+        <h1 id="filter-title" class="display-6 mb-2" style="line-height: 4rem; font-family: 'gidugu'; font-size: 4.5rem">
+            @if(request('category'))
+                @php
+                    $selectedCategory = $categories->where('id', request('category'))->first();
+                @endphp
+                {{ $selectedCategory ? __('community.' . $selectedCategory->name) : 'Community Stories' }}
+            @else
+                Community Stories
+            @endif
+        </h1>
     </div>
 
     {{-- Kotak Filter Kategori --}}
