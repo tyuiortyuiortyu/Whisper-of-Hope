@@ -2,10 +2,30 @@
 
 @section('title', 'Community Stories Page')
 
+@push('styles')
+<style>
+    /* Community page specific padding - removed to eliminate white gap */
+    body {
+        padding-top: 0; /* Remove padding to eliminate white gap */
+    }
+    
+    /* Compensate for navbar height in hero section */
+    .hero-section {
+        margin-top: -80px; /* Pull hero section up to navbar */
+        padding-top: 80px; /* Add padding to push content down */
+    }
+    
+    /* Add padding to main content container */
+    .container {
+        padding-top: 40px; /* Reduced from 80px for shorter spacing after hero */
+    }
+</style>
+@endpush
+
 {{-- Gambar Bagian paling atas --}}
 @section('hero')
 <div class="w-100">
-    <div class="hero-section text-center text-white d-flex align-items-center justify-content-center" style="height: 350px; background-image: url('{{ asset('images/background.png') }}'); background-size: cover; background-position: center;">
+    <div class="hero-section text-center text-white d-flex align-items-center justify-content-center" style="height: 500px; background-image: url('{{ asset('images/community.jpg') }}'); background-size: cover; background-position: center 50%;">
         <div>
             <h1 class="mb-0" style="line-height: 4rem; font-family: 'Gidugu', cursive; font-weight: 100; letter-spacing: 0.25rem; font-size: 6rem">Community Stories</h1>
             <p class="mt-2 mb-0" style="line-height:1.5rem; font-family: 'Yantramanav'; font-weight: 20; font-size: 1.4rem">Whether you have a question, feedback, or just want to say hi, we're always here for you. Reach out and let us know how we can make your</p>
@@ -18,7 +38,7 @@
 @section('content')
 <div class="container">
     {{-- Judul Kategori --}}
-    <div class="text-end" style = "margin-top: 2.7rem; margin-left: 0px;">
+    <div class="text-end" style = "margin-top: 1rem; margin-left: 0px;">
         <h1 id="filter-title" class="display-6 mb-2" style="line-height: 4rem; font-family: 'gidugu'; font-size: 4.5rem">Community Stories</h1>
     </div>
 

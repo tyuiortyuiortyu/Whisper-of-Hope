@@ -49,8 +49,16 @@
             display: flex;
             flex-direction: column;
         }
+        
+        /* Responsive adjustments for mobile */
+        @media (max-width: 991.98px) {
+            body:not([style*="padding-top"]) {
+                padding-top: 70px;
+            }
+        }
         main {
             flex: 1 0 auto;
+            min-height: calc(100vh - 160px); /* Adjust for navbar and footer */
         }
         footer {
             flex-shrink: 0;
@@ -84,14 +92,10 @@
 <body>
     @include('user.layout.partials.navbar')
     
-    <main class="container.fluid">
+    <main class="container-fluid p-0">
     
         @yield('hero')  
 
-    <!-- <main class="container py-0"> -->
-
-        <!-- <main class="container mt-0"> -->
-        <!-- <main class="content-wrapper container mt-4"> -->
         @yield('content')
     </main>
     @include('user.layout.partials.footer')

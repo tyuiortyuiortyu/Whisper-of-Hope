@@ -50,6 +50,10 @@
 
 @push('styles')
 <style>
+    body {
+        padding-top: 80px; /* Story page specific padding for fixed navbar */
+    }
+
     html::-webkit-scrollbar {
         display: none;
     }
