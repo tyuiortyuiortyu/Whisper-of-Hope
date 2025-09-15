@@ -1,0 +1,14 @@
+{
+  "$schema": "https://railway.app/railway.schema.json",
+  "build": {
+    "builder": "nixpacks",
+    "buildCommand": "cd Whisper-of-Hope && bash -c 'echo \"Current directory structure:\" && find app/Http/Controllers -type d -name \"*\" | head -20 && echo \"Fixing PSR-4 directory structure...\" && if [ -d \"app/Http/Controllers/user\" ]; then echo \"Found lowercase user directory, renaming...\"; rm -rf app/Http/Controllers/User 2>/dev/null || true; mv app/Http/Controllers/user app/Http/Controllers/User; fi && if [ -d \"app/Http/Controllers/admin\" ]; then echo \"Found lowercase admin directory, renaming...\"; rm -rf app/Http/Controllers/Admin 2>/dev/null || true; mv app/Http/Controllers/admin app/Http/Controllers/Admin; fi && if [ -d \"app/Http/Controllers/User/auth\" ]; then echo \"Found lowercase auth directory, renaming...\"; rm -rf app/Http/Controllers/User/Auth 2>/dev/null || true; mv app/Http/Controllers/User/auth app/Http/Controllers/User/Auth; fi && echo \"Directory structure after fixes:\" && find app/Http/Controllers -type d -name \"*\" | head -20 && echo \"Installing composer dependencies...\" && composer install --no-dev --optimize-autoloader --no-interaction && echo \"Installing npm dependencies...\" && npm install && echo \"Building assets...\" && npm run build'"
+  },
+  "deploy": {
+    "startCommand": "bash startup.sh",
+    "healthcheckPath": "/",
+    "healthcheckTimeout": 300,
+    "restartPolicyType": "ON_FAILURE",
+    "restartPolicyMaxRetries": 3
+  }
+}

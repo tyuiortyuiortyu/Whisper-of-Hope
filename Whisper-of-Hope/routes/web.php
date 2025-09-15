@@ -53,6 +53,28 @@ Route::prefix('user')->group(function () {
         return view('user.request');
     })->name('user.request');
     
+    // Debug route to test whisper components
+    Route::get('/whisper-debug', function () {
+        try {
+            $controller = new App\Http\Controllers\User\WhisperController();
+            $whispers = App\Models\Whisper::count();
+            $colors = App\Models\Color::count();
+            return response()->json([
+                'status' => 'OK',
+                'controller' => 'WhisperController loaded successfully',
+                'whispers_count' => $whispers,
+                'colors_count' => $colors,
+                'view_exists' => view()->exists('user.whisper')
+            ]);
+        } catch (Exception $e) {
+            return response()->json([
+                'status' => 'ERROR',
+                'message' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ], 500);
+        }
+    })->name('user.whisper.debug');
+    
     Route::get('/whisper', [WhisperController::class, 'index'])->name('user.whisper');
 });
 

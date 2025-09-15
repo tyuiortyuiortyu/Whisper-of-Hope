@@ -18,8 +18,15 @@
                         <div style="width: 80px; height: 80px; position: relative;">
                             <label for="profileImage" style="cursor: pointer; width: 100%; height: 100%; display: block;">
                                 @if(auth()->user()->profile_image)
-                                    <img src="{{ asset('storage/' . auth()->user()->profile_image) }}" id="profileImagePreview"
-                                         style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+                                    <img src="{{ asset('storage/' . auth()->user()->profile_image) }}?v={{ time() }}" 
+                                         id="profileImagePreview"
+                                         style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;"
+                                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                    <div style="width: 100%; height: 100%; display: none; align-items: center; justify-content: center;
+                                        background: repeating-linear-gradient(45deg, #eee 0 8px, #fff 8px 16px);
+                                        border-radius: 50%;">
+                                        <i class="bi bi-person-fill" style="font-size: 2rem; color: #999;"></i>
+                                    </div>
                                 @else
                                     <div id="profileImagePreview" style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;
                                         background: repeating-linear-gradient(45deg, #eee 0 8px, #fff 8px 16px);
@@ -265,10 +272,7 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .then(data => {
                 if (data.success) {
-                    // Update profile modal data
-                    updateProfileModal(data);
-                    
-                    // Close edit modal and show profile modal
+                    // Close edit modal
                     const modalInstance = bootstrap.Modal.getInstance(editProfileModal);
                     if (modalInstance) {
                         modalInstance.hide();
@@ -276,6 +280,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     
                     // Show success message
                     showSuccessMessage(data.message);
+                    
+                    // Reload page after a short delay to show updated profile
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1500);
                     
                 } else {
                     throw new Error(data.message || 'Update failed');

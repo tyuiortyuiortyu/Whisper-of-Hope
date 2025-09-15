@@ -20,10 +20,12 @@ class GuestMiddleware
         if (Auth::check()) {
             $user = Auth::user();
             
-            // Redirect based on user role
-            if ($user->role === 'admin') {
+            // Only redirect admins if they're trying to access admin login page
+            if ($user->role === 'admin' && $request->routeIs('admin.login')) {
                 return redirect()->route('admin.user_admin');
-            } elseif ($user->role === 'user') {
+            } 
+            // Only redirect regular users from non-admin routes
+            elseif ($user->role === 'user' && !$request->is('admin/*')) {
                 return redirect()->route('welcome');
             }
         }

@@ -32,7 +32,7 @@ class DonateAdminController extends Controller // Pastikan nama class ini sesuai
     public function show(DonateHair $hairDonation)
     {
         $hairDonation->load('user'); 
-        return view('admin.Donate_admin_detail', compact('hairDonation'));
+        return view('admin.donate_admin_detail', compact('hairDonation'));
     }
 
     public function approve(DonateHair $hairDonation) // Model binding ke DonateHair

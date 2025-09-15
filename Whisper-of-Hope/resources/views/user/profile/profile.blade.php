@@ -22,7 +22,14 @@
                     <div style="width: 80px; height: 80px; position: relative;" id="profileImageContainer">
                         @if(auth()->user()->profile_image)
                             <img src="{{ asset('storage/' . auth()->user()->profile_image) }}?v={{ time() }}" 
-                                 style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;" id="profileModalImage">
+                                 style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;" 
+                                 id="profileModalImage"
+                                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div style="width: 100%; height: 100%; display: none; align-items: center; justify-content: center;
+                                background: repeating-linear-gradient(45deg, #eee 0 8px, #fff 8px 16px);
+                                border-radius: 50%;" id="profileModalPlaceholder">
+                                <i class="bi bi-person-fill" style="font-size: 2rem; color: #999;"></i>
+                            </div>
                         @else
                             <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;
                                 background: repeating-linear-gradient(45deg, #eee 0 8px, #fff 8px 16px);
